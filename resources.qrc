@@ -1,0 +1,42 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file>files/A.JPG</file>
+        <file>files/Y.JPG</file>
+        <file>files/Over9.JPG</file>
+        <file>files/Over8.JPG</file>
+        <file>files/Over7.JPG</file>
+        <file>files/Over6.JPG</file>
+        <file>files/Over5.JPG</file>
+        <file>files/Over4.JPG</file>
+        <file>files/Over3.JPG</file>
+        <file>files/Over2.JPG</file>
+        <file>files/Over1.JPG</file>
+        <file>files/YWin9.jpg</file>
+        <file>files/YWin8.jpg</file>
+        <file>files/YWin7.jpg</file>
+        <file>files/YWin6.jpg</file>
+        <file>files/YWin5.jpg</file>
+        <file>files/YWin4.jpg</file>
+        <file>files/YWin3.jpg</file>
+        <file>files/YWin2.jpg</file>
+        <file>files/YWin1.jpg</file>
+        <file>files/AWin9.JPG</file>
+        <file>files/AWin8.JPG</file>
+        <file>files/AWin7.JPG</file>
+        <file>files/AWin6.JPG</file>
+        <file>files/AWin5.JPG</file>
+        <file>files/AWin4.JPG</file>
+        <file>files/AWin3.JPG</file>
+        <file>files/AWin2.JPG</file>
+        <file>files/AWin1.JPG</file>
+        <file>files/Z9.JPG</file>
+        <file>files/Z8.JPG</file>
+        <file>files/Z7.JPG</file>
+        <file>files/Z6.JPG</file>
+        <file>files/Z5.JPG</file>
+        <file>files/Z4.JPG</file>
+        <file>files/Z3.JPG</file>
+        <file>files/Z2.JPG</file>
+        <file>files/Z1.JPG</file>
+    </qresource>
+</RCC>
