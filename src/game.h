@@ -11,6 +11,7 @@ private:
 
     const uint nWinLength;
     const uint nPlayers;
+    uint nTurn;
     QList<QList<uint>> m_nField;
 
     const bool isBusy(const QSize &pos) const;
@@ -18,6 +19,7 @@ private:
     const bool isOutOfRange(const uint w, const uint h) const;
     const bool isWinRange(const QSize &begin, const QSize &end) const;
     void isEnd(const QSize &pos) const;
+    void nextTurn();
     const QSize &vecLen(const QSize &pos, const int xOff, const int yOff) const;
 
 public:
@@ -30,10 +32,10 @@ public:
 
 public slots:
 
-    void turn(const QSize &pos, const uint &player);
+    void move(const QSize &pos, const uint &player);
 
 signals:
-    void onTurn(const QSize &pos, const uint &player);
+    void onMove(const QSize &pos, const uint &player);
     void onEnd(const QSize posBegin, const QSize posEnd, const uint player);
 
 };

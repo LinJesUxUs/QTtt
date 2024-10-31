@@ -22,8 +22,8 @@ const bool Game::isOutOfRange(const uint w, const uint h) const
 const bool Game::isWinRange(const QSize &begin, const QSize &end) const
 {
     if ( begin.width() == end.width() )
-        return ( nWinLength == end.height() - begin.height());
-    return ( nWinLength == end.width() - begin.width());
+        return ( nWinLength == end.height() - begin.height() + 1 );
+    return ( nWinLength == end.width() - begin.width() + 1 );
 }
 
 void Game::isEnd(const QSize &pos) const
@@ -38,6 +38,14 @@ void Game::isEnd(const QSize &pos) const
         else if ( isWinRange( vecLen(pos,-1,-1), vecLen(pos,1,1) ) )
             emit onEnd( vecLen(pos,-1,-1), vecLen(pos,1,1), getField(pos) );
     }
+}
+
+void Game::nextTurn()
+{
+    if ( nTurn+1 > nPlayers )
+        nTurn = 1;
+    else
+        nTurn++;
 }
 
 const QSize &Game::vecLen(const QSize &pos, const int xOff, const int yOff) const
@@ -62,7 +70,7 @@ const QSize &Game::vecLen(const QSize &pos, const int xOff, const int yOff) cons
 }
 
 Game::Game(const QSize &field, const uint &winLength, const uint players, QObject *parent)
-    : QObject(parent), nWinLength(winLength), nPlayers(players)
+    : QObject(parent), nWinLength(winLength), nPlayers(players), nTurn(1)
 {
     m_nField.resize(field.width());
     for( auto i: m_nField ) {
@@ -101,13 +109,14 @@ const uint &Game::getNPlayers() const
     return nPlayers;
 }
 
-void Game::turn(const QSize &pos, const uint &player)
+void Game::move(const QSize &pos, const uint &player)
 {
     if ( !isBusy(pos) ) {
-        if ( player > 0 && player <= nPlayers ) {
+        if ( player == nTurn ) {
             m_nField[pos.width()][pos.height()] = player;
-            emit onTurn(pos,player);
+            emit onMove(pos,player);
             isEnd(pos);
+            nextTurn();
         }
     }
 }
