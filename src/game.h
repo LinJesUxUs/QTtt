@@ -8,27 +8,30 @@ class Game : public QObject
 {
     Q_OBJECT
 private:
-
     const uint nWinLength;
     const uint nPlayers;
     uint nTurn;
     QList<QList<uint>> m_nField;
 
-    const bool isBusy(const QSize &pos) const;
-    const bool isOutOfRange(const QSize &pos) const;
-    const bool isOutOfRange(const uint w, const uint h) const;
-    const bool isWinRange(const QSize &begin, const QSize &end) const;
-    void isEnd(const QSize &pos) const;
-    void nextTurn();
-    const QSize &vecLen(const QSize &pos, const int xOff, const int yOff) const;
-
 public:
     Game(const QSize &field = QSize(3,3), const uint &winLength = 3, const uint players = 2, QObject *parent = 0);
 
-    const uint &getField(const QSize &pos) const;
-    const uint &getField(const uint w, const uint h) const;
+private:
+    void isEnd(const QSize &pos) const;
+    const bool isWinRange(const QSize &begin, const QSize &end) const;
+    const QSize &vecLen(const QSize &pos, const int xOff, const int yOff) const;
+
+    inline const bool isBusy(const QSize &pos) const;
+    inline const bool isOutOfRange(const QSize &pos) const;
+    inline const bool isOutOfRange(const uint w, const uint h) const;
+
+    inline void nextTurn();
+
+public:
     const uint &getNWinLength() const;
     const uint &getNPlayers() const;
+    const uint &getField(const QSize &pos) const;
+    const uint &getField(const uint w, const uint h) const;
 
 public slots:
 
