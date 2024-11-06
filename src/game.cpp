@@ -2,8 +2,8 @@
 
 #include <QSize>
 
-Game::Game(const QSize &field, const uint &winLength, const uint players, QObject *parent)
-    : QObject(parent), nWinLength(winLength), nPlayers(players), nTurn(1)
+Game::Game(const QSize &field, const uint &winLength, const uint firstPlayer, const uint players, QObject *parent)
+    : QObject(parent), nWinLength(winLength), nPlayers(players), nTurn( firstPlayer > players ? players : firstPlayer )
 {
     m_nField.resize(field.width());
     for( auto i: m_nField ) {

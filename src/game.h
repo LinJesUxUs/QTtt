@@ -14,7 +14,7 @@ private:
     QList<QList<uint>> m_nField;
 
 public:
-    Game(const QSize &field = QSize(3,3), const uint &winLength = 3, const uint players = 2, QObject *parent = 0);
+    Game(const QSize &field = QSize(3,3), const uint &winLength = 3, const uint firstPlayer = 1, const uint players = 2, QObject *parent = 0);
 
 private:
     void isEnd(const QSize &pos) const;
