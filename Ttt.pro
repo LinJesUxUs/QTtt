@@ -11,12 +11,12 @@ VPATH += ./src
 
 SOURCES += \
     game.cpp \
-    main.cpp \
-    # imagecell.cpp
+    gamePaintedItem.cpp \
+    main.cpp
 
 HEADERS += \
     game.h \
-    # imagecell.h
+    gamePaintedItem.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
