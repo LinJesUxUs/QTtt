@@ -4,12 +4,20 @@
 #include <QQmlEngine>
 #include <QQuickPaintedItem>
 
+class Game;
+
 class GamePaintedItem : public QQuickPaintedItem
 {
     Q_OBJECT
     QML_ELEMENT
 public:
     GamePaintedItem();
+    ~GamePaintedItem();
+    void paint(QPainter *painter);
+
+private:
+    void drawGrid(QPainter *painter);
+    Game *game = nullptr;
 };
 
 #endif // GAMEPAINTEDITEM_H

@@ -1,4 +1,4 @@
-#include "game.h"
+#include "gamePaintedItem.h"
 #include <QGuiApplication>
 #include <QQmlEngine>
 #include <QQmlFileSelector>
@@ -11,8 +11,7 @@ int main(int argc, char *argv[])
     QQuickView view;
     QFileInfo fi( app.applicationFilePath() );
     app.setApplicationName( fi.baseName() );
-    qmlRegisterType<Game>( "linjesuxus.game", 1, 0, "Game" );
-    qmlRegisterType<ImageCell>( "linjesuxus.imageCell", 1, 0, "ImageCell" );
+    qmlRegisterType<GamePaintedItem>( "linjesuxus.game", 1, 0, "Game" );
     view.connect( view.engine(), SIGNAL(quit()), &app, SLOT(quit()) );
     view.setSource( QUrl( "qrc:/src/main.qml" ) );
     view.setResizeMode( QQuickView::SizeRootObjectToView );
