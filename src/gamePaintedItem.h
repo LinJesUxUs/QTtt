@@ -4,6 +4,9 @@
 #include <QQmlEngine>
 #include <QQuickPaintedItem>
 
+#define WIDTH 3
+#define HEIGHT 3
+
 class Game;
 
 class GamePaintedItem : public QQuickPaintedItem

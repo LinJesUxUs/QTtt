@@ -5,7 +5,9 @@
 
 GamePaintedItem::GamePaintedItem() {
     if ( game == nullptr )
-        game = new Game(QSize(3,3));
+        game = new Game(QSize(WIDTH, HEIGHT));
+    this->setMipmap(true);
+    this->setAntialiasing(true);
 }
 
 GamePaintedItem::~GamePaintedItem()
@@ -27,9 +29,12 @@ void GamePaintedItem::drawGrid(QPainter *painter)
 {
     painter->save();
     painter->setPen( QPen(Qt::gray,0) );
-    painter->drawLine( 0, this->height()/3, this->width(), this->height()/3 );
-    painter->drawLine( 0, this->height()/1.5, this->width(), this->height()/1.5 );
-    painter->drawLine( this->width()/3, 0, this->width()/3, this->height() );
-    painter->drawLine( this->width()/1.5, 0, this->width()/1.5, this->height() );
+    for ( int i = 1 ; i < WIDTH; ++i ) {
+        painter->drawLine( this->width()/WIDTH * i, 0, this->width()/WIDTH * i, this->height() );
+    }
+    for ( int i = 1; i < HEIGHT; ++i ) {
+        painter->drawLine( 0, this->height()/HEIGHT * i, this->width(), this->height()/HEIGHT * i );
+    }
     painter->restore();
 }
+
