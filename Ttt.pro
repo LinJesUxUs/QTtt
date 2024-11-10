@@ -11,12 +11,12 @@ VPATH += ./src
 
 SOURCES += \
     game.cpp \
-    gamePaintedItem.cpp \
+    gamepainteditem.cpp \
     main.cpp
 
 HEADERS += \
     game.h \
-    gamePaintedItem.h
+    gamepainteditem.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -25,12 +25,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 resources.files += \
     src/main.qml \
-    images/Over.jpg \
-    images/Z.jpg \
-    images/A.jpg \
-    images/AWin.jpg \
-    images/Y.jpg \
-    images/YWin.jpg
+    images/over.jpg \
+    images/z.jpg \
+    images/a.jpg \
+    images/awin.jpg \
+    images/y.jpg \
+    images/ywin.jpg
 resources.prefix = /
 
 RESOURCES = resources
