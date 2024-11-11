@@ -63,7 +63,7 @@ bool Game::isOutOfRange(const QSize &pos) const
 {
     if ( pos.isValid() )
         return isOutOfRange( pos.width(), pos.height() );
-    return false;
+    return true;
 }
 
 bool Game::isOutOfRange(const uint w, const uint h) const
