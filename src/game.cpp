@@ -7,8 +7,8 @@ Game::Game(const QSize &field, const uint &winLength, const uint &firstPlayer, c
 {
     mTurn = firstPlayer > players ? players : firstPlayer;
     m_nField.resize(field.width());
-    for( auto i: qAsConst(m_nField) ) {
-        i.resize(field.height(),0);
+    for( uint i = 0; i < field.width(); ++i ) {
+        m_nField[i].resize(field.height(),0);
     }
 }
 
