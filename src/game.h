@@ -15,7 +15,7 @@ public:
     const uint WIN_LENGTH;
     const uint PLAYERS;
 
-    Game(const QSize &field, const uint &winLength = 3, const uint firstPlayer = 1, const uint players = 2, QObject *parent = 0);
+    Game(const QSize &field, const uint &winLength = 3, const uint &firstPlayer = 1, const uint &players = 2, QObject *parent = 0);
 
 private:
     void isEnd(const QSize &pos) const;
@@ -31,8 +31,8 @@ private:
 public:
     const uint &getNWinLength() const;
     const uint &getNPlayers() const;
-    const uint &getWidth() const;
-    const uint &getHeight() const;
+    uint getWidth() const;
+    uint getHeight() const;
     uint getField(const QSize &pos) const;
     uint getField(const uint w, const uint h) const;
 
@@ -42,7 +42,7 @@ public slots:
 
 signals:
     void onMove(const QSize &pos, const uint &player);
-    void onEnd(const QSize &posBegin, const QSize &posEnd, const uint &player);
+    void onEnd(const QSize &posBegin, const QSize &posEnd, const uint &player) const;
 
 };
 
