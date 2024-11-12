@@ -10,10 +10,10 @@ class Game : public QObject
 private:
     uint mTurn;
     QList<QList<uint>> m_nField;
+    uint mWinLength;
+    uint mPlayers;
 
 public:
-    const uint WIN_LENGTH;
-    const uint PLAYERS;
 
     Game(const QSize &field, const uint &winLength = 3, const uint &firstPlayer = 1, const uint &players = 2, QObject *parent = 0);
 
@@ -29,7 +29,7 @@ private:
     inline void nextTurn();
 
 public:
-    const uint &getNWinLength() const;
+    const uint &getWinLength() const;
     const uint &getNPlayers() const;
     uint getWidth() const;
     uint getHeight() const;
@@ -37,7 +37,6 @@ public:
     uint getField(const uint w, const uint h) const;
 
 public slots:
-
     void move(const QSize &pos, const uint &player);
 
 signals:
