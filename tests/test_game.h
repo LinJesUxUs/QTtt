@@ -7,5 +7,11 @@ class Test_Game : public QObject
 private slots:
     void move_data();
     void move();
+    void getWinLength_data();
+    void getWinLength();
+    void getNPlayers_data();
+    void getNPlayers();
+    void fieldSize_data();
+    void fieldSize();
 
 };
