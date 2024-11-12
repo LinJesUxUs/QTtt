@@ -126,12 +126,19 @@ uint Game::getField(const uint w, const uint h) const
 
 void Game::move(const QSize &pos, const uint &player)
 {
-    if ( !isBusy(pos) ) {
-        if ( player == mTurn ) {
-            m_nField[pos.width()][pos.height()] = player;
-            emit onMove(pos,player);
-            isEnd(pos);
-            nextTurn();
+    try {
+        if ( !isBusy(pos) ) {
+            if ( player == mTurn ) {
+                m_nField[pos.width()][pos.height()] = player;
+                emit onMove(pos,player);
+                isEnd(pos);
+                nextTurn();
+                return;
+            }
         }
+        emit onNoMove(pos,player);
+    }
+    catch (const char* err_msg) {
+        emit onNoMove(pos,player);
     }
 }

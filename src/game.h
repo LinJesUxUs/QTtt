@@ -41,6 +41,7 @@ public slots:
 
 signals:
     void onMove(const QSize &pos, const uint &player);
+    void onNoMove(const QSize &pos, const uint &player);
     void onEnd(const QSize &posBegin, const QSize &posEnd, const uint &player) const;
 
 };

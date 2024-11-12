@@ -44,11 +44,20 @@ void Test_Game::move()
     QFETCH(int,m2y);
     QFETCH(int,p2);
     QFETCH(int,f2);
+    uint retVal;
     Game game(QSize(width,height),3,p1);
     game.move(QSize(m1x,m1y),p1);
-    QCOMPARE(game.getField(QSize(m1x,m1y)),(uint)f1);
+    try {
+        retVal = game.getField(QSize(m1x,m1y)); }
+    catch (const char* err_msg) {
+        retVal = 0; }
+    QCOMPARE(retVal,(uint)f1);
     game.move(QSize(m2x,m2y),p2);
-    QCOMPARE(game.getField(QSize(m2x,m2y)),(uint)f2);
+    try {
+        retVal = game.getField(QSize(m2x,m2y)); }
+    catch (const char* err_msg) {
+        retVal = 0; }
+    QCOMPARE(retVal,(uint)f2);
 }
 
 void Test_Game::getWinLength_data()
