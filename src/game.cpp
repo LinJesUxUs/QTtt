@@ -3,12 +3,19 @@
 #include <QSize>
 
 Game::Game(const QSize &field, const uint &winLength, const uint &firstPlayer, const uint &players, QObject *parent)
-    : QObject(parent), WIN_LENGTH(winLength), PLAYERS(players)
+    : QObject(parent)
 {
+    mPlayers = (int(players) < 0) ? 0 : players;
+    if ( int(winLength) < 1 )
+        mWinLength = 1 ;
+    else if ( field.width() < field.height() )
+        mWinLength = winLength>(uint)field.width() ?field.width() :winLength;
+    else
+        mWinLength = winLength>(uint)field.height() ?field.height() :winLength;
     mTurn = firstPlayer > players ? players : firstPlayer;
-    m_nField.resize(field.width());
-    for( int i = 0; i < field.width(); ++i ) {
-        m_nField[i].resize(field.height());
+    m_nField.resize(field.width() < 1 ? 1 : field.width() );
+    for( int i = 0; i < m_nField.size(); ++i ) {
+        m_nField[i].resize(field.height() < 1 ? 1 : field.height() );
     }
 }
 
@@ -29,8 +36,8 @@ void Game::isEnd(const QSize &pos) const
 bool Game::isWinRange(const QSize &begin, const QSize &end) const
 {
     if ( begin.width() == end.width() )
-        return ( WIN_LENGTH == (uint)(end.height() - begin.height() + 1) );
-    return ( WIN_LENGTH == (uint)(end.width() - begin.width() + 1) );
+        return ( mWinLength == (uint)(end.height() - begin.height() + 1) );
+    return ( mWinLength == (uint)(end.width() - begin.width() + 1) );
 }
 
 const QSize Game::vecLen(const QSize &pos, const int xOff, const int yOff) const
@@ -73,20 +80,20 @@ bool Game::isOutOfRange(const uint w, const uint h) const
 
 void Game::nextTurn()
 {
-    if ( mTurn+1 > PLAYERS )
+    if ( mTurn+1 > mPlayers )
         mTurn = 1;
     else
         mTurn++;
 }
 
-const uint &Game::getNWinLength() const
+const uint &Game::getWinLength() const
 {
-    return WIN_LENGTH;
+    return mWinLength;
 }
 
 const uint &Game::getNPlayers() const
 {
-    return PLAYERS;
+    return mPlayers;
 }
 
 uint Game::getWidth() const
