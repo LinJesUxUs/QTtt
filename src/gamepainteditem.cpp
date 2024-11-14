@@ -14,8 +14,8 @@ GamePaintedItem::GamePaintedItem() {
         m_pGame = new Game( QSize(m_sWidth, m_sHeight), m_sWinLength, m_sFirstPlayer, m_sPlayers );
     this->setMipmap(true);
     this->setAntialiasing(true);
-    m_nPlayersPic.append(new QImage(QImage(":/images/y.jpg").scaled(getCellWidth(), getCellHeight() )) );
-    m_nPlayersPic.append(new QImage(QImage(":/images/a.jpg").scaled(getCellWidth(), getCellHeight() )) );
+    m_nPlayersPic.append(new QImage(":/images/y.jpg") );
+    m_nPlayersPic.append(new QImage(":/images/a.jpg") );
     m_pGame->move(QSize(0,0),m_sFirstPlayer);
     m_pGame->move(QSize(2,2),m_sFirstPlayer+1);
 }
@@ -61,9 +61,11 @@ void GamePaintedItem::drawCells(QPainter *painter, const qreal &cellWidth, const
     for ( uint i = 0 ; i < m_pGame->getWidth(); ++i ) {
         for ( uint j = 0; j < m_pGame->getHeight(); ++j ) {
             if ( m_pGame->getField(i, j) > 0 ) {
-                painter->setBrush(QBrush(*(m_nPlayersPic[ m_pGame->getField(i, j)-1 ]) ) );
-                painter->drawRect(cellWidth * i, cellHeight * i,
+                painter->setBrush(QBrush(m_nPlayersPic[ m_pGame->getField(i, j)-1 ]->scaled(cellWidth, cellHeight)) );
+                painter->drawRect(cellWidth * i, cellHeight * j,
                                   cellWidth, cellHeight);
+                qDebug() << m_pGame->getField(i, j) << ' ' << i << ' ' << j;
+                qDebug() << "m_nPlayersPic.size()=" << m_nPlayersPic.size();
             }
         }
     }
