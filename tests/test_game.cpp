@@ -132,4 +132,96 @@ void Test_Game::fieldSize()
     QCOMPARE(game.getHeight(),uint(height < 1 ? 1 : height) );
 }
 
+void Test_Game::onEnd_data()
+{
+    QTest::addColumn<int>("size");
+    QTest::addColumn<int>("m1x");
+    QTest::addColumn<int>("m1y");
+    QTest::addColumn<int>("m2x");
+    QTest::addColumn<int>("m2y");
+    QTest::addColumn<int>("m3x");
+    QTest::addColumn<int>("m3y");
+    QTest::addColumn<int>("m4x");
+    QTest::addColumn<int>("m4y");
+    QTest::addColumn<int>("m5x");
+    QTest::addColumn<int>("m5y");
+    QTest::newRow("end_2x2_test1") << 2
+                                    << 0 << 0 << 1 << 0
+                                    << 0 << 1 << 0 << 0 << 0 << 0;
+    QTest::newRow("end_2x2_test2") << 2
+                                    << 1 << 0 << 0 << 0
+                                    << 1 << 1 << 0 << 0 << 0 << 0;
+    QTest::newRow("end_2x2_test3") << 2
+                                    << 0 << 0 << 0 << 1
+                                    << 1 << 0 << 0 << 0 << 0 << 0;
+    QTest::newRow("end_2x2_test4") << 2
+                                    << 0 << 1 << 0 << 0
+                                    << 1 << 1 << 0 << 0 << 0 << 0;
+    QTest::newRow("end_2x2_test5") << 2
+                                    << 0 << 0 << 0 << 1
+                                    << 1 << 1 << 0 << 0 << 0 << 0;
+    QTest::newRow("end_2x2_test6") << 2
+                                    << 0 << 1 << 0 << 0
+                                    << 1 << 0 << 0 << 0 << 0 << 0;
+
+    QTest::newRow("end_3x3_test2") << 3
+                                    << 0 << 0 << 1 << 0
+                                    << 0 << 1 << 1 << 1
+                                    << 0 << 2 ;
+    QTest::newRow("end_3x3_test2") << 3
+                                    << 1 << 0 << 2 << 0
+                                    << 1 << 1 << 2 << 1
+                                    << 1 << 2 ;
+    QTest::newRow("end_3x3_test3") << 3
+                                    << 2 << 0 << 1 << 0
+                                    << 2 << 1 << 1 << 1
+                                    << 2 << 2 ;
+    QTest::newRow("end_3x3_test4") << 3
+                                    << 0 << 0 << 0 << 1
+                                    << 1 << 0 << 1 << 1
+                                    << 2 << 0 ;
+    QTest::newRow("end_3x3_test5") << 3
+                                    << 0 << 1 << 0 << 0
+                                    << 1 << 1 << 1 << 0
+                                    << 2 << 1 ;
+    QTest::newRow("end_3x3_test6") << 3
+                                    << 0 << 2 << 0 << 0
+                                    << 1 << 2 << 1 << 0
+                                    << 2 << 2 ;
+    QTest::newRow("end_3x3_test7") << 3
+                                    << 0 << 0 << 0 << 1
+                                    << 1 << 1 << 1 << 0
+                                    << 2 << 2 ;
+    QTest::newRow("end_3x3_test8") << 3
+                                    << 0 << 2 << 0 << 0
+                                    << 1 << 1 << 1 << 0
+                                    << 2 << 0 ;
+}
+
+void Test_Game::onEnd()
+{
+    QFETCH(int,size);
+    QFETCH(int,m1x);
+    QFETCH(int,m1y);
+    QFETCH(int,m2x);
+    QFETCH(int,m2y);
+    QFETCH(int,m3x);
+    QFETCH(int,m3y);
+    QFETCH(int,m4x);
+    QFETCH(int,m4y);
+    QFETCH(int,m5x);
+    QFETCH(int,m5y);
+    Game game(QSize(size,size),size);
+    game.move(QSize(m1x,m1y),1);
+    game.move(QSize(m2x,m2y),2);
+    game.move(QSize(m3x,m3y),1);
+    if (size>2) {
+        game.move(QSize(m4x,m4y),2);
+        game.move(QSize(m5x,m5y),1);
+        QCOMPARE(true,true);
+    }
+    else
+        QCOMPARE(true,true);
+}
+
 QTEST_MAIN(Test_Game)

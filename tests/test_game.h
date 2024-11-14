@@ -13,5 +13,7 @@ private slots:
     void getNPlayers();
     void fieldSize_data();
     void fieldSize();
+    void onEnd_data();
+    void onEnd();
 
 };
