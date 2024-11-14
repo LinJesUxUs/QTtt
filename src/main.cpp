@@ -1,4 +1,4 @@
-#include "gamePaintedItem.h"
+#include "gamepainteditem.h"
 #include <QGuiApplication>
 #include <QQmlEngine>
 #include <QQmlFileSelector>
