@@ -1,10 +1,10 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef GAMECORE_H
+#define GAMECORE_H
 
 #include <QObject>
 #include <QList>
 
-class Game : public QObject
+class GameCore : public QObject
 {
     Q_OBJECT
 private:
@@ -15,12 +15,13 @@ private:
 
 public:
 
-    Game(const QSize &field, const uint &winLength = 3, const uint &firstPlayer = 1, const uint &players = 2, QObject *parent = 0);
+    GameCore(const QSize &field, const uint &winLength = 3, const uint &firstPlayer = 1, const uint &players = 2, QObject *parent = 0);
 
 private:
     void isEnd(const QSize &pos) const;
     bool isWinRange(const QSize &begin, const QSize &end) const;
-    const QSize vecLen(const QSize &pos, const int xOff, const int yOff) const;
+    const QSize vecLen(const QSize &pos, const QSize &offset) const;
+    const QSize vecLen(const QSize &pos, const int xOffset, const int yOffset) const;
 
     inline bool isBusy(const QSize &pos) const;
     inline bool isOutOfRange(const QSize &pos) const;
@@ -46,4 +47,4 @@ signals:
 
 };
 
-#endif // GAME_H
+#endif // GAMECORE_H

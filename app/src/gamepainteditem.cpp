@@ -1,6 +1,6 @@
 #include "gamepainteditem.h"
 
-#include "game.h"
+#include <gamecore.h>
 #include <QPainter>
 
 uint GamePaintedItem::m_sWidth = 3;
@@ -11,7 +11,7 @@ uint GamePaintedItem::m_sPlayers = 2;
 
 GamePaintedItem::GamePaintedItem() {
     if ( m_pGame == nullptr )
-        m_pGame = new Game( QSize(m_sWidth, m_sHeight), m_sWinLength, m_sFirstPlayer, m_sPlayers );
+        m_pGame = new GameCore( QSize(m_sWidth, m_sHeight), m_sWinLength, m_sFirstPlayer, m_sPlayers );
     this->setMipmap(true);
     this->setAntialiasing(true);
     m_nPlayersPic.append(new QImage(":/images/y.jpg") );

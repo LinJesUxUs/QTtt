@@ -4,7 +4,7 @@
 #include <QQmlEngine>
 #include <QQuickPaintedItem>
 
-class Game;
+class GameCore;
 
 class GamePaintedItem : public QQuickPaintedItem
 {
@@ -35,7 +35,7 @@ protected:
     static uint &getFirstPlayer();
     static uint &getPlayers();
 
-    Game *m_pGame = nullptr;
+    GameCore *m_pGame = nullptr;
     QList<QImage*> m_nPlayersPic;
 
     static uint m_sWidth;

@@ -1,24 +1,37 @@
-QT  += quick qml
+QT += quick qml
 
 greaterThan(QT_MAJOR_VERSION, 6): QT += widgets
 
 CONFIG += c++11
 
-SUBDIRS += tests
-
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060204    # disables all the APIs deprecated before Qt 6.0.0
 
-VPATH += ./src
+INCLUDEPATH += \
+    ../lib/GameCore \
+    ../lib/Directions
+
+unix {
+    LIBS += \
+        -L$$PWD/../lib/GameCore/bin -lGameCore \
+        -L$$PWD/../lib/Directions/bin -lDirections
+}
+win32 {
+    LIBS += \
+        $$PWD/../lib/GameCore/bin/GameCore.lib \
+        $$PWD/../lib/Directions/bin/Directions.lib
+}
 
 SOURCES += \
-    game.cpp \
-    gamepainteditem.cpp \
-    main.cpp
+    src/gamepainteditem.cpp \
+    src/main.cpp
+    # game.cpp \
+    # directions.cpp \
 
 HEADERS += \
-    game.h \
-    gamepainteditem.h
+    src/gamepainteditem.h
+    # game.h \
+    # directions.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

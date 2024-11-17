@@ -1,6 +1,24 @@
-#include "test_game.h"
+#include <QTest>
+#include <gamecore.h>
 
-void Test_Game::move_data()
+class TestGameCore : public QObject
+{
+    Q_OBJECT
+private slots:
+    void move_data();
+    void move();
+    void getWinLength_data();
+    void getWinLength();
+    void getNPlayers_data();
+    void getNPlayers();
+    void fieldSize_data();
+    void fieldSize();
+    void onEnd_data();
+    void onEnd();
+
+};
+
+void TestGameCore::move_data()
 {
     QTest::addColumn<int>("width");
     QTest::addColumn<int>("height");
@@ -32,7 +50,7 @@ void Test_Game::move_data()
                                 << -2 << 1 << -1 << 0;
 }
 
-void Test_Game::move()
+void TestGameCore::move()
 {
     QFETCH(int,width);
     QFETCH(int,height);
@@ -45,7 +63,7 @@ void Test_Game::move()
     QFETCH(int,p2);
     QFETCH(int,f2);
     uint retVal;
-    Game game(QSize(width,height),3,p1);
+    GameCore game(QSize(width,height),3,p1);
     game.move(QSize(m1x,m1y),p1);
     try {
         retVal = game.getField(QSize(m1x,m1y)); }
@@ -60,7 +78,7 @@ void Test_Game::move()
     QCOMPARE(retVal,(uint)f2);
 }
 
-void Test_Game::getWinLength_data()
+void TestGameCore::getWinLength_data()
 {
     QTest::addColumn<int>("width");
     QTest::addColumn<int>("height");
@@ -73,12 +91,12 @@ void Test_Game::getWinLength_data()
     QTest::newRow("winLength_test4") << 4 << 4 << 4 ;
 }
 
-void Test_Game::getWinLength()
+void TestGameCore::getWinLength()
 {
     QFETCH(int,width);
     QFETCH(int,height);
     QFETCH(int,winLength);
-    Game game(QSize(width,height),winLength);
+    GameCore game(QSize(width,height),winLength);
     if ( winLength < 1 )
         QCOMPARE(game.getWinLength(), uint(1) );
     else if ( width < height )
@@ -87,7 +105,7 @@ void Test_Game::getWinLength()
         QCOMPARE(game.getWinLength(), uint(winLength>height ?height :winLength) );
 }
 
-void Test_Game::getNPlayers_data()
+void TestGameCore::getNPlayers_data()
 {
     QTest::addColumn<int>("width");
     QTest::addColumn<int>("height");
@@ -100,16 +118,16 @@ void Test_Game::getNPlayers_data()
     QTest::newRow("nPlayers_test4") << 3 << 3 << 4 ;
 }
 
-void Test_Game::getNPlayers()
+void TestGameCore::getNPlayers()
 {
     QFETCH(int,width);
     QFETCH(int,height);
     QFETCH(int,nPlayers);
-    Game game(QSize(width,height),3,1,nPlayers);
+    GameCore game(QSize(width,height),3,1,nPlayers);
     QCOMPARE(game.getNPlayers(), uint(nPlayers<0?0:nPlayers) );
 }
 
-void Test_Game::fieldSize_data()
+void TestGameCore::fieldSize_data()
 {
     QTest::addColumn<int>("width");
     QTest::addColumn<int>("height");
@@ -123,16 +141,16 @@ void Test_Game::fieldSize_data()
     QTest::newRow("fieldSize_test7") << 1000 << 1000 ;
 }
 
-void Test_Game::fieldSize()
+void TestGameCore::fieldSize()
 {
     QFETCH(int,width);
     QFETCH(int,height);
-    Game game(QSize(width,height));
+    GameCore game(QSize(width,height));
     QCOMPARE(game.getWidth(),uint(width < 1 ? 1 : width) );
     QCOMPARE(game.getHeight(),uint(height < 1 ? 1 : height) );
 }
 
-void Test_Game::onEnd_data()
+void TestGameCore::onEnd_data()
 {
     QTest::addColumn<int>("size");
     QTest::addColumn<int>("m1x");
@@ -198,7 +216,7 @@ void Test_Game::onEnd_data()
                                     << 2 << 0 ;
 }
 
-void Test_Game::onEnd()
+void TestGameCore::onEnd()
 {
     QFETCH(int,size);
     QFETCH(int,m1x);
@@ -211,7 +229,7 @@ void Test_Game::onEnd()
     QFETCH(int,m4y);
     QFETCH(int,m5x);
     QFETCH(int,m5y);
-    Game game(QSize(size,size),size);
+    GameCore game(QSize(size,size),size);
     game.move(QSize(m1x,m1y),1);
     game.move(QSize(m2x,m2y),2);
     game.move(QSize(m3x,m3y),1);
@@ -224,4 +242,5 @@ void Test_Game::onEnd()
         QCOMPARE(true,true);
 }
 
-QTEST_MAIN(Test_Game)
+QTEST_MAIN(TestGameCore)
+#include "TestGameCore.moc"
