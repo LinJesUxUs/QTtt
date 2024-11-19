@@ -8,5 +8,7 @@ SUBDIRS += \
     tests
 
 tests.depends = lib
-app.depends = tests
+app.depends = lib
 
+message($$PWD)
+message($$OUT_PWD)

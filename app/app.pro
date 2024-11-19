@@ -8,30 +8,38 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060204    # disables all the APIs deprecated before Qt 6.0.0
 
 INCLUDEPATH += \
-    ../lib/GameCore \
-    ../lib/Directions
+    $$PWD/../lib/GameCore \
+    $$PWD/../lib/Directions
+
+VPATH += $$PWD/src
+
+SOURCES += \
+    gamepainteditem.cpp \
+    main.cpp
+
+HEADERS += \
+    gamepainteditem.h
+
+TARGET = QTtt
 
 unix {
     LIBS += \
         -L$$PWD/../lib/GameCore/bin -lGameCore \
-        -L$$PWD/../lib/Directions/bin -lDirections
+        -L$$PWD/../lib/Directions/bin -lDirections \
+        -L$$PWD/../lib/bin/build -lGameCore \
+        -L$$PWD/../lib/bin/build -lDirections \
+        -L$$PWD/../bin/build/lib -lDirections \
+        -L$$PWD/../bin/build/lib -lGameCore
 }
 win32 {
     LIBS += \
         $$PWD/../lib/GameCore/bin/GameCore.lib \
-        $$PWD/../lib/Directions/bin/Directions.lib
+        $$PWD/../lib/Directions/bin/Directions.lib \
+        $$PWD/../lib/bin/build/GameCore.lib \
+        $$PWD/../lib/bin/build/Directions.lib \
+        $$PWD/./../bin/build/lib/Directions.lib \
+        $$PWD/./../bin/build/lib/GameCore.lib
 }
-
-SOURCES += \
-    src/gamepainteditem.cpp \
-    src/main.cpp
-    # game.cpp \
-    # directions.cpp \
-
-HEADERS += \
-    src/gamepainteditem.h
-    # game.h \
-    # directions.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
