@@ -1,7 +1,7 @@
 #include "gamecore.h"
 
+#include <directions.h>
 #include <QSize>
-#include "directions.h"
 
 GameCore::GameCore(const QSize &field, const uint &winLength, const uint &firstPlayer, const uint &players, QObject *parent)
     : QObject(parent)

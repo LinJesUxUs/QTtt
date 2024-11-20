@@ -1,14 +1,15 @@
 TEMPLATE = subdirs
 
-# CONFIG += ordered
+CONFIG += ordered
 
 SUBDIRS += \
-    app \
     lib \
-    tests
+    tests \
+    app
 
 tests.depends = lib
 app.depends = lib
 
-message($$PWD)
-message($$OUT_PWD)
+DISTFILES += \
+    definitions.pri \
+    libIncludes.pri

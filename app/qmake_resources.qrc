@@ -1,0 +1,11 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+<file alias="src/main.qml">/run/media/user/01D365896CBC21B0/Documents/code/C++/QTTT/app/src/main.qml</file>
+<file alias="images/over.jpg">/run/media/user/01D365896CBC21B0/Documents/code/C++/QTTT/app/images/over.jpg</file>
+<file alias="images/z.jpg">/run/media/user/01D365896CBC21B0/Documents/code/C++/QTTT/app/images/z.jpg</file>
+<file alias="images/a.jpg">/run/media/user/01D365896CBC21B0/Documents/code/C++/QTTT/app/images/a.jpg</file>
+<file alias="images/awin.jpg">/run/media/user/01D365896CBC21B0/Documents/code/C++/QTTT/app/images/awin.jpg</file>
+<file alias="images/y.jpg">/run/media/user/01D365896CBC21B0/Documents/code/C++/QTTT/app/images/y.jpg</file>
+<file alias="images/ywin.jpg">/run/media/user/01D365896CBC21B0/Documents/code/C++/QTTT/app/images/ywin.jpg</file>
+</qresource>
+</RCC>
