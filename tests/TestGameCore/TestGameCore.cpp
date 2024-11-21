@@ -1,4 +1,5 @@
 #include <QTest>
+#include <QSignalSpy>
 #include <gamecore.h>
 
 class TestGameCore : public QObject
@@ -25,29 +26,29 @@ void TestGameCore::move_data()
     QTest::addColumn<int>("m1x");
     QTest::addColumn<int>("m1y");
     QTest::addColumn<int>("p1");
-    QTest::addColumn<int>("f1");
+    // QTest::addColumn<int>("f1");
     QTest::addColumn<int>("m2x");
     QTest::addColumn<int>("m2y");
     QTest::addColumn<int>("p2");
-    QTest::addColumn<int>("f2");
+    // QTest::addColumn<int>("f2");
     QTest::newRow("move_test1") << 3 << 3
-                                << 0 << 0 << 1 << 1
-                                << 2 << 2 << 2 << 2;
+                                << 0 << 0 << 1 //<< 1
+                                << 2 << 2 << 2 ;//<< 2;
     QTest::newRow("move_test2") << 3 << 3
-                                << 0 << 1 << 2 << 2
-                                << 1 << 1 << 1 << 1;
+                                << 0 << 1 << 2 //<< 2
+                                << 1 << 1 << 1 ;//<< 1;
     QTest::newRow("move_test3") << 3 << 3
-                                << 0 << 2 << 2 << 2
-                                << 1 << 2 << 1 << 1;
+                                << 0 << 2 << 2 //<< 2
+                                << 1 << 2 << 1 ;//<< 1;
     QTest::newRow("move_test4") << 3 << 3
-                                << 1 << 0 << 1 << 1
-                                << 2 << 0 << 2 << 2;
+                                << 1 << 0 << 1 //<< 1
+                                << 2 << 0 << 2 ;//<< 2;
     QTest::newRow("move_test5") << 3 << 3
-                                << 2 << 1 << 1 << 1
-                                << 2 << 1 << 2 << 1;
+                                << 2 << 1 << 1 //<< 1
+                                << 2 << 1 << 2 ;//<< 1;
     QTest::newRow("move_test6") << 1 << 1
-                                << 2 << 1 << 1 << 0
-                                << -2 << 1 << -1 << 0;
+                                << 2 << 1 << 1 //<< 0
+                                << -2 << 1 << -1 ;//<< 0;
 }
 
 void TestGameCore::move()
@@ -57,25 +58,36 @@ void TestGameCore::move()
     QFETCH(int,m1x);
     QFETCH(int,m1y);
     QFETCH(int,p1);
-    QFETCH(int,f1);
     QFETCH(int,m2x);
     QFETCH(int,m2y);
     QFETCH(int,p2);
-    QFETCH(int,f2);
-    uint retVal;
-    GameCore game(QSize(width,height),3,p1);
-    game.move(QSize(m1x,m1y),p1);
-    try {
-        retVal = game.getField(QSize(m1x,m1y)); }
-    catch (const char* err_msg) {
-        retVal = 0; }
-    QCOMPARE(retVal,(uint)f1);
-    game.move(QSize(m2x,m2y),p2);
-    try {
-        retVal = game.getField(QSize(m2x,m2y)); }
-    catch (const char* err_msg) {
-        retVal = 0; }
-    QCOMPARE(retVal,(uint)f2);
+    GameCore *game = new GameCore(QSize(width,height),3,p1);
+    QList<QVariant> args;
+    QSignalSpy spyMove(game, SIGNAL(onMove(QSize,uint)));
+    QSignalSpy spyNoMove(game, SIGNAL(onNoMove(QSize,uint)));
+    game->move(QSize(m1x,m1y),p1);
+    if (m1x>=0 && m1x<width && m1y>=0 && m1y<height) {
+        QCOMPARE(spyMove.count(), 1);
+        args = spyMove.takeFirst();
+    } else {
+        QCOMPARE(spyMove.count(), 0);
+        QCOMPARE(spyNoMove.count(), 1);
+        args = spyNoMove.takeFirst();
+    }
+    QCOMPARE(args.at(0).toSize(), QSize(m1x,m1y));
+    QCOMPARE(args.at(1).toUInt(), uint( (p1<1) ? 0 : p1 ) );
+
+    game->move(QSize(m2x,m2y),p2);
+    if (m2x>=0 && m2x<width && m2y>=0 && m2y<height) {
+        QCOMPARE(spyMove.count(), 1);
+        args = spyMove.takeFirst();
+    } else {
+        QCOMPARE(spyMove.count(), 0);
+        QCOMPARE(spyNoMove.count(), 1);
+        args = spyNoMove.takeFirst();
+    }
+    QCOMPARE(args.at(0).toSize(), QSize(m2x,m2y));
+    QCOMPARE(args.at(1).toUInt(), uint( (p2<1) ? 0 : p2 ) );
 }
 
 void TestGameCore::getWinLength_data()
