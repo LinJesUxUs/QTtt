@@ -37,7 +37,9 @@ bool GameCore::isWinRange(const QSize &begin, const QSize &end) const
 {
     if ( begin.width() == end.width() )
         return ( mWinLength == (uint)(end.height() - begin.height() + 1) );
-    return ( mWinLength == (uint)(end.width() - begin.width() + 1) );
+    return ( mWinLength == (uint)(begin.width() > end.width() ?
+                                  begin.width() - end.width() :
+                                  end.width() - begin.width())+ 1 );
 }
 
 const QSize GameCore::vecLen(const QSize &pos, const QSize &offset) const
