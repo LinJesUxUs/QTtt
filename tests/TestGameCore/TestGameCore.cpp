@@ -63,46 +63,39 @@ void TestGameCore::move()
     QFETCH(int,m2y);
     QFETCH(int,p2);
     QFETCH(int,f2);
+    struct moves
+    {
+        QSize position;
+        int player;
+        int expected;
+    };
+    QList<moves> listMoves = {{QSize(m1x,m1y),p1,f1},
+                              {QSize(m2x,m2y),p2,f2}};
     uint retVal;
-    GameCore *game = new GameCore(QSize(width,height),3,p1);
+    GameCore *game = new GameCore(QSize(width,height),3,listMoves[0].player);
     QList<QVariant> args;
     QSignalSpy spyMove(game, SIGNAL(onMove(QSize,uint)));
     QSignalSpy spyNoMove(game, SIGNAL(onNoMove(QSize,uint)));
 
-    game->move(QSize(m1x,m1y),p1);
-    try {
-        retVal = game->getField(QSize(m1x,m1y)); }
-    catch (const char* err_msg) {
-        retVal = 0; }
-    QCOMPARE(retVal,(uint)f1);
+    for ( moves i: qAsConst(listMoves)) {
+        game->move(i.position,i.player);
 
-    if (p1 == f1) {
-        QCOMPARE(spyMove.count(), 1);
-        args = spyMove.takeFirst();
-    } else {
-        QCOMPARE(spyNoMove.count(), 1);
-        args = spyNoMove.takeFirst();
+        try {
+            retVal = game->getField(i.position); }
+        catch (const char* err_msg) {
+            retVal = 0; }
+        QCOMPARE(retVal,(uint)i.expected);
+
+        if (i.player == i.expected) {
+            QCOMPARE(spyMove.count(), 1);
+            args = spyMove.takeFirst();
+        } else {
+            QCOMPARE(spyNoMove.count(), 1);
+            args = spyNoMove.takeFirst();
+        }
+        QCOMPARE(args.at(0).toSize(), i.position);
+        QCOMPARE(args.at(1).toInt(), i.player );
     }
-    QCOMPARE(args.at(0).toSize(), QSize(m1x,m1y));
-    QCOMPARE(args.at(1).toInt(), p1 );
-
-    game->move(QSize(m2x,m2y),p2);
-    try {
-        retVal = game->getField(QSize(m2x,m2y)); }
-    catch (const char* err_msg) {
-        retVal = 0; }
-    QCOMPARE(retVal,(uint)f2);
-
-    if (p2 == f2) {
-        QCOMPARE(spyMove.count(), 1);
-        args = spyMove.takeFirst();
-    } else {
-        QCOMPARE(spyNoMove.count(), 1);
-        args = spyNoMove.takeFirst();
-    }
-    QCOMPARE(args.at(0).toSize(), QSize(m2x,m2y));
-    QCOMPARE(args.at(1).toInt(), p2 );
-
 }
 
 void TestGameCore::getWinLength_data()
@@ -256,17 +249,16 @@ void TestGameCore::onEnd()
     QFETCH(int,m4y);
     QFETCH(int,m5x);
     QFETCH(int,m5y);
-    GameCore game(QSize(size,size),size);
-    game.move(QSize(m1x,m1y),1);
-    game.move(QSize(m2x,m2y),2);
-    game.move(QSize(m3x,m3y),1);
+    GameCore *game = new GameCore(QSize(size,size),size);
+    QSignalSpy spyEnd(game, SIGNAL(onEnd(QSize,QSize,uint)) );
+    game->move(QSize(m1x,m1y),1);
+    game->move(QSize(m2x,m2y),2);
+    game->move(QSize(m3x,m3y),1);
     if (size>2) {
-        game.move(QSize(m4x,m4y),2);
-        game.move(QSize(m5x,m5y),1);
-        QCOMPARE(true,true);
+        game->move(QSize(m4x,m4y),2);
+        game->move(QSize(m5x,m5y),1);
     }
-    else
-        QCOMPARE(true,true);
+    QCOMPARE(spyEnd.count(), 1);
 }
 
 QTEST_MAIN(TestGameCore)
