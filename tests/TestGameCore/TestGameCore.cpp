@@ -70,40 +70,39 @@ void TestGameCore::move()
     QSignalSpy spyNoMove(game, SIGNAL(onNoMove(QSize,uint)));
 
     game->move(QSize(m1x,m1y),p1);
-    if (m1x>=0 && m1x<width && m1y>=0 && m1y<height) {
-        QCOMPARE(spyMove.count(), 1);
-        args = spyMove.takeFirst();
-    } else {
-        QCOMPARE(spyMove.count(), 0);
-        QCOMPARE(spyNoMove.count(), 1);
-        args = spyNoMove.takeFirst();
-    }
-    QCOMPARE(args.at(0).toSize(), QSize(m1x,m1y));
-    QCOMPARE(args.at(1).toUInt(), uint( (p1<1) ? 0 : p1 ) );
-
     try {
         retVal = game->getField(QSize(m1x,m1y)); }
     catch (const char* err_msg) {
         retVal = 0; }
     QCOMPARE(retVal,(uint)f1);
 
-    game->move(QSize(m2x,m2y),p2);
-    if (m2x>=0 && m2x<width && m2y>=0 && m2y<height) {
+    if (p1 == f1) {
         QCOMPARE(spyMove.count(), 1);
         args = spyMove.takeFirst();
     } else {
-        QCOMPARE(spyMove.count(), 0);
         QCOMPARE(spyNoMove.count(), 1);
         args = spyNoMove.takeFirst();
     }
-    QCOMPARE(args.at(0).toSize(), QSize(m2x,m2y));
-    QCOMPARE(args.at(1).toUInt(), uint( (p2<1) ? 0 : p2 ) );
+    QCOMPARE(args.at(0).toSize(), QSize(m1x,m1y));
+    QCOMPARE(args.at(1).toInt(), p1 );
 
+    game->move(QSize(m2x,m2y),p2);
     try {
         retVal = game->getField(QSize(m2x,m2y)); }
     catch (const char* err_msg) {
         retVal = 0; }
     QCOMPARE(retVal,(uint)f2);
+
+    if (p2 == f2) {
+        QCOMPARE(spyMove.count(), 1);
+        args = spyMove.takeFirst();
+    } else {
+        QCOMPARE(spyNoMove.count(), 1);
+        args = spyNoMove.takeFirst();
+    }
+    QCOMPARE(args.at(0).toSize(), QSize(m2x,m2y));
+    QCOMPARE(args.at(1).toInt(), p2 );
+
 }
 
 void TestGameCore::getWinLength_data()
