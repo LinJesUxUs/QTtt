@@ -14,6 +14,7 @@ public:
     GamePaintedItem();
     ~GamePaintedItem();
     void paint(QPainter *painter);
+    void mousePressEvent(QMouseEvent *event);
 
 protected:
     void drawGrid(QPainter *painter, const qreal &cellWidth, const qreal &cellHeight);
