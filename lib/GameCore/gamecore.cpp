@@ -165,3 +165,8 @@ void GameCore::move(const QSize &pos, const uint &player)
         emit onNoMove(pos,player);
     }
 }
+
+uint GameCore::turn() const
+{
+    return mTurn;
+}

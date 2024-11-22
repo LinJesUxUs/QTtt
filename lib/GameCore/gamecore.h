@@ -36,6 +36,7 @@ public:
     uint getHeight() const;
     uint getField(const QSize &pos) const;
     uint getField(const uint w, const uint h) const;
+    uint turn() const;
 
 public slots:
     void move(const QSize &pos, const uint &player);
