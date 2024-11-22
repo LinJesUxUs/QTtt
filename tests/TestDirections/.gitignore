@@ -74,3 +74,4 @@ CMakeLists.txt.user*
 
 bin/
 build/
+*.sh
