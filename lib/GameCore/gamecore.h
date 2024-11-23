@@ -9,6 +9,7 @@ class GameCore : public QObject
     Q_OBJECT
 private:
     uint mTurn;
+    uint mTurnCount = 0;
     QList<QList<uint>> m_nField;
     uint mWinLength;
     uint mPlayers;

@@ -147,6 +147,11 @@ uint GameCore::getField(const uint w, const uint h) const
     return m_nField[w][h];
 }
 
+uint GameCore::turn() const
+{
+    return mTurn;
+}
+
 void GameCore::move(const QSize &pos, const uint &player)
 {
     try {
@@ -155,6 +160,9 @@ void GameCore::move(const QSize &pos, const uint &player)
                 m_nField[pos.width()][pos.height()] = player;
                 emit onMove(pos,player);
                 isEnd(pos);
+                if ( ++mTurnCount >= m_nField.size() * m_nField[0].size() ){
+                    emit onEnd(QSize(),QSize(),0);
+                }
                 nextTurn();
                 return;
             }
@@ -164,9 +172,4 @@ void GameCore::move(const QSize &pos, const uint &player)
     catch (const char* err_msg) {
         emit onNoMove(pos,player);
     }
-}
-
-uint GameCore::turn() const
-{
-    return mTurn;
 }
