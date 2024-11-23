@@ -89,7 +89,6 @@ void GamePaintedItem::mousePressEvent(QMouseEvent *event)
 {
     if (m_pEndValue == nullptr)
         m_pGame->move(QSize(event->position().rx()/getCellWidth(), event->position().ry()/getCellHeight()), m_pGame->turn());
-    // qDebug() << event ;
 }
 
 void GamePaintedItem::paint(QPainter *painter)
@@ -108,7 +107,7 @@ void GamePaintedItem::paint(QPainter *painter)
 void GamePaintedItem::onMove(const QSize &pos, const uint &player)
 {
     update();
-    if (pos==pos&&player==player){}
+    if (pos==pos&&player==player){} // plug down
 }
 
 void GamePaintedItem::onEnd(const QSize &posBegin, const QSize &posEnd, const uint &player)
