@@ -6,22 +6,16 @@
 
 class GameCore;
 
+struct EndValue {
+    QSize beginPos;
+    QSize endPos;
+    uint winPlayer;
+};
+
 class GamePaintedItem : public QQuickPaintedItem
 {
     Q_OBJECT
     QML_ELEMENT
-public:
-    GamePaintedItem();
-    ~GamePaintedItem();
-    void paint(QPainter *painter);
-    void mousePressEvent(QMouseEvent *event);
-
-protected:
-    void drawGrid(QPainter *painter, const qreal &cellWidth, const qreal &cellHeight);
-    void drawCells(QPainter *painter, const qreal &cellWidth, const qreal &cellHeight);
-    qreal getCellWidth() const;
-    qreal getCellHeight() const;
-
 public:
     static void setWidth(const uint &newWidth = 3);
     static void setHeight(const uint &newHeight = 3);
@@ -36,14 +30,33 @@ protected:
     static uint &getFirstPlayer();
     static uint &getPlayers();
 
-    GameCore *m_pGame = nullptr;
-    QList<QImage*> m_nPlayersPic;
-
     static uint m_sWidth;
     static uint m_sHeight;
     static uint m_sWinLength;
     static uint m_sFirstPlayer;
     static uint m_sPlayers;
+
+public:
+    GamePaintedItem();
+    ~GamePaintedItem();
+    void mousePressEvent(QMouseEvent *event);
+    void paint(QPainter *painter);
+
+protected slots:
+    void onMove(const QSize &pos, const uint &player);
+    void onEnd(const QSize &posBegin, const QSize &posEnd, const uint &player);
+
+protected:
+    inline void drawGrid(QPainter *painter, const qreal &cellWidth, const qreal &cellHeight);
+    inline void drawCells(QPainter *painter, const qreal &cellWidth, const qreal &cellHeight);
+    inline void drawEnd(QPainter *painter);
+    qreal getCellWidth() const;
+    qreal getCellHeight() const;
+
+    GameCore *m_pGame = nullptr;
+    EndValue *m_pEndValue = nullptr;
+    QList<QImage*> m_nPlayersPic;
+    QList<QImage*> m_nWinPlayersPic;
 };
 
 #endif // GAMEPAINTEDITEM_H

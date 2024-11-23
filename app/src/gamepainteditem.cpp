@@ -9,85 +9,6 @@ uint GamePaintedItem::m_sWinLength = 3;
 uint GamePaintedItem::m_sFirstPlayer = 1;
 uint GamePaintedItem::m_sPlayers = 2;
 
-GamePaintedItem::GamePaintedItem() {
-    if ( m_pGame == nullptr )
-        m_pGame = new GameCore( QSize(m_sWidth, m_sHeight), m_sWinLength, m_sFirstPlayer, m_sPlayers );
-    this->setMipmap(true);
-    this->setAntialiasing(true);
-    setAcceptedMouseButtons(Qt::AllButtons);
-    m_nPlayersPic.append(new QImage(":/images/y.jpg") );
-    m_nPlayersPic.append(new QImage(":/images/a.jpg") );
-    m_pGame->move(QSize(0,0),m_sFirstPlayer);
-    m_pGame->move(QSize(2,2),m_sFirstPlayer+1);
-}
-
-GamePaintedItem::~GamePaintedItem()
-{
-    if ( m_pGame != nullptr )
-        delete m_pGame;
-    for ( int i = 0; i < m_nPlayersPic.size(); ++i )
-        delete m_nPlayersPic[i];
-}
-
-void GamePaintedItem::paint(QPainter *painter)
-{
-    qreal cellWidth = getCellWidth();
-    qreal cellHeight = getCellHeight();
-    painter->save();
-    painter->setBrush(QBrush(QImage(":/images/z.jpg").scaled(this->width(),this->height())));
-    painter->drawRect(0,0,this->width(),this->height());
-    drawCells(painter, cellWidth, cellHeight);
-    drawGrid(painter, cellWidth, cellHeight);
-    painter->restore();
-}
-
-void GamePaintedItem::mousePressEvent(QMouseEvent *event)
-{
-    m_pGame->move(QSize(event->position().rx()/getCellWidth(), event->position().ry()/getCellHeight()), m_pGame->turn());
-    update();
-    qDebug() << event ;
-}
-
-void GamePaintedItem::drawGrid(QPainter *painter, const qreal &cellWidth, const qreal &cellHeight)
-{
-    painter->save();
-    painter->setPen( QPen(Qt::gray,0) );
-    for ( uint i = 1 ; i < m_pGame->getWidth(); ++i ) {
-        painter->drawLine(cellWidth * i, 0,
-                          cellWidth * i, this->height() );
-    }
-    for ( uint i = 1; i < m_pGame->getHeight(); ++i ) {
-        painter->drawLine(0, cellHeight * i,
-                          this->width(), cellHeight * i );
-    }
-    painter->restore();
-}
-
-void GamePaintedItem::drawCells(QPainter *painter, const qreal &cellWidth, const qreal &cellHeight)
-{
-    painter->save();
-    for ( uint i = 0 ; i < m_pGame->getWidth(); ++i ) {
-        for ( uint j = 0; j < m_pGame->getHeight(); ++j ) {
-            if ( m_pGame->getField(i, j) > 0 ) {
-                painter->setBrush(QBrush(m_nPlayersPic[ m_pGame->getField(i, j)-1 ]->scaled(cellWidth, cellHeight)) );
-                painter->drawRect(cellWidth * i, cellHeight * j,
-                                  cellWidth, cellHeight);
-            }
-        }
-    }
-    painter->restore();
-}
-
-qreal GamePaintedItem::getCellWidth() const
-{
-    return this->width()/m_pGame->getWidth();
-}
-
-qreal GamePaintedItem::getCellHeight() const
-{
-    return this->height()/m_pGame->getHeight();
-}
-
 void GamePaintedItem::setWidth(const uint &newWidth)
 {
     m_sWidth = newWidth;
@@ -136,4 +57,114 @@ uint &GamePaintedItem::getFirstPlayer()
 uint &GamePaintedItem::getPlayers()
 {
     return m_sPlayers;
+}
+
+GamePaintedItem::GamePaintedItem() {
+    if ( m_pGame == nullptr )
+        m_pGame = new GameCore( QSize(m_sWidth, m_sHeight), m_sWinLength, m_sFirstPlayer, m_sPlayers );
+    this->setMipmap(true);
+    this->setAntialiasing(true);
+    setAcceptedMouseButtons(Qt::AllButtons);
+    m_nPlayersPic.append(new QImage(":/images/z.jpg") );
+    m_nPlayersPic.append(new QImage(":/images/y.jpg") );
+    m_nPlayersPic.append(new QImage(":/images/a.jpg") );
+    m_nWinPlayersPic.append(new QImage(":/images/over.jpg") );
+    m_nWinPlayersPic.append(new QImage(":/images/ywin.jpg") );
+    m_nWinPlayersPic.append(new QImage(":/images/awin.jpg") );
+    connect(m_pGame,SIGNAL(onEnd(QSize,QSize,uint)),SLOT(onEnd(QSize,QSize,uint)));
+    connect(m_pGame,SIGNAL(onMove(QSize,uint)),SLOT(onMove(QSize,uint)));
+}
+
+GamePaintedItem::~GamePaintedItem()
+{
+    if ( m_pEndValue != nullptr )
+        delete m_pEndValue;
+    if ( m_pGame != nullptr )
+        delete m_pGame;
+    for ( int i = 0; i < m_nPlayersPic.size(); ++i )
+        delete m_nPlayersPic[i];
+}
+
+void GamePaintedItem::mousePressEvent(QMouseEvent *event)
+{
+    if (m_pEndValue == nullptr)
+        m_pGame->move(QSize(event->position().rx()/getCellWidth(), event->position().ry()/getCellHeight()), m_pGame->turn());
+    // qDebug() << event ;
+}
+
+void GamePaintedItem::paint(QPainter *painter)
+{
+    qreal cellWidth = getCellWidth();
+    qreal cellHeight = getCellHeight();
+    painter->save();
+    painter->setBrush(QBrush(m_nPlayersPic[0]->scaled(this->width(),this->height())));
+    painter->drawRect(0,0,this->width(),this->height());
+    drawCells(painter, cellWidth, cellHeight);
+    drawGrid(painter, cellWidth, cellHeight);
+    drawEnd(painter);
+    painter->restore();
+}
+
+void GamePaintedItem::onMove(const QSize &pos, const uint &player)
+{
+    update();
+    if (pos==pos&&player==player){}
+}
+
+void GamePaintedItem::onEnd(const QSize &posBegin, const QSize &posEnd, const uint &player)
+{
+    if (m_pEndValue==nullptr) {
+        m_pEndValue = new EndValue{posBegin, posEnd, player};
+        update();
+    }
+}
+
+void GamePaintedItem::drawGrid(QPainter *painter, const qreal &cellWidth, const qreal &cellHeight)
+{
+    painter->save();
+    painter->setPen( QPen(Qt::gray,0) );
+    for ( uint i = 1 ; i < m_pGame->getWidth(); ++i ) {
+        painter->drawLine(cellWidth * i, 0,
+                          cellWidth * i, this->height() );
+    }
+    for ( uint i = 1; i < m_pGame->getHeight(); ++i ) {
+        painter->drawLine(0, cellHeight * i,
+                          this->width(), cellHeight * i );
+    }
+    painter->restore();
+}
+
+void GamePaintedItem::drawCells(QPainter *painter, const qreal &cellWidth, const qreal &cellHeight)
+{
+    painter->save();
+    for ( uint i = 0 ; i < m_pGame->getWidth(); ++i ) {
+        for ( uint j = 0; j < m_pGame->getHeight(); ++j ) {
+            if ( m_pGame->getField(i, j) > 0 ) {
+                painter->setBrush(QBrush(m_nPlayersPic[ m_pGame->getField(i, j) ]->scaled(cellWidth, cellHeight)) );
+                painter->drawRect(cellWidth * i, cellHeight * j,
+                                  cellWidth, cellHeight);
+            }
+        }
+    }
+    painter->restore();
+}
+
+void GamePaintedItem::drawEnd(QPainter *painter)
+{
+    if (m_pEndValue != nullptr) {
+        painter->save();
+        painter->setBrush(QBrush(m_nWinPlayersPic[ m_pEndValue->winPlayer ]->scaled(this->width(), this->height())) );
+        painter->drawRect(0, 0, this->width(), this->height());
+        painter->restore();
+    }
+}
+
+qreal GamePaintedItem::getCellWidth() const
+{
+    return this->width()/m_pGame->getWidth();
+}
+
+qreal GamePaintedItem::getCellHeight() const
+{
+    return this->height()/m_pGame->getHeight();
 }
