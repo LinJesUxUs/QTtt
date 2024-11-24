@@ -149,6 +149,9 @@ uint GameCore::getField(const uint w, const uint h) const
 
 uint GameCore::turn() const
 {
+    if ( mTurnCount >= m_nField.size() * m_nField[0].size() ) {
+        return 0;
+    }
     return mTurn;
 }
 
@@ -158,12 +161,12 @@ void GameCore::move(const QSize &pos, const uint &player)
         if ( !isBusy(pos) ) {
             if ( player == mTurn ) {
                 m_nField[pos.width()][pos.height()] = player;
-                emit onMove(pos,player);
                 isEnd(pos);
+                nextTurn();
                 if ( ++mTurnCount >= m_nField.size() * m_nField[0].size() ){
                     emit onEnd(QSize(),QSize(),0);
                 }
-                nextTurn();
+                emit onMove(pos,player);
                 return;
             }
         }
