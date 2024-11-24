@@ -65,6 +65,12 @@ GamePaintedItem::GamePaintedItem() {
     this->setMipmap(true);
     this->setAntialiasing(true);
     setAcceptedMouseButtons(Qt::AllButtons);
+    m_nLocalPlayers.append(new QString("Game Over!"));
+    for ( uint i = 1; i <= m_sPlayers; ++i ) {
+        m_nLocalPlayers.append(new QString("Player") );
+        m_nLocalPlayers.last()->append(QString::number(i));
+        qDebug() << *m_nLocalPlayers.last() << " added.";
+    }
     m_nPlayersPic.append(new QImage(":/images/z.jpg") );
     m_nPlayersPic.append(new QImage(":/images/y.jpg") );
     m_nPlayersPic.append(new QImage(":/images/a.jpg") );
@@ -83,11 +89,54 @@ GamePaintedItem::~GamePaintedItem()
         delete m_pGame;
     for ( int i = 0; i < m_nPlayersPic.size(); ++i )
         delete m_nPlayersPic[i];
+    for ( int i = 0; i < m_nWinPlayersPic.size(); ++i )
+        delete m_nWinPlayersPic[i];
+    for ( int i = 0; i < m_nLocalPlayers.size(); ++i ) {
+        if (m_nLocalPlayers[i] != nullptr) {
+            delete m_nLocalPlayers[i];
+            m_nLocalPlayers[i] = nullptr;
+        }
+    }
+}
+
+void GamePaintedItem::restart()
+{
+    qDebug() << "restart called!!!";
+    if (m_pGame != nullptr) {
+        disconnect(m_pGame,SIGNAL(onEnd(QSize,QSize,uint)),this,SLOT(onEnd(QSize,QSize,uint)));
+        disconnect(m_pGame,SIGNAL(onMove(QSize,uint)),this,SLOT(onMove(QSize,uint)));
+        delete m_pGame;
+        m_pGame = new GameCore( QSize(m_sWidth, m_sHeight), m_sWinLength, m_sFirstPlayer, m_sPlayers );
+        connect(m_pGame,SIGNAL(onEnd(QSize,QSize,uint)),SLOT(onEnd(QSize,QSize,uint)));
+        connect(m_pGame,SIGNAL(onMove(QSize,uint)),SLOT(onMove(QSize,uint)));
+    }
+    if (m_pEndValue != nullptr) {
+        delete m_pEndValue;
+        m_pEndValue = nullptr;
+    }
+    emit gameStateChanged();
+    update();
+}
+
+QString GamePaintedItem::gameState()
+{
+    QString val;
+    if (m_pEndValue == nullptr ) {
+        val = *m_nLocalPlayers[m_pGame->turn()];
+        val.append("'s move..");
+    }
+    else if (m_pEndValue->winPlayer > 0) {
+        val = *m_nLocalPlayers[m_pEndValue->winPlayer];
+        val.append(" WON!");
+    }
+    else
+        val = *m_nLocalPlayers[m_pEndValue->winPlayer];
+    return val;
 }
 
 void GamePaintedItem::mousePressEvent(QMouseEvent *event)
 {
-    if (m_pEndValue == nullptr)
+    if (m_pEndValue == nullptr && m_nLocalPlayers[m_pGame->turn()] != nullptr)
         m_pGame->move(QSize(event->position().rx()/getCellWidth(), event->position().ry()/getCellHeight()), m_pGame->turn());
 }
 
@@ -106,6 +155,7 @@ void GamePaintedItem::paint(QPainter *painter)
 
 void GamePaintedItem::onMove(const QSize &pos, const uint &player)
 {
+    emit gameStateChanged();
     update();
     if (pos==pos&&player==player){} // plug down
 }
@@ -114,6 +164,7 @@ void GamePaintedItem::onEnd(const QSize &posBegin, const QSize &posEnd, const ui
 {
     if (m_pEndValue==nullptr) {
         m_pEndValue = new EndValue{posBegin, posEnd, player};
+        emit gameStateChanged();
         update();
     }
 }

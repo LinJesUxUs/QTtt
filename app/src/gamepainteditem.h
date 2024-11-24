@@ -16,6 +16,7 @@ class GamePaintedItem : public QQuickPaintedItem
 {
     Q_OBJECT
     QML_ELEMENT
+    Q_PROPERTY(QString gameState READ gameState NOTIFY gameStateChanged)
 public:
     static void setWidth(const uint &newWidth = 3);
     static void setHeight(const uint &newHeight = 3);
@@ -39,12 +40,17 @@ protected:
 public:
     GamePaintedItem();
     ~GamePaintedItem();
+    Q_INVOKABLE void restart();
+    Q_INVOKABLE QString gameState();
     void mousePressEvent(QMouseEvent *event);
     void paint(QPainter *painter);
 
 protected slots:
     void onMove(const QSize &pos, const uint &player);
     void onEnd(const QSize &posBegin, const QSize &posEnd, const uint &player);
+
+Q_SIGNALS:
+    void gameStateChanged();
 
 protected:
     inline void drawGrid(QPainter *painter, const qreal &cellWidth, const qreal &cellHeight);
@@ -55,6 +61,7 @@ protected:
 
     GameCore *m_pGame = nullptr;
     EndValue *m_pEndValue = nullptr;
+    QList<QString*> m_nLocalPlayers; // Feature for future
     QList<QImage*> m_nPlayersPic;
     QList<QImage*> m_nWinPlayersPic;
 };
