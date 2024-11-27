@@ -3,8 +3,6 @@ QT -= gui
 
 TEMPLATE = lib
 
-CONFIG += c++11 staticlib
-
 include(../../definitions.pri)
 include(../../libIncludes.pri)
 

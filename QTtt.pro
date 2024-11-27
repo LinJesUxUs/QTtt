@@ -10,6 +10,8 @@ SUBDIRS += \
 tests.depends = lib
 app.depends = lib
 
+android:SUBDIRS -= tests
+
 DISTFILES += \
     definitions.pri \
     libIncludes.pri

@@ -1,12 +1,13 @@
-unix {
+unix|win32 {
     LIBS += \
         -L$$PWD/bin -lGameCore \
         -L$$PWD/bin -lDirections
 }
-win32 {
-    LIBS += \
-        $$PWD/bin/GameCore.lib \
-        $$PWD/bin/Directions.lib
+
+android {
+    for (abi, ANDROID_ABIS): ANDROID_EXTRA_LIBS += \
+        $$PWD/bin/libGameCore_$${abi}.so \
+        $$PWD/bin/libDirections_$${abi}.so
 }
 
 INCLUDEPATH += \
