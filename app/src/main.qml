@@ -5,33 +5,50 @@ import linjesuxus.game
 
 Rectangle {
     id: root
+    color: "black"
     width: 300
     height: 480
-    color: "gray"
     ColumnLayout {
-        anchors.fill: root
+        spacing: 0
+        anchors.fill: parent
         RowLayout {
-            width: parent.width
-            height: restart.height
+            Layout.fillHeight: true
+            Layout.minimumHeight: 20
+            Layout.preferredHeight: parent.height - parent.width * 1.5
+            Layout.alignment: Qt.AlignVCenter
+            Text {
+                id: gameState
+                text: game.gameState
+                color: "White"
+                Layout.maximumHeight: width / 3
+                Layout.alignment: Qt.AlignCenter
+            }
+        }
+        RowLayout {
+            spacing: 0
+            Layout.preferredHeight: width / 2
+            Layout.maximumHeight: width / 2
+            Layout.minimumHeight: 20
+            Layout.alignment: Qt.AlignBottom
+            Button {
+                id: menu
+                text: "Menu"
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
             Button {
                 id: restart
                 text: "Restart"
+                Layout.fillHeight: true
+                Layout.fillWidth: true
                 onPressed: game.restart()
             }
         }
-        Text {
-            id: gameState
-            text: game.gameState
-        }
-
         Game {
             id: game
-            width: parent.width
-            height: width
-            // anchors {
-            //     top: parent.top
-            //     left: parent.left
-            // }
+            Layout.preferredWidth: parent.width
+            Layout.preferredHeight: Layout.preferredWidth
+            Layout.alignment: Qt.AlignBottom
         }
     }
 }
