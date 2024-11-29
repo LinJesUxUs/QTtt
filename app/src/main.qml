@@ -16,6 +16,14 @@ Rectangle {
             Layout.minimumHeight: 20
             Layout.preferredHeight: parent.height - parent.width * 1.5
             Layout.alignment: Qt.AlignVCenter
+            Image {
+                id: gameStateImage
+                source: game.gameStateImage
+                Layout.preferredWidth: parent.width / 3
+                Layout.preferredHeight: Layout.preferredWidth
+                Layout.maximumHeight: Layout.preferredWidth
+                Layout.maximumWidth: Layout.preferredWidth
+            }
             Text {
                 id: gameState
                 text: game.gameState

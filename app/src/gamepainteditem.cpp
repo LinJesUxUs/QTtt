@@ -134,6 +134,15 @@ QString GamePaintedItem::gameState()
     return val;
 }
 
+QVariant GamePaintedItem::gameStateImage()
+{
+    if (m_pEndValue != nullptr) {
+        if (m_pEndValue->winPlayer == 0)
+            return *m_nPlayersPic[m_pGame->turn()];
+    }
+    return *m_nPlayersPic[m_pGame->turn()];
+}
+
 void GamePaintedItem::mousePressEvent(QMouseEvent *event)
 {
     if (m_pEndValue == nullptr && m_nLocalPlayers[m_pGame->turn()] != nullptr)
