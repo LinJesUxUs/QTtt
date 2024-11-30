@@ -2,6 +2,7 @@
 
 #include <gamecore.h>
 #include <QPainter>
+#include <QBuffer>
 
 uint GamePaintedItem::m_sWidth = 3;
 uint GamePaintedItem::m_sHeight = 3;
@@ -134,13 +135,18 @@ QString GamePaintedItem::gameState()
     return val;
 }
 
-QVariant GamePaintedItem::gameStateImage()
+QUrl GamePaintedItem::gameStateImage()
 {
-    if (m_pEndValue != nullptr) {
-        if (m_pEndValue->winPlayer == 0)
-            return *m_nPlayersPic[m_pGame->turn()];
-    }
-    return *m_nPlayersPic[m_pGame->turn()];
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    buffer.open(QIODevice::WriteOnly);
+    if (m_pEndValue != nullptr)
+        m_nPlayersPic[m_pEndValue->winPlayer]->save(&buffer, "jpg");
+    else
+        m_nPlayersPic[m_pGame->turn()]->save(&buffer, "jpg");
+    QString base64 = QString::fromUtf8(byteArray.toBase64());
+    qDebug() << QString("data:image/jpg;base64,") + base64;
+    return QString("data:image/jpg;base64,") + base64;
 }
 
 void GamePaintedItem::mousePressEvent(QMouseEvent *event)

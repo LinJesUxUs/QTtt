@@ -17,7 +17,7 @@ class GamePaintedItem : public QQuickPaintedItem
     Q_OBJECT
     QML_ELEMENT
     Q_PROPERTY(QString gameState READ gameState NOTIFY gameStateChanged)
-    Q_PROPERTY(QVariant gameStateImage READ gameStateImage NOTIFY gameStateChanged)
+    Q_PROPERTY(QUrl gameStateImage READ gameStateImage NOTIFY gameStateChanged)
 public:
     static void setWidth(const uint &newWidth = 3);
     static void setHeight(const uint &newHeight = 3);
@@ -43,7 +43,7 @@ public:
     ~GamePaintedItem();
     Q_INVOKABLE void restart();
     Q_INVOKABLE QString gameState();
-    Q_INVOKABLE QVariant gameStateImage();
+    Q_INVOKABLE QUrl gameStateImage();
     void mousePressEvent(QMouseEvent *event);
     void paint(QPainter *painter);
 
