@@ -13,12 +13,14 @@ Rectangle {
         anchors.fill: parent
         RowLayout {
             Layout.fillHeight: true
+            Layout.fillWidth: true
             Layout.minimumHeight: 20
             Layout.preferredHeight: parent.height - parent.width * 1.5
+            Layout.preferredWidth: parent.width
             Layout.alignment: Qt.AlignVCenter
             Image {
                 id: gameStateImage
-                source: game.gameStateImage
+                source: game.gameStateImage.valueOf(QImage)
                 Layout.preferredWidth: parent.width / 3
                 Layout.preferredHeight: Layout.preferredWidth
                 Layout.maximumHeight: Layout.preferredWidth

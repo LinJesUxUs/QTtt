@@ -4,6 +4,7 @@
 #include <QQmlEngine>
 #include <QQuickPaintedItem>
 
+class QSettings;
 class GameCore;
 
 struct EndValue {
@@ -18,25 +19,6 @@ class GamePaintedItem : public QQuickPaintedItem
     QML_ELEMENT
     Q_PROPERTY(QString gameState READ gameState NOTIFY gameStateChanged)
     Q_PROPERTY(QUrl gameStateImage READ gameStateImage NOTIFY gameStateChanged)
-public:
-    static void setWidth(const uint &newWidth = 3);
-    static void setHeight(const uint &newHeight = 3);
-    static void setWinLength(const uint &newWinLength = 3);
-    static void setFirstPlayer(const uint &newFirstPlayer = 1);
-    static void setPlayers(const uint &newPlayers = 2);
-
-protected:
-    static uint &getWidth();
-    static uint &getHeight();
-    static uint &getWinLength();
-    static uint &getFirstPlayer();
-    static uint &getPlayers();
-
-    static uint m_sWidth;
-    static uint m_sHeight;
-    static uint m_sWinLength;
-    static uint m_sFirstPlayer;
-    static uint m_sPlayers;
 
 public:
     GamePaintedItem();
@@ -61,11 +43,13 @@ protected:
     qreal getCellWidth() const;
     qreal getCellHeight() const;
 
+    QSettings *settings = nullptr;
     GameCore *m_pGame = nullptr;
     EndValue *m_pEndValue = nullptr;
     QList<QString*> m_nLocalPlayers; // Feature for future
     QList<QImage*> m_nPlayersPic;
     QList<QImage*> m_nWinPlayersPic;
+    QList<QUrl*> m_nGameStatePic;
 };
 
 #endif // GAMEPAINTEDITEM_H

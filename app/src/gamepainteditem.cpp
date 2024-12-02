@@ -3,91 +3,70 @@
 #include <gamecore.h>
 #include <QPainter>
 #include <QBuffer>
-
-uint GamePaintedItem::m_sWidth = 3;
-uint GamePaintedItem::m_sHeight = 3;
-uint GamePaintedItem::m_sWinLength = 3;
-uint GamePaintedItem::m_sFirstPlayer = 1;
-uint GamePaintedItem::m_sPlayers = 2;
-
-void GamePaintedItem::setWidth(const uint &newWidth)
-{
-    m_sWidth = newWidth;
-}
-
-void GamePaintedItem::setHeight(const uint &newHeight)
-{
-    m_sHeight = newHeight;
-}
-
-void GamePaintedItem::setWinLength(const uint &newWinLength)
-{
-    m_sWinLength = newWinLength;
-}
-
-void GamePaintedItem::setFirstPlayer(const uint &newFirstPlayer)
-{
-    m_sFirstPlayer = newFirstPlayer;
-}
-
-void GamePaintedItem::setPlayers(const uint &newPlayers)
-{
-    m_sPlayers = newPlayers;
-}
-
-uint &GamePaintedItem::getWidth()
-{
-    return m_sWidth;
-}
-
-uint &GamePaintedItem::getHeight()
-{
-    return m_sHeight;
-}
-
-uint &GamePaintedItem::getWinLength()
-{
-    return m_sWinLength;
-}
-
-uint &GamePaintedItem::getFirstPlayer()
-{
-    return m_sFirstPlayer;
-}
-
-uint &GamePaintedItem::getPlayers()
-{
-    return m_sPlayers;
-}
+#include <QSettings>
 
 GamePaintedItem::GamePaintedItem() {
+    QCoreApplication::setApplicationName("LinJesUxUs");
+    QCoreApplication::setOrganizationName("QTtt");
+    if ( settings == nullptr )
+        settings = new QSettings();
+    settings->beginGroup("GameConfig");
     if ( m_pGame == nullptr )
-        m_pGame = new GameCore( QSize(m_sWidth, m_sHeight), m_sWinLength, m_sFirstPlayer, m_sPlayers );
+        m_pGame = new GameCore(settings->value("fieldQSize").toSize(),
+                               settings->value("WinLength").toUInt(),
+                               settings->value("FirstPlayer").toUInt(),
+                               settings->value("PlayersCount").toUInt());
+    qDebug() << settings->value("fieldQSize").toSize();
+    qDebug() << settings->value("WinLength").toUInt();
+    qDebug() << settings->value("PlayersCount").toUInt();
+    qDebug() << settings->value("FirstPlayer").toUInt();
+    settings->endGroup();
     this->setMipmap(true);
     this->setAntialiasing(true);
     setAcceptedMouseButtons(Qt::AllButtons);
     m_nLocalPlayers.append(new QString("Game Over!"));
-    for ( uint i = 1; i <= m_sPlayers; ++i ) {
+    for ( uint i = 1; i <= m_pGame->getNPlayers(); ++i ) {
         m_nLocalPlayers.append(new QString("Player") );
         m_nLocalPlayers.last()->append(QString::number(i));
         qDebug() << *m_nLocalPlayers.last() << " added.";
     }
-    m_nPlayersPic.append(new QImage(":/images/z.jpg") );
-    m_nPlayersPic.append(new QImage(":/images/y.jpg") );
-    m_nPlayersPic.append(new QImage(":/images/a.jpg") );
-    m_nWinPlayersPic.append(new QImage(":/images/over.jpg") );
-    m_nWinPlayersPic.append(new QImage(":/images/ywin.jpg") );
-    m_nWinPlayersPic.append(new QImage(":/images/awin.jpg") );
-    connect(m_pGame,SIGNAL(onEnd(QSize,QSize,uint)),SLOT(onEnd(QSize,QSize,uint)));
-    connect(m_pGame,SIGNAL(onMove(QSize,uint)),SLOT(onMove(QSize,uint)));
+    settings->beginGroup("images");
+    m_nPlayersPic.append(new QImage(settings->value("z").value<QImage>()));
+    m_nPlayersPic.append(new QImage(settings->value("y").value<QImage>()));
+    m_nPlayersPic.append(new QImage(settings->value("a").value<QImage>()));
+    m_nWinPlayersPic.append(new QImage(settings->value("over").value<QImage>()));
+    m_nWinPlayersPic.append(new QImage(settings->value("ywin").value<QImage>()));
+    m_nWinPlayersPic.append(new QImage(settings->value("awin").value<QImage>()));
+    settings->endGroup();
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    buffer.open(QIODevice::WriteOnly);
+    for (auto i: std::as_const(m_nPlayersPic) ) {
+        i->save(&buffer);
+        m_nGameStatePic.append(new QUrl("data:image/jpg;base64," + QString::fromUtf8(byteArray.toBase64())));
+    }
+    connect(m_pGame,
+            SIGNAL(onEnd(QSize,QSize,uint)),
+            SLOT(onEnd(QSize,QSize,uint)));
+    connect(m_pGame,
+            SIGNAL(onMove(QSize,uint)),
+            SLOT(onMove(QSize,uint)));
 }
 
 GamePaintedItem::~GamePaintedItem()
 {
+    if (settings != nullptr)
+        delete settings;
     if ( m_pEndValue != nullptr )
         delete m_pEndValue;
     if ( m_pGame != nullptr )
         delete m_pGame;
+    for ( int i = 0; i < m_nGameStatePic.size(); ++i ) {
+        if (m_nGameStatePic[i] != nullptr) {
+            delete m_nGameStatePic[i];
+            m_nGameStatePic[i] = nullptr;
+        }
+    }
     for ( int i = 0; i < m_nPlayersPic.size(); ++i )
         delete m_nPlayersPic[i];
     for ( int i = 0; i < m_nWinPlayersPic.size(); ++i )
@@ -104,12 +83,23 @@ void GamePaintedItem::restart()
 {
     qDebug() << "restart called!!!";
     if (m_pGame != nullptr) {
-        disconnect(m_pGame,SIGNAL(onEnd(QSize,QSize,uint)),this,SLOT(onEnd(QSize,QSize,uint)));
-        disconnect(m_pGame,SIGNAL(onMove(QSize,uint)),this,SLOT(onMove(QSize,uint)));
+        disconnect(m_pGame,SIGNAL(onEnd(QSize,QSize,uint)),
+                   this,SLOT(onEnd(QSize,QSize,uint)));
+        disconnect(m_pGame,SIGNAL(onMove(QSize,uint)),
+                   this,SLOT(onMove(QSize,uint)));
         delete m_pGame;
-        m_pGame = new GameCore( QSize(m_sWidth, m_sHeight), m_sWinLength, m_sFirstPlayer, m_sPlayers );
-        connect(m_pGame,SIGNAL(onEnd(QSize,QSize,uint)),SLOT(onEnd(QSize,QSize,uint)));
-        connect(m_pGame,SIGNAL(onMove(QSize,uint)),SLOT(onMove(QSize,uint)));
+        settings->beginGroup("GameConfig");
+        m_pGame = new GameCore(settings->value("fieldQSize").toSize(),
+                               settings->value("WinLength").toUInt(),
+                               settings->value("FirstPlayer").toUInt(),
+                               settings->value("PlayersCount").toUInt());
+        settings->endGroup();
+        connect(m_pGame,
+                SIGNAL(onEnd(QSize,QSize,uint)),
+                SLOT(onEnd(QSize,QSize,uint)));
+        connect(m_pGame,
+                SIGNAL(onMove(QSize,uint)),
+                SLOT(onMove(QSize,uint)));
     }
     if (m_pEndValue != nullptr) {
         delete m_pEndValue;
@@ -137,16 +127,9 @@ QString GamePaintedItem::gameState()
 
 QUrl GamePaintedItem::gameStateImage()
 {
-    QByteArray byteArray;
-    QBuffer buffer(&byteArray);
-    buffer.open(QIODevice::WriteOnly);
     if (m_pEndValue != nullptr)
-        m_nPlayersPic[m_pEndValue->winPlayer]->save(&buffer, "jpg");
-    else
-        m_nPlayersPic[m_pGame->turn()]->save(&buffer, "jpg");
-    QString base64 = QString::fromUtf8(byteArray.toBase64());
-    qDebug() << QString("data:image/jpg;base64,") + base64;
-    return QString("data:image/jpg;base64,") + base64;
+        return *m_nGameStatePic[m_pEndValue->winPlayer];
+    return *m_nGameStatePic[m_pGame->turn()];
 }
 
 void GamePaintedItem::mousePressEvent(QMouseEvent *event)
