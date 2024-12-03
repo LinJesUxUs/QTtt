@@ -10,10 +10,12 @@ include(../libIncludes.pri)
 
 SOURCES += \
     src/gamepainteditem.cpp \
+    src/gamestatusimageprovider.cpp \
     src/main.cpp
 
 HEADERS += \
-    src/gamepainteditem.h
+    src/gamepainteditem.h \
+    src/gamestatusimageprovider.h
 
 TARGET = QTtt
 

@@ -18,19 +18,17 @@ class GamePaintedItem : public QQuickPaintedItem
     Q_OBJECT
     QML_ELEMENT
     Q_PROPERTY(QString gameState READ gameState NOTIFY gameStateChanged)
-    Q_PROPERTY(QUrl gameStateImage READ gameStateImage NOTIFY gameStateChanged)
 
 public:
     GamePaintedItem();
     ~GamePaintedItem();
     Q_INVOKABLE void restart();
     Q_INVOKABLE QString gameState();
-    Q_INVOKABLE QUrl gameStateImage();
     void mousePressEvent(QMouseEvent *event);
     void paint(QPainter *painter);
 
 protected slots:
-    void onMove(const QSize &pos, const uint &player);
+    void onMove(const QSize &, const uint &);
     void onEnd(const QSize &posBegin, const QSize &posEnd, const uint &player);
 
 Q_SIGNALS:

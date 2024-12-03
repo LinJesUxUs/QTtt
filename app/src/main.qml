@@ -20,7 +20,7 @@ Rectangle {
             Layout.alignment: Qt.AlignVCenter
             Image {
                 id: gameStateImage
-                source: game.gameStateImage.valueOf(QImage)
+                source: "image://GameStatus/" + game.gameState
                 Layout.preferredWidth: parent.width / 3
                 Layout.preferredHeight: Layout.preferredWidth
                 Layout.maximumHeight: Layout.preferredWidth

@@ -1,4 +1,5 @@
 #include "gamepainteditem.h"
+#include "gamestatusimageprovider.h"
 #include <QGuiApplication>
 #include <QQmlEngine>
 #include <QQmlFileSelector>
@@ -50,11 +51,31 @@ int main(int argc, char *argv[])
         }
     }
     settings.endGroup();
+
+    settings.beginGroup("PlayersConf");
+    if (settings.value("1Turn").isNull())
+        settings.setValue("1Turn", "y");
+    if (settings.value("1Win").isNull())
+        settings.setValue("1Win", "ywin");
+    if (settings.value("1Name").isNull())
+        settings.setValue("1Name", "Player1");
+    if (settings.value("2Turn").isNull())
+        settings.setValue("2Turn", "a");
+    if (settings.value("2Win").isNull())
+        settings.setValue("2Win", "awin");
+    if (settings.value("2Name").isNull())
+        settings.setValue("2Name", "Player2");
+    if (settings.value("background").isNull())
+        settings.setValue("background", "z");
+    if (settings.value("over").isNull())
+        settings.setValue("over", "over");
+    settings.endGroup();
     settings.sync();
 
     QQuickView view;
     qmlRegisterType<GamePaintedItem>( "linjesuxus.game", 1, 0, "Game" );
     view.connect( view.engine(), SIGNAL(quit()), &app, SLOT(quit()) );
+    view.engine()->addImageProvider( QLatin1String("GameStatus"), new GameStatusImageProvider );
     view.setSource( QUrl( "qrc:/src/main.qml" ) );
     view.setResizeMode( QQuickView::SizeRootObjectToView );
     view.show();
