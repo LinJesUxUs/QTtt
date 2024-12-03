@@ -12,6 +12,20 @@ int main(int argc, char *argv[])
     app.setApplicationName("LinJesUxUs");
     app.setOrganizationName("QTtt");
 
+    QList<QScreen*> scr(app.screens());
+    QSize maxSize;
+    for ( auto i: std::as_const(scr) ) {
+        if (maxSize.isEmpty())
+            maxSize = i->size();
+        else {
+            maxSize.setWidth(qMax(maxSize.width(), i->size().width()));
+            maxSize.setHeight(qMax(maxSize.height(), i->size().height()));
+        }
+    }
+    maxSize.setWidth(qMin(maxSize.width(), maxSize.height()));
+    maxSize.setHeight(qMin(maxSize.width(), maxSize.height()));
+    qDebug() << maxSize;
+
     QSettings settings;
     settings.beginGroup("GameConfig");
     if (settings.value("fieldQSize").isNull())
@@ -24,19 +38,17 @@ int main(int argc, char *argv[])
         settings.setValue("FirstPlayer", 1);
     settings.endGroup();
 
+    QImage imgBuf;
+    QList<QString> lst = {"z", "y", "a", "over", "ywin", "awin"};
     settings.beginGroup("images");
-    if (settings.value("z").isNull())
-        settings.setValue("z", QImage(":/images/z.jpg"));
-    if (settings.value("y").isNull())
-        settings.setValue("y", QImage(":/images/y.jpg"));
-    if (settings.value("a").isNull())
-        settings.setValue("a", QImage(":/images/a.jpg"));
-    if (settings.value("over").isNull())
-        settings.setValue("over", QImage(":/images/over.jpg"));
-    if (settings.value("ywin").isNull())
-        settings.setValue("ywin", QImage(":/images/ywin.jpg"));
-    if (settings.value("awin").isNull())
-        settings.setValue("awin", QImage(":/images/awin.jpg"));
+    for ( auto i: qAsConst(lst)) {
+        if (settings.value(i).isNull()) {
+            imgBuf = QImage(QString(":/images/") + i + ".jpg" );
+            if (imgBuf.size().width() > maxSize.width())
+                imgBuf = imgBuf.scaled(maxSize);
+            settings.setValue(i, imgBuf);
+        }
+    }
     settings.endGroup();
     settings.sync();
 
