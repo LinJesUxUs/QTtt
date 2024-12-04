@@ -22,9 +22,13 @@ GamePaintedItem::GamePaintedItem() {
     setAcceptedMouseButtons(Qt::AllButtons);
     m_nLocalPlayers.append(new QString("Game Over!"));
     for ( uint i = 1; i <= m_pGame->getNPlayers(); ++i ) {
+        auto playerName = settings->value("PlayersConf/" + QString::number(i) + "Name");
+        if (!playerName.isNull()) {
+            m_nLocalPlayers.append(new QString(playerName.toString()) );
+            continue;
+        }
         m_nLocalPlayers.append(new QString("Player") );
         m_nLocalPlayers.last()->append(QString::number(i));
-        qDebug() << *m_nLocalPlayers.last() << " added.";
     }
 
     m_nPlayersPic.append(new QImage(settings->value("images/" + settings->value("PlayersConf/background").toString() ).value<QImage>()));
