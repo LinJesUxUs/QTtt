@@ -10,8 +10,8 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-    app.setApplicationName("LinJesUxUs");
-    app.setOrganizationName("QTtt");
+    app.setApplicationName("QTtt");
+    app.setOrganizationName("LinJesUxUs");
 
     QList<QScreen*> scr(app.screens());
     QSize maxSize;

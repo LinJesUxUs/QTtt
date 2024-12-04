@@ -1,10 +1,10 @@
 #include "gamestatusimageprovider.h"
 #include <QSettings>
-#include <QtCore>
+#include <QCoreApplication>
 
 GameStatusImageProvider::GameStatusImageProvider() : QQuickImageProvider( QQuickImageProvider::Image ) {
-    QCoreApplication::setApplicationName("LinJesUxUs");
-    QCoreApplication::setOrganizationName("QTtt");
+    QCoreApplication::setApplicationName("QTtt");
+    QCoreApplication::setOrganizationName("LinJesUxUs");
     if (settings == nullptr)
         settings = new QSettings();
 }

@@ -6,8 +6,8 @@
 #include <QSettings>
 
 GamePaintedItem::GamePaintedItem() {
-    QCoreApplication::setApplicationName("LinJesUxUs");
-    QCoreApplication::setOrganizationName("QTtt");
+    QCoreApplication::setApplicationName("QTtt");
+    QCoreApplication::setOrganizationName("LinJesUxUs");
     if ( settings == nullptr )
         settings = new QSettings();
     settings->beginGroup("GameConfig");
