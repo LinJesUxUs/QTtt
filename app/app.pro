@@ -31,7 +31,11 @@ resources.files += \
     images/a.jpg \
     images/awin.jpg \
     images/y.jpg \
-    images/ywin.jpg
+    images/ywin.jpg \
+    images/QTttExit.svg \
+    images/QTttMenu.svg \
+    images/QTttRestart.svg
+
 resources.prefix = /
 
 RESOURCES = resources

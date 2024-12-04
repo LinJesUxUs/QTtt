@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="200mm"
+   height="200mm"
+   viewBox="0 0 200 200"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25, custom)"
+   sodipodi:docname="QTttRestart.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.28794945"
+     inkscape:cx="262.1988"
+     inkscape:cy="45.146813"
+     inkscape:window-width="1600"
+     inkscape:window-height="1256"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <linearGradient
+       id="swatch3"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop3" />
+    </linearGradient>
+  </defs>
+  <g
+     inkscape:label="Слой 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path1"
+       style="fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:0.999997;stroke-miterlimit:4;stroke-dashoffset:0.362835"
+       inkscape:label="path1"
+       d="m 100.0063,190.02251 a 89.99991,89.99991 0 0 1 -90.000192,-90.0002 h 9.450069 a 80.549919,80.549919 0 0 0 80.550123,80.55013 80.549919,80.549919 0 0 0 64.68752,-33.20262 l -8.26409,-4.77129 25.98084,-15.00012 v 30.00076 l -9.3741,-5.41259 a 89.99991,89.99991 0 0 1 -73.03017,37.83593 z m 80.5496,-90.0002 A 80.549919,80.549919 0 0 0 100.0063,19.472714 80.549919,80.549919 0 0 0 35.318258,52.675334 l 8.342126,4.81625 -25.98136,15.00063 v -30.00023 l 9.442835,5.45134 a 89.99991,89.99991 0 0 1 72.884441,-37.92068 89.99991,89.99991 0 0 1 89.99967,89.999666 z" />
+  </g>
+</svg>
