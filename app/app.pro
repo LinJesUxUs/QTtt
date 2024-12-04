@@ -35,6 +35,7 @@ resources.files += \
 resources.prefix = /
 
 RESOURCES = resources
+CONFIG += resources_big
 
 DISTFILES += \
     android/AndroidManifest.xml \
