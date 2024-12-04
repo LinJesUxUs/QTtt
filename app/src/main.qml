@@ -14,32 +14,26 @@ Rectangle {
         RowLayout {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.minimumHeight: 20
-            Layout.preferredHeight: parent.height - parent.width * 1.5
+            Layout.minimumHeight: parent.width / 6
+            Layout.maximumHeight: parent.width / 3
             Layout.preferredWidth: parent.width
-            Layout.alignment: Qt.AlignVCenter
             Image {
                 id: gameStateImage
                 source: "image://GameStatus/" + game.gameState
-                Layout.preferredWidth: parent.width / 3
-                Layout.preferredHeight: Layout.preferredWidth
-                Layout.maximumHeight: Layout.preferredWidth
-                Layout.maximumWidth: Layout.preferredWidth
+                Layout.fillHeight: true
+                Layout.preferredWidth: height
             }
             Text {
                 id: gameState
                 text: game.gameState
                 color: "White"
-                Layout.maximumHeight: width / 3
-                Layout.alignment: Qt.AlignCenter
+                Layout.fillWidth: true
+                height: parent.height
             }
         }
         RowLayout {
             spacing: 0
-            Layout.preferredHeight: width / 2
-            Layout.maximumHeight: width / 2
-            Layout.minimumHeight: 20
-            Layout.alignment: Qt.AlignBottom
+            Layout.minimumHeight: parent.width / 6
             Button {
                 id: menu
                 text: "Menu"
@@ -57,8 +51,10 @@ Rectangle {
         Game {
             id: game
             Layout.preferredWidth: parent.width
+            Layout.maximumWidth: parent.height - parent.width / 3
             Layout.preferredHeight: Layout.preferredWidth
-            Layout.alignment: Qt.AlignBottom
+            Layout.maximumHeight: Layout.maximumWidth
+            Layout.alignment: Qt.AlignHCenter
         }
     }
 }
