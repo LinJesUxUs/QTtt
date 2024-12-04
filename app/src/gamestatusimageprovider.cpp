@@ -20,7 +20,7 @@ QImage GameStatusImageProvider::requestImage(const QString &id, QSize * /*size*/
     // settings->sync();
     QStringList lst = id.split(" ");
     QImage img;
-    if (lst.first() == "Game" ) {
+    if (lst.first() == "Game" && lst.last() == "Over!" ) {
         img = settings->value("images/" + settings->value("PlayersConf/over").toString() ).value<QImage>();
         return img;
     }
