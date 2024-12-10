@@ -34,28 +34,15 @@ Rectangle {
         RowLayout {
             spacing: 0
             Layout.minimumHeight: parent.width / 6
-            Image {
+            Layout.maximumHeight: parent.width / 2
+            IconButton {
+                id: menu
                 source: "/images/QTttMenu.svg"
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                fillMode: Image.PreserveAspectFit
-                Button {
-                    anchors.fill: parent
-                    flat: true
-                    opacity: 0.5
-                }
             }
-            Image {
+            IconButton {
+                id: restart
                 source: "/images/QTttRestart.svg"
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                fillMode: Image.PreserveAspectFit
-                Button {
-                    anchors.fill: parent
-                    flat: true
-                    opacity: 0.5
-                    onPressed: game.restart()
-                }
+                button.onPressed: game.restart()
             }
         }
         Game {
