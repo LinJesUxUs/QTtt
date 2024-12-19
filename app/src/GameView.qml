@@ -5,8 +5,6 @@ import linjesuxus.game
 
 Rectangle {
     color: "black"
-    width: 300
-    height: 480
     property alias menuButton: menu.button
     ColumnLayout {
         spacing: 0
