@@ -27,6 +27,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 resources.files += \
     src/main.qml \
     src/IconButton.qml \
+    src/GameView.qml \
     images/over.jpg \
     images/z.jpg \
     images/a.jpg \

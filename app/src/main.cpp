@@ -1,11 +1,8 @@
 #include "gamepainteditem.h"
 #include "gamestatusimageprovider.h"
 #include <QGuiApplication>
-#include <QQmlEngine>
-#include <QQmlFileSelector>
-#include <QQuickView>
-#include <QDir>
 #include <QSettings>
+#include <QQmlApplicationEngine>
 
 int main(int argc, char *argv[])
 {
@@ -72,12 +69,10 @@ int main(int argc, char *argv[])
     settings.endGroup();
     settings.sync();
 
-    QQuickView view;
+    QQmlApplicationEngine engine;
     qmlRegisterType<GamePaintedItem>( "linjesuxus.game", 1, 0, "Game" );
-    view.connect( view.engine(), SIGNAL(quit()), &app, SLOT(quit()) );
-    view.engine()->addImageProvider( QLatin1String("GameStatus"), new GameStatusImageProvider );
-    view.setSource( QUrl( "qrc:/src/main.qml" ) );
-    view.setResizeMode( QQuickView::SizeRootObjectToView );
-    view.show();
+    engine.addImageProvider( QLatin1String("GameStatus"), new GameStatusImageProvider );
+    engine.load(QUrl( "qrc:/src/main.qml" ));
+
     return app.exec();
 }
