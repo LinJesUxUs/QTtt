@@ -6,7 +6,25 @@ ApplicationWindow {
     width: 300
     height: 480
     visible: true
-    GameView {
+
+    StackView {
+        id: stack
+        initialItem: initial
         anchors.fill: parent
+    }
+
+    Component {
+        id: initial
+        IconButton {
+            source: "/images/QTttPlay.svg"
+            button.onPressed: stack.push(game)
+        }
+    }
+
+    Component {
+        id: game
+        GameView {
+            menuButton.onPressed: stack.pop()
+        }
     }
 }

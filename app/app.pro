@@ -36,7 +36,8 @@ resources.files += \
     images/ywin.jpg \
     images/QTttExit.svg \
     images/QTttMenu.svg \
-    images/QTttRestart.svg
+    images/QTttRestart.svg \
+    images/QTttPlay.svg
 
 resources.prefix = /
 
