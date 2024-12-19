@@ -25,7 +25,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 resources.files += \
-    src/main.qml \
+    src/WelcomeView.qml \
     src/IconButton.qml \
     src/GameView.qml \
     images/over.jpg \
