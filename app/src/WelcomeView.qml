@@ -6,6 +6,7 @@ ApplicationWindow {
     width: 300
     height: 480
     visible: true
+    color: "black"
 
     StackView {
         id: stack
