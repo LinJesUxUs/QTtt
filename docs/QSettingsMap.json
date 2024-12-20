@@ -1,0 +1,33 @@
+{
+    "app": {
+        "ApplicationName": "QTtt",
+        "OrganizationName": "LinJesUxUs",
+
+        "GameConfig": {
+            "fieldQSize": "QSize(3,3)",
+            "WinLength": 3,
+            "PlayersCount": 2,
+            "FirstPlayer": 1
+        },
+
+        "images": [
+            "y",
+            "a",
+            "ywin",
+            "awin",
+            "z",
+            "over"
+        ],
+
+        "PlayersConf": {
+            "1Name": "Player1",
+            "2Name": "Player2",
+            "1Turn": "y",
+            "2Turn": "a",
+            "1Win": "ywin",
+            "2Win": "awin",
+            "background": "z",
+            "over": "over"
+        }
+    }
+}
