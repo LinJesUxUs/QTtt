@@ -25,8 +25,10 @@ int main(int argc, char *argv[])
 
     QSettings settings;
     settings.beginGroup("GameConfig");
-    if (settings.value("fieldQSize").isNull())
-    settings.setValue("fieldQSize", QSize(3,3));
+    if (settings.value("fieldWidth").isNull())
+        settings.setValue("fieldWidth", 3);
+    if (settings.value("fieldHeight").isNull())
+        settings.setValue("fieldHeight", 3);
     if (settings.value("WinLength").isNull())
         settings.setValue("WinLength", 3);
     if (settings.value("PlayersCount").isNull())

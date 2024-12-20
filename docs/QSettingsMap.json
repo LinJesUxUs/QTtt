@@ -4,7 +4,8 @@
         "OrganizationName": "LinJesUxUs",
 
         "GameConfig": {
-            "fieldQSize": "QSize(3,3)",
+            "fieldWidth": "3",
+            "fieldHeight": "3",
             "WinLength": 3,
             "PlayersCount": 2,
             "FirstPlayer": 1

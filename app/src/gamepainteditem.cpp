@@ -12,7 +12,8 @@ GamePaintedItem::GamePaintedItem() {
         settings = new QSettings();
     settings->beginGroup("GameConfig");
     if ( m_pGame == nullptr )
-        m_pGame = new GameCore(settings->value("fieldQSize").toSize(),
+        m_pGame = new GameCore(QSize(settings->value("fieldWidth").toUInt(),
+                                     settings->value("fieldHeight").toUInt()),
                                settings->value("WinLength").toUInt(),
                                settings->value("FirstPlayer").toUInt(),
                                settings->value("PlayersCount").toUInt());
@@ -88,7 +89,8 @@ void GamePaintedItem::restart()
                    this,SLOT(onMove(QSize,uint)));
         delete m_pGame;
         settings->beginGroup("GameConfig");
-        m_pGame = new GameCore(settings->value("fieldQSize").toSize(),
+        m_pGame = new GameCore(QSize(settings->value("fieldWidth").toUInt(),
+                                     settings->value("fieldHeight").toUInt()),
                                settings->value("WinLength").toUInt(),
                                settings->value("FirstPlayer").toUInt(),
                                settings->value("PlayersCount").toUInt());
