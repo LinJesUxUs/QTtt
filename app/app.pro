@@ -26,7 +26,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 resources.files += \
     src/ViewsComposer.qml \
-    # src/WelcomeView.qml \
+    src/WelcomeView.qml \
     src/IconButton.qml \
     src/GameView.qml \
     images/Alice.jpg \

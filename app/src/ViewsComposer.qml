@@ -16,9 +16,8 @@ ApplicationWindow {
 
     Component {
         id: initial
-        IconButton {
-            source: "/images/QTttPlay.svg"
-            button.onPressed: stack.push(game)
+        WelcomeView {
+            startButton.onPressed: stack.push(game)
         }
     }
 
