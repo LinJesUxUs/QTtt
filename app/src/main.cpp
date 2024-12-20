@@ -22,7 +22,6 @@ int main(int argc, char *argv[])
     }
     maxSize.setWidth(qMin(maxSize.width(), maxSize.height()));
     maxSize.setHeight(qMin(maxSize.width(), maxSize.height()));
-    qDebug() << maxSize;
 
     QSettings settings;
     settings.beginGroup("GameConfig");

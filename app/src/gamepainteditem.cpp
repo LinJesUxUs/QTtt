@@ -81,7 +81,6 @@ GamePaintedItem::~GamePaintedItem()
 
 void GamePaintedItem::restart()
 {
-    qDebug() << "restart called!!!";
     if (m_pGame != nullptr) {
         disconnect(m_pGame,SIGNAL(onEnd(QSize,QSize,uint)),
                    this,SLOT(onEnd(QSize,QSize,uint)));
