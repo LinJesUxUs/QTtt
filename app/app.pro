@@ -28,12 +28,12 @@ resources.files += \
     src/WelcomeView.qml \
     src/IconButton.qml \
     src/GameView.qml \
-    images/over.jpg \
-    images/z.jpg \
-    images/a.jpg \
-    images/awin.jpg \
-    images/y.jpg \
-    images/ywin.jpg \
+    images/Alice.jpg \
+    images/AliceWin.jpg \
+    images/Bob.jpg \
+    images/BobWin.jpg \
+    images/Chuck.jpg \
+    images/BackGround.jpg \
     images/QTttExit.svg \
     images/QTttMenu.svg \
     images/QTttRestart.svg \

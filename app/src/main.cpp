@@ -37,7 +37,12 @@ int main(int argc, char *argv[])
     settings.endGroup();
 
     QImage imgBuf;
-    QList<QString> lst = {"z", "y", "a", "over", "ywin", "awin"};
+    QList<QString> lst = {"Alice",
+                          "AliceWin",
+                          "Bob",
+                          "BobWin",
+                          "Chuck",
+                          "BackGround"};
     settings.beginGroup("images");
     for ( auto i: qAsConst(lst)) {
         if (settings.value(i).isNull()) {
@@ -51,21 +56,21 @@ int main(int argc, char *argv[])
 
     settings.beginGroup("PlayersConf");
     if (settings.value("1Turn").isNull())
-        settings.setValue("1Turn", "y");
+        settings.setValue("1Turn", "Alice");
     if (settings.value("1Win").isNull())
-        settings.setValue("1Win", "ywin");
+        settings.setValue("1Win", "AliceWin");
     if (settings.value("1Name").isNull())
-        settings.setValue("1Name", "Player1");
+        settings.setValue("1Name", "Alice");
     if (settings.value("2Turn").isNull())
-        settings.setValue("2Turn", "a");
+        settings.setValue("2Turn", "Bob");
     if (settings.value("2Win").isNull())
-        settings.setValue("2Win", "awin");
+        settings.setValue("2Win", "BobWin");
     if (settings.value("2Name").isNull())
-        settings.setValue("2Name", "Player2");
+        settings.setValue("2Name", "Bob");
     if (settings.value("background").isNull())
-        settings.setValue("background", "z");
+        settings.setValue("background", "BackGround");
     if (settings.value("over").isNull())
-        settings.setValue("over", "over");
+        settings.setValue("over", "Chuck");
     settings.endGroup();
     settings.sync();
 
