@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     qmlRegisterType<GamePaintedItem>( "linjesuxus.game", 1, 0, "Game" );
     engine.addImageProvider( QLatin1String("GameStatus"), new GameStatusImageProvider );
-    engine.load(QUrl( "qrc:/src/WelcomeView.qml" ));
+    engine.load(QUrl( "qrc:/src/ViewsComposer.qml" ));
 
     return app.exec();
 }
