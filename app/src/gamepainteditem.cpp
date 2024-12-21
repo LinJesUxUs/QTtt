@@ -194,9 +194,14 @@ void GamePaintedItem::drawCells(QPainter *painter, const qreal &cellWidth, const
 void GamePaintedItem::drawEnd(QPainter *painter)
 {
     if (m_pEndValue != nullptr) {
+        uint minAspectRatio = qMin(this->width(),this->height());
         painter->save();
-        painter->setBrush(QBrush(m_nWinPlayersPic[ m_pEndValue->winPlayer ]->scaled(this->width(), this->height())) );
-        painter->drawRect(0, 0, this->width(), this->height());
+        painter->setPen(QPen(Qt::transparent,0));
+        painter->setBrush(QBrush(
+            m_nWinPlayersPic[ m_pEndValue->winPlayer ]->scaled(minAspectRatio, minAspectRatio)));
+        painter->translate(this->width() > minAspectRatio ? (this->width() - minAspectRatio)/2 : 0 ,
+                           this->height() > minAspectRatio ? (this->height() - minAspectRatio)/2 : 0);
+        painter->drawRect(0, 0, minAspectRatio, minAspectRatio);
         painter->restore();
     }
 }

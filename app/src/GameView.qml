@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import linjesuxus.game
+import Qt.labs.settings
 
 Rectangle {
     color: "black"
@@ -46,10 +47,19 @@ Rectangle {
         Game {
             id: game
             Layout.preferredWidth: parent.width
-            Layout.maximumWidth: parent.height - parent.width / 3
-            Layout.preferredHeight: Layout.preferredWidth
-            Layout.maximumHeight: Layout.maximumWidth
+            Layout.maximumWidth: (parent.height - parent.width / 3) / ratio
+            Layout.preferredHeight: Layout.preferredWidth * ratio
+            Layout.maximumHeight: Layout.maximumWidth * ratio
             Layout.alignment: Qt.AlignHCenter
+            property real ratio: fieldHeight / fieldWidth
+            property int fieldWidth: 1
+            property int fieldHeight: 1
         }
+    }
+    Settings {
+        id: settings
+        category: "GameConfig"
+        property alias fieldWidth: game.fieldWidth
+        property alias fieldHeight: game.fieldHeight
     }
 }
