@@ -41,7 +41,7 @@ Rectangle {
             IconButton {
                 id: restart
                 source: "/images/QTttRestart.svg"
-                button.onPressed: game.restart()
+                button.onReleased: game.restart()
             }
         }
         Game {

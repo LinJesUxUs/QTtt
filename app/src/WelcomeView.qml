@@ -12,7 +12,6 @@ Rectangle {
             Layout.margins: spacing
             Layout.fillWidth: true
             ColumnLayout {
-                // Layout.fillWidth: true
                 Layout.fillHeight: true
                 Text {
                     color: "white"
@@ -34,13 +33,13 @@ Rectangle {
                     id: sbFieldWidth
                     from: 1
                     to: 20
-                    // value: settings.gameFieldSize.width
+                    // wrap: true
                 }
                 SpinBox {
                     id: sbFieldHeight
                     from: 1
                     to: 20
-                    // value: settings.gameFieldSize.height
+                    // wrap: true
                 }
             }
         }

@@ -17,14 +17,14 @@ ApplicationWindow {
     Component {
         id: initial
         WelcomeView {
-            startButton.onPressed: stack.push(game)
+            startButton.onReleased: stack.push(game)
         }
     }
 
     Component {
         id: game
         GameView {
-            menuButton.onPressed: stack.pop()
+            menuButton.onReleased: stack.pop()
         }
     }
 }

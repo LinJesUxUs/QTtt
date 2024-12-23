@@ -25,6 +25,7 @@ public:
     Q_INVOKABLE void restart();
     Q_INVOKABLE QString gameState();
     void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
     void paint(QPainter *painter);
 
 protected slots:
@@ -41,9 +42,10 @@ protected:
     qreal getCellWidth() const;
     qreal getCellHeight() const;
 
-    QSettings *settings = nullptr;
+    QSettings *m_pSettings = nullptr;
     GameCore *m_pGame = nullptr;
     EndValue *m_pEndValue = nullptr;
+    QSize m_mousePressPoint;
     QList<QString*> m_nLocalPlayers; // Feature for future
     QList<QImage*> m_nPlayersPic;
     QList<QImage*> m_nWinPlayersPic;
