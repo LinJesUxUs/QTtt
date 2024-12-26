@@ -3,12 +3,12 @@
         "ApplicationName": "QTtt",
         "OrganizationName": "LinJesUxUs",
 
-        "GameConfig": {
-            "fieldWidth": "3",
-            "fieldHeight": "3",
-            "WinLength": 3,
-            "PlayersCount": 2,
-            "FirstPlayer": 1
+        "gameConfig": {
+            "fieldWidth": 3,
+            "fieldHeight": 3,
+            "winLength": 3,
+            "playersCount": 2,
+            "firstPlayer": 1
         },
 
         "images": [
@@ -20,7 +20,7 @@
             "over"
         ],
 
-        "PlayersConf": {
+        "playersConf": {
             "1Name": "Player1",
             "2Name": "Player2",
             "1Turn": "y",

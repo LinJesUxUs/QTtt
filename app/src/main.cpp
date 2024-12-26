@@ -24,17 +24,17 @@ int main(int argc, char *argv[])
     maxSize.setHeight(qMin(maxSize.width(), maxSize.height()));
 
     QSettings settings;
-    settings.beginGroup("GameConfig");
+    settings.beginGroup("gameConfig");
     if (settings.value("fieldWidth").isNull())
         settings.setValue("fieldWidth", 3);
     if (settings.value("fieldHeight").isNull())
         settings.setValue("fieldHeight", 3);
-    if (settings.value("WinLength").isNull())
-        settings.setValue("WinLength", 3);
-    if (settings.value("PlayersCount").isNull())
-        settings.setValue("PlayersCount", 2);
-    if (settings.value("FirstPlayer").isNull())
-        settings.setValue("FirstPlayer", 1);
+    if (settings.value("winLength").isNull())
+        settings.setValue("winLength", 3);
+    if (settings.value("playersCount").isNull())
+        settings.setValue("playersCount", 2);
+    if (settings.value("firstPlayer").isNull())
+        settings.setValue("firstPlayer", 1);
     settings.endGroup();
 
     QImage imgBuf;
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     }
     settings.endGroup();
 
-    settings.beginGroup("PlayersConf");
+    settings.beginGroup("playersConf");
     if (settings.value("1Turn").isNull())
         settings.setValue("1Turn", "Alice");
     if (settings.value("1Win").isNull())

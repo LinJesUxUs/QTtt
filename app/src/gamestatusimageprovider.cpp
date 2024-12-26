@@ -21,12 +21,12 @@ QImage GameStatusImageProvider::requestImage(const QString &id, QSize * /*size*/
     QStringList lst = id.split(" ");
     QImage img;
     if (lst.first() == "Game" && lst.last() == "Over!" ) {
-        img = settings->value("images/" + settings->value("PlayersConf/over").toString() ).value<QImage>();
+        img = settings->value("images/" + settings->value("playersConf/over").toString() ).value<QImage>();
         return img;
     }
-    for ( uint i = 1; i <= settings->value("GameConfig/PlayersCount").toUInt(); ++i ) {
-        if (settings->value("PlayersConf/" + QString::number(i) + "Name").toString() == lst.first() )
-            img = settings->value("images/" + settings->value("PlayersConf/" + QString::number(i) + "Turn").toString() ).value<QImage>();
+    for ( uint i = 1; i <= settings->value("gameConfig/playersCount").toUInt(); ++i ) {
+        if (settings->value("playersConf/" + QString::number(i) + "Name").toString() == lst.first() )
+            img = settings->value("images/" + settings->value("playersConf/" + QString::number(i) + "Turn").toString() ).value<QImage>();
     }
     return img;
 }
