@@ -31,6 +31,7 @@ resources.files += \
     src/WelcomeView.qml \
     src/IconButton.qml \
     src/GameView.qml \
+    src/TextAndSpinBox.qml \
     images/Alice.jpg \
     images/AliceWin.jpg \
     images/Bob.jpg \

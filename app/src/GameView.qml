@@ -1,12 +1,12 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Controls.Material
 import linjesuxus.game
 import linjesuxus.settingsProxy
 
-// import Qt.labs.settings
 Rectangle {
-    color: "black"
+    color: Material.background
     property alias menuButton: menu.button
     property alias gameItem: game
     ColumnLayout {
@@ -27,7 +27,7 @@ Rectangle {
             Text {
                 id: gameState
                 text: game.gameState
-                color: "White"
+                color: Material.foreground
                 Layout.fillWidth: true
                 height: parent.height
             }
@@ -58,10 +58,4 @@ Rectangle {
             property int fieldHeight: 3
         }
     }
-    // SettingsProxy {
-    //     id: settings
-    //     // category: "gameConfig"
-    //     // property alias fieldWidth: game.fieldWidth
-    //     // property alias fieldHeight: game.fieldHeight
-    // }
 }

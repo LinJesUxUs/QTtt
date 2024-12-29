@@ -1,87 +1,43 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Controls.Material
 import linjesuxus.settingsProxy
 import linjesuxus.game as GameItem
 
 Rectangle {
     id: root
-    color: "black"
+    color: Material.background
     property alias button: startButton.button
     property alias settings: settings
+    antialiasing: true
     ColumnLayout {
         anchors.fill: parent
-        RowLayout {
-            Layout.margins: spacing
-            Layout.fillWidth: true
-            ColumnLayout {
-                Layout.fillHeight: true
-                Text {
-                    color: "white"
-                    text: "Field width:"
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignHCenter
-                }
-                Text {
-                    color: "white"
-                    text: "Field height:"
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignHCenter
-                }
-                Text {
-                    color: "white"
-                    text: "Win length:"
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignHCenter
-                }
-                Text {
-                    color: "white"
-                    text: "Players count:"
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignHCenter
-                }
-                Text {
-                    color: "white"
-                    text: "First player:"
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignHCenter
-                }
-            }
-            ColumnLayout {
-                Layout.fillHeight: true
-                Layout.alignment: Qt.AlignRight
-                SpinBox {
-                    id: sbFieldWidth
-                    // inputMethodComposing: Qt.platform.os === "android" ? false
-                    from: 1
-                    to: 20
-                    value: settings.fieldWidth
-                }
-                SpinBox {
-                    id: sbFieldHeight
-                    from: 1
-                    to: 20
-                    value: settings.fieldHeight
-                }
-                SpinBox {
-                    id: sbWinLength
-                    from: 1
-                    to: 20
-                    value: settings.winLength
-                }
-                SpinBox {
-                    id: sbPlayersCount
-                    from: 1
-                    to: 20
-                    value: settings.playersCount
-                }
-                SpinBox {
-                    id: sbFirstPlayer
-                    from: 1
-                    to: 20
-                    value: settings.firstPlayer
-                }
-            }
+        Layout.margins: spacing
+        TextAndSpinBox {
+            id: sbFieldWidth
+            text: "Field width:"
+            value: settings.fieldWidth
+        }
+        TextAndSpinBox {
+            id: sbFieldHeight
+            text: "Field height:"
+            value: settings.fieldHeight
+        }
+        TextAndSpinBox {
+            id: sbWinLength
+            text: "Win length:"
+            value: settings.winLength
+        }
+        TextAndSpinBox {
+            id: sbPlayersCount
+            text: "Players count:"
+            value: settings.playersCount
+        }
+        TextAndSpinBox {
+            id: sbFirstPlayer
+            text: "First player:"
+            value: settings.firstPlayer
         }
         IconButton {
             id: startButton
