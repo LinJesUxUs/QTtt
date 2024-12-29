@@ -3,7 +3,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import linjesuxus.settingsProxy
-import linjesuxus.game as GameItem
 
 Rectangle {
     id: root

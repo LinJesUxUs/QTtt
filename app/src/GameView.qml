@@ -54,8 +54,6 @@ Rectangle {
             Layout.maximumHeight: Layout.maximumWidth * ratio
             Layout.alignment: Qt.AlignHCenter
             property real ratio: fieldHeight / fieldWidth
-            property int fieldWidth: 3
-            property int fieldHeight: 3
         }
     }
 }

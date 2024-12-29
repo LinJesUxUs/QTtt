@@ -135,6 +135,14 @@ QString GamePaintedItem::gameState()
     return val;
 }
 
+uint GamePaintedItem::fieldWidth() {
+    return m_SpSettingsProxy->getFieldWidth();
+}
+
+uint GamePaintedItem::fieldHeight() {
+    return m_SpSettingsProxy->getFieldHeight();
+}
+
 void GamePaintedItem::mousePressEvent(QMouseEvent *event)
 {
     m_mousePressPoint = QSize(event->position().rx() / getCellWidth(),

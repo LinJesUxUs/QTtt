@@ -17,6 +17,8 @@ class GamePaintedItem : public QQuickPaintedItem
     Q_OBJECT
     QML_ELEMENT
     Q_PROPERTY(QString gameState READ gameState NOTIFY gameStateChanged)
+    Q_PROPERTY(uint fieldWidth READ fieldWidth NOTIFY fieldWidthChanged)
+    Q_PROPERTY(uint fieldHeight READ fieldHeight NOTIFY fieldHeightChanged)
 
 protected:
     static SettingsProxy *m_SpSettingsProxy;
@@ -30,6 +32,8 @@ public:
     ~GamePaintedItem();
     Q_INVOKABLE void restart();
     Q_INVOKABLE QString gameState();
+    uint fieldWidth();
+    uint fieldHeight();
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
     void paint(QPainter *painter);
@@ -40,6 +44,8 @@ protected slots:
 
 Q_SIGNALS:
     void gameStateChanged();
+    void fieldWidthChanged();
+    void fieldHeightChanged();
 
 protected:
     inline void drawGrid(QPainter *painter, const qreal &cellWidth, const qreal &cellHeight);
