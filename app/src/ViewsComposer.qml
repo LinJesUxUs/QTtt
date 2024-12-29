@@ -17,13 +17,22 @@ ApplicationWindow {
     Component {
         id: initial
         WelcomeView {
-            startButton.onReleased: stack.push(game)
+            id: welcomeView
+            button.onReleased: {
+                stack.push(game)
+                // gameView.gameItem.fieldWidth = settings.fieldWidth
+                // gameView.gameItem.fieldHeight = settings.fieldHeight
+            }
+            // onActivated: {
+            //     stack.push(game)
+            // }
         }
     }
 
     Component {
         id: game
         GameView {
+            id: gameView
             menuButton.onReleased: stack.pop()
         }
     }

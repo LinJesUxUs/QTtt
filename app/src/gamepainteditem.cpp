@@ -1,49 +1,55 @@
 #include "gamepainteditem.h"
+#include "settingsproxy.h"
 
 #include <gamecore.h>
 #include <QPainter>
 #include <QBuffer>
-#include <QSettings>
+
+SettingsProxy *GamePaintedItem::m_SpSettingsProxy = nullptr;
+
+SettingsProxy *GamePaintedItem::getSpSettingsProxy()
+{
+    return m_SpSettingsProxy;
+}
+
+void GamePaintedItem::setSpSettingsProxy(SettingsProxy *newSpSettingsProxy)
+{
+    if ( m_SpSettingsProxy == nullptr)
+        m_SpSettingsProxy = newSpSettingsProxy;
+}
 
 GamePaintedItem::GamePaintedItem() {
-    QCoreApplication::setApplicationName("QTtt");
-    QCoreApplication::setOrganizationName("LinJesUxUs");
-    if ( m_pSettings == nullptr )
-        m_pSettings = new QSettings();
-    m_pSettings->beginGroup("gameConfig");
     if ( m_pGame == nullptr )
-        m_pGame = new GameCore(QSize(m_pSettings->value("fieldWidth").toUInt(),
-                                     m_pSettings->value("fieldHeight").toUInt()),
-                               m_pSettings->value("winLength").toUInt(),
-                               m_pSettings->value("firstPlayer").toUInt(),
-                               m_pSettings->value("playersCount").toUInt());
-    m_pSettings->endGroup();
+        m_pGame = new GameCore(QSize(m_SpSettingsProxy->getFieldWidth(),
+                                     m_SpSettingsProxy->getFieldHeight()),
+                               m_SpSettingsProxy->getWinLength(),
+                               m_SpSettingsProxy->getFirstPlayer(),
+                               m_SpSettingsProxy->getPlayersCount());
+
     this->setMipmap(true);
     this->setAntialiasing(true);
     setAcceptedMouseButtons(Qt::AllButtons);
     m_nLocalPlayers.append(new QString("Game Over!"));
     for ( uint i = 1; i <= m_pGame->getNPlayers(); ++i ) {
-        auto playerName = m_pSettings->value("playersConf/" + QString::number(i) + "Name");
+        auto playerName = m_SpSettingsProxy->value("playersConf/" + QString::number(i) + "Name");
         if (playerName.isNull()) {
-            m_pSettings->setValue("playersConf/" + QString::number(i) + "Name", "Player" + QString::number(i) );
-            m_pSettings->sync();
-            playerName = m_pSettings->value("playersConf/" + QString::number(i) + "Name");
+            m_SpSettingsProxy->setValue("playersConf/" + QString::number(i) + "Name", "Player" + QString::number(i) );
+            m_SpSettingsProxy->getSpSettings()->sync();
+            playerName = m_SpSettingsProxy->value("playersConf/" + QString::number(i) + "Name");
         }
         m_nLocalPlayers.append(new QString(playerName.toString()) );
     }
 
-    m_nPlayersPic.append(new QImage(m_pSettings->value("images/" + m_pSettings->value("playersConf/background").toString() ).value<QImage>()));
-    m_nWinPlayersPic.append(new QImage(m_pSettings->value("images/" + m_pSettings->value("playersConf/over").toString() ).value<QImage>()));
+    m_nPlayersPic.append(new QImage(m_SpSettingsProxy->value("images/" + m_SpSettingsProxy->getPlayersConf("background")).value<QImage>()));
+    m_nWinPlayersPic.append(new QImage(m_SpSettingsProxy->value("images/" + m_SpSettingsProxy->getPlayersConf("over")).value<QImage>()));
 
-    for ( uint i = 1; i <= m_pSettings->value("gameConfig/PlayersCount").toUInt(); ++i ) {
-        m_nPlayersPic.append(
-            new QImage(m_pSettings->value("images/" + m_pSettings->value("playersConf/" +
-                                                                   QString::number(i) +
-                                                                   "Turn").toString() ).value<QImage>()));
-        m_nWinPlayersPic.append(
-            new QImage(m_pSettings->value("images/" + m_pSettings->value("playersConf/" +
-                                                                   QString::number(i) +
-                                                                   "Win").toString() ).value<QImage>()));
+    for ( uint i = 1; i <= m_SpSettingsProxy->getPlayersCount(); ++i ) {
+        m_nPlayersPic.append( new QImage(
+            m_SpSettingsProxy->value("images/" + m_SpSettingsProxy->getPlayersConf(QString::number(i)+"Turn")).value<QImage>()
+            ));
+        m_nWinPlayersPic.append( new QImage(
+            m_SpSettingsProxy->value("images/" + m_SpSettingsProxy->getPlayersConf(QString::number(i)+"Win")).value<QImage>()
+            ));
     }
 
     connect(m_pGame,
@@ -56,12 +62,15 @@ GamePaintedItem::GamePaintedItem() {
 
 GamePaintedItem::~GamePaintedItem()
 {
-    if (m_pSettings != nullptr)
-        delete m_pSettings;
     if ( m_pEndValue != nullptr )
         delete m_pEndValue;
-    if ( m_pGame != nullptr )
+    if ( m_pGame != nullptr ) {
+        disconnect(m_pGame,SIGNAL(onEnd(QSize,QSize,uint)),
+                   this,SLOT(onEnd(QSize,QSize,uint)));
+        disconnect(m_pGame,SIGNAL(onMove(QSize,uint)),
+                   this,SLOT(onMove(QSize,uint)));
         delete m_pGame;
+    }
     for ( int i = 0; i < m_nGameStatePic.size(); ++i ) {
         if (m_nGameStatePic[i] != nullptr) {
             delete m_nGameStatePic[i];
@@ -88,13 +97,11 @@ void GamePaintedItem::restart()
         disconnect(m_pGame,SIGNAL(onMove(QSize,uint)),
                    this,SLOT(onMove(QSize,uint)));
         delete m_pGame;
-        m_pSettings->beginGroup("gameConfig");
-        m_pGame = new GameCore(QSize(m_pSettings->value("fieldWidth").toUInt(),
-                                     m_pSettings->value("fieldHeight").toUInt()),
-                               m_pSettings->value("winLength").toUInt(),
-                               m_pSettings->value("firstPlayer").toUInt(),
-                               m_pSettings->value("playersCount").toUInt());
-        m_pSettings->endGroup();
+        m_pGame = new GameCore(QSize(m_SpSettingsProxy->getFieldWidth(),
+                                     m_SpSettingsProxy->getFieldHeight()),
+                               m_SpSettingsProxy->getWinLength(),
+                               m_SpSettingsProxy->getFirstPlayer(),
+                               m_SpSettingsProxy->getPlayersCount());
         connect(m_pGame,
                 SIGNAL(onEnd(QSize,QSize,uint)),
                 SLOT(onEnd(QSize,QSize,uint)));
@@ -114,11 +121,11 @@ QString GamePaintedItem::gameState()
 {
     QString val;
     if (m_pEndValue == nullptr ) {
-        val = m_pSettings->value("playersConf/" + QString::number(m_pGame->turn()) + "Name" ).toString();
+        val = m_SpSettingsProxy->getPlayersConf(QString::number(m_pGame->turn()) + "Name" );
         val.append(" turn..");
     }
     else if (m_pEndValue->winPlayer > 0) {
-        val = m_pSettings->value("playersConf/" + QString::number(m_pEndValue->winPlayer) + "Name" ).toString();
+        // val = m_SpSettingsProxy->getPlayersConf(QString::number(m_pEndValue->winPlayer) + "Name" );
         val = *m_nLocalPlayers[m_pEndValue->winPlayer];
         val.append(" WON!");
     }
@@ -154,10 +161,10 @@ void GamePaintedItem::paint(QPainter *painter)
     painter->save();
     painter->setBrush(QBrush(m_nPlayersPic[0]->scaled(this->width(),this->height())));
     painter->drawRect(0,0,this->width(),this->height());
+    painter->restore();
     drawCells(painter, cellWidth, cellHeight);
     drawGrid(painter, cellWidth, cellHeight);
     drawEnd(painter);
-    painter->restore();
 }
 
 void GamePaintedItem::onMove(const QSize &/*pos*/, const uint &/*player*/)

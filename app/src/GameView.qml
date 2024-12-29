@@ -2,11 +2,13 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import linjesuxus.game
-import Qt.labs.settings
+import linjesuxus.settingsProxy
 
+// import Qt.labs.settings
 Rectangle {
     color: "black"
     property alias menuButton: menu.button
+    property alias gameItem: game
     ColumnLayout {
         spacing: 0
         anchors.fill: parent
@@ -52,14 +54,14 @@ Rectangle {
             Layout.maximumHeight: Layout.maximumWidth * ratio
             Layout.alignment: Qt.AlignHCenter
             property real ratio: fieldHeight / fieldWidth
-            property int fieldWidth: 1
-            property int fieldHeight: 1
+            property int fieldWidth: 3
+            property int fieldHeight: 3
         }
     }
-    Settings {
-        id: settings
-        category: "GameConfig"
-        property alias fieldWidth: game.fieldWidth
-        property alias fieldHeight: game.fieldHeight
-    }
+    // SettingsProxy {
+    //     id: settings
+    //     // category: "gameConfig"
+    //     // property alias fieldWidth: game.fieldWidth
+    //     // property alias fieldHeight: game.fieldHeight
+    // }
 }

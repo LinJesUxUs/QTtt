@@ -9,11 +9,13 @@ include(../definitions.pri)
 include(../libIncludes.pri)
 
 SOURCES += \
+    src/settingsproxy.cpp \
     src/gamepainteditem.cpp \
     src/gamestatusimageprovider.cpp \
     src/main.cpp
 
 HEADERS += \
+    src/settingsproxy.h \
     src/gamepainteditem.h \
     src/gamestatusimageprovider.h
 

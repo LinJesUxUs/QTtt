@@ -1,5 +1,6 @@
 #include "gamepainteditem.h"
 #include "gamestatusimageprovider.h"
+#include "settingsproxy.h"
 #include <QGuiApplication>
 #include <QSettings>
 #include <QQmlApplicationEngine>
@@ -23,19 +24,19 @@ int main(int argc, char *argv[])
     maxSize.setWidth(qMin(maxSize.width(), maxSize.height()));
     maxSize.setHeight(qMin(maxSize.width(), maxSize.height()));
 
-    QSettings settings;
-    settings.beginGroup("gameConfig");
-    if (settings.value("fieldWidth").isNull())
-        settings.setValue("fieldWidth", 3);
-    if (settings.value("fieldHeight").isNull())
-        settings.setValue("fieldHeight", 3);
-    if (settings.value("winLength").isNull())
-        settings.setValue("winLength", 3);
-    if (settings.value("playersCount").isNull())
-        settings.setValue("playersCount", 2);
-    if (settings.value("firstPlayer").isNull())
-        settings.setValue("firstPlayer", 1);
-    settings.endGroup();
+    auto *settings = new QSettings();
+    settings->beginGroup("gameConfig");
+    if (settings->value("fieldWidth").isNull())
+        settings->setValue("fieldWidth", 3);
+    if (settings->value("fieldHeight").isNull())
+        settings->setValue("fieldHeight", 3);
+    if (settings->value("winLength").isNull())
+        settings->setValue("winLength", 3);
+    if (settings->value("playersCount").isNull())
+        settings->setValue("playersCount", 2);
+    if (settings->value("firstPlayer").isNull())
+        settings->setValue("firstPlayer", 1);
+    settings->endGroup();
 
     QImage imgBuf;
     QList<QString> lst = {"Alice",
@@ -44,41 +45,52 @@ int main(int argc, char *argv[])
                           "BobWin",
                           "Chuck",
                           "BackGround"};
-    settings.beginGroup("images");
+    settings->beginGroup("images");
     for ( auto i: qAsConst(lst)) {
-        if (settings.value(i).isNull()) {
+        if (settings->value(i).isNull()) {
             imgBuf = QImage(QString(":/images/") + i + ".jpg" );
             if (imgBuf.size().width() > maxSize.width())
                 imgBuf = imgBuf.scaled(maxSize);
-            settings.setValue(i, imgBuf);
+            settings->setValue(i, imgBuf);
         }
     }
-    settings.endGroup();
+    settings->endGroup();
 
-    settings.beginGroup("playersConf");
-    if (settings.value("1Turn").isNull())
-        settings.setValue("1Turn", "Alice");
-    if (settings.value("1Win").isNull())
-        settings.setValue("1Win", "AliceWin");
-    if (settings.value("1Name").isNull())
-        settings.setValue("1Name", "Alice");
-    if (settings.value("2Turn").isNull())
-        settings.setValue("2Turn", "Bob");
-    if (settings.value("2Win").isNull())
-        settings.setValue("2Win", "BobWin");
-    if (settings.value("2Name").isNull())
-        settings.setValue("2Name", "Bob");
-    if (settings.value("background").isNull())
-        settings.setValue("background", "BackGround");
-    if (settings.value("over").isNull())
-        settings.setValue("over", "Chuck");
-    settings.endGroup();
-    settings.sync();
+    settings->beginGroup("playersConf");
+    if (settings->value("1Turn").isNull())
+        settings->setValue("1Turn", "Alice");
+    if (settings->value("1Win").isNull())
+        settings->setValue("1Win", "AliceWin");
+    if (settings->value("1Name").isNull())
+        settings->setValue("1Name", "Alice");
+    if (settings->value("2Turn").isNull())
+        settings->setValue("2Turn", "Bob");
+    if (settings->value("2Win").isNull())
+        settings->setValue("2Win", "BobWin");
+    if (settings->value("2Name").isNull())
+        settings->setValue("2Name", "Bob");
+    if (settings->value("background").isNull())
+        settings->setValue("background", "BackGround");
+    if (settings->value("over").isNull())
+        settings->setValue("over", "Chuck");
+    settings->endGroup();
+    settings->sync();
 
+    auto *settingsProxy = new SettingsProxy(settings);
+    GamePaintedItem::setSpSettingsProxy(settingsProxy);
+    GameStatusImageProvider::setSpSettingsProxy(settingsProxy);
     QQmlApplicationEngine engine;
+    qmlRegisterType<SettingsProxy>( "linjesuxus.settingsProxy", 1, 0, "SettingsProxy" );
     qmlRegisterType<GamePaintedItem>( "linjesuxus.game", 1, 0, "Game" );
     engine.addImageProvider( QLatin1String("GameStatus"), new GameStatusImageProvider );
     engine.load(QUrl( "qrc:/src/ViewsComposer.qml" ));
 
-    return app.exec();
+    int ret = app.exec();
+
+    delete settingsProxy;
+    delete settings;
+    settingsProxy = nullptr;
+    settings = nullptr;
+
+    return ret;
 }

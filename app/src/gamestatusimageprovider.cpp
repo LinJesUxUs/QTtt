@@ -1,32 +1,36 @@
 #include "gamestatusimageprovider.h"
-#include <QSettings>
-#include <QCoreApplication>
+#include "settingsproxy.h"
 
-GameStatusImageProvider::GameStatusImageProvider() : QQuickImageProvider( QQuickImageProvider::Image ) {
-    QCoreApplication::setApplicationName("QTtt");
-    QCoreApplication::setOrganizationName("LinJesUxUs");
-    if (settings == nullptr)
-        settings = new QSettings();
-}
+SettingsProxy *GameStatusImageProvider::m_SpSettingsProxy = nullptr;
 
-GameStatusImageProvider::~GameStatusImageProvider()
+SettingsProxy *GameStatusImageProvider::getSpSettingsProxy()
 {
-    if (settings != nullptr)
-        delete settings;
+    return m_SpSettingsProxy;
 }
+
+void GameStatusImageProvider::setSpSettingsProxy(SettingsProxy *newSpSettingsProxy)
+{
+    m_SpSettingsProxy = newSpSettingsProxy;
+}
+
+GameStatusImageProvider::GameStatusImageProvider() : QQuickImageProvider( QQuickImageProvider::Image ) {}
 
 QImage GameStatusImageProvider::requestImage(const QString &id, QSize * /*size*/, const QSize & /*requestedSize*/)
 {
-    // settings->sync();
+    if (m_SpSettingsProxy == nullptr)
+        return QImage();
+    if (m_SpSettingsProxy->getSpSettings() == nullptr)
+        return QImage();
+
     QStringList lst = id.split(" ");
     QImage img;
     if (lst.first() == "Game" && lst.last() == "Over!" ) {
-        img = settings->value("images/" + settings->value("playersConf/over").toString() ).value<QImage>();
+        img = m_SpSettingsProxy->value("images/" + m_SpSettingsProxy->value("playersConf/over").toString() ).value<QImage>();
         return img;
     }
-    for ( uint i = 1; i <= settings->value("gameConfig/playersCount").toUInt(); ++i ) {
-        if (settings->value("playersConf/" + QString::number(i) + "Name").toString() == lst.first() )
-            img = settings->value("images/" + settings->value("playersConf/" + QString::number(i) + "Turn").toString() ).value<QImage>();
+    for ( uint i = 1; i <= m_SpSettingsProxy->getPlayersCount(); ++i ) {
+        if (m_SpSettingsProxy->getPlayersConf(QString::number(i) + "Name") == lst.first() )
+            img = m_SpSettingsProxy->value("images/" + m_SpSettingsProxy->getPlayersConf(QString::number(i) + "Turn")).value<QImage>();
     }
     return img;
 }

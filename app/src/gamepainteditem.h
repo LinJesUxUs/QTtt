@@ -1,10 +1,9 @@
 #ifndef GAMEPAINTEDITEM_H
 #define GAMEPAINTEDITEM_H
 
-#include <QQmlEngine>
 #include <QQuickPaintedItem>
 
-class QSettings;
+class SettingsProxy;
 class GameCore;
 
 struct EndValue {
@@ -18,6 +17,13 @@ class GamePaintedItem : public QQuickPaintedItem
     Q_OBJECT
     QML_ELEMENT
     Q_PROPERTY(QString gameState READ gameState NOTIFY gameStateChanged)
+
+protected:
+    static SettingsProxy *m_SpSettingsProxy;
+
+public:
+    static SettingsProxy *getSpSettingsProxy();
+    static void setSpSettingsProxy(SettingsProxy *newSpSettingsProxy);
 
 public:
     GamePaintedItem();
@@ -42,7 +48,6 @@ protected:
     qreal getCellWidth() const;
     qreal getCellHeight() const;
 
-    QSettings *m_pSettings = nullptr;
     GameCore *m_pGame = nullptr;
     EndValue *m_pEndValue = nullptr;
     QSize m_mousePressPoint;
