@@ -18,6 +18,7 @@ public:
 
 public:
     GameStatusImageProvider();
+    ~GameStatusImageProvider();
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
 };
 

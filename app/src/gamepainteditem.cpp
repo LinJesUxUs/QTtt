@@ -87,6 +87,7 @@ GamePaintedItem::~GamePaintedItem()
             m_nLocalPlayers[i] = nullptr;
         }
     }
+    m_SpSettingsProxy = nullptr;
 }
 
 void GamePaintedItem::restart()

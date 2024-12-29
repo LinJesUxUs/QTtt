@@ -38,27 +38,22 @@ uint SettingsProxy::getFirstPlayer() {
 
 void SettingsProxy::setFieldWidth(const uint val) {
     fieldWidth = val;
-    // emit fieldWidthChanged();
 }
 
 void SettingsProxy::setFieldHeight(const uint val) {
     fieldHeight = val;
-    // emit fieldHeightChanged();
 }
 
 void SettingsProxy::setWinLength(const uint val) {
     winLength = val;
-    // emit winLengthChanged();
 }
 
 void SettingsProxy::setPlayersCount(const uint val) {
     playersCount = val;
-    // emit playersCountChanged();
 }
 
 void SettingsProxy::setFirstPlayer(const uint val) {
     firstPlayer = val;
-    // emit firstPlayerChanged();
 }
 
 QString SettingsProxy::getPlayersConf(const QString &key) {
@@ -92,6 +87,6 @@ SettingsProxy::~SettingsProxy() {
         m_SpSettings->setValue("gameConfig/winLength", winLength);
         m_SpSettings->setValue("gameConfig/playersCount", playersCount);
         m_SpSettings->setValue("gameConfig/firstPlayer", firstPlayer);
-        m_SpSettings == nullptr;
+        m_SpSettings = nullptr;
     }
 }

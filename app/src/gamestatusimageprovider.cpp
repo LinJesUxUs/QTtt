@@ -15,6 +15,11 @@ void GameStatusImageProvider::setSpSettingsProxy(SettingsProxy *newSpSettingsPro
 
 GameStatusImageProvider::GameStatusImageProvider() : QQuickImageProvider( QQuickImageProvider::Image ) {}
 
+GameStatusImageProvider::~GameStatusImageProvider()
+{
+    m_SpSettingsProxy = nullptr;
+}
+
 QImage GameStatusImageProvider::requestImage(const QString &id, QSize * /*size*/, const QSize & /*requestedSize*/)
 {
     if (m_SpSettingsProxy == nullptr)
