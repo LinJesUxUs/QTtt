@@ -3,17 +3,25 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
 
-Image {
-    id: img
+Item {
+    id: root
     Layout.fillHeight: true
     Layout.fillWidth: true
-    fillMode: Image.PreserveAspectFit
-    antialiasing: true
     property alias button: button
-    Button {
-        id: button
-        anchors.fill: parent
-        flat: true
-        opacity: 0.5
+    property alias source: img.source
+    IconImage {
+        id: img
+        height: Math.min(parent.width, parent.height)
+        width: height
+        fillMode: Image.PreserveAspectFit
+        anchors.centerIn: root
+        antialiasing: true
+        color: Material.foreground
+        Button {
+            id: button
+            anchors.fill: img
+            flat: true
+            opacity: 0.5
+        }
     }
 }

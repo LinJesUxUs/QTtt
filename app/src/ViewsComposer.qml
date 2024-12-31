@@ -23,8 +23,6 @@ ApplicationWindow {
             id: welcomeView
             button.onReleased: {
                 stack.push(game)
-                // gameView.gameItem.fieldWidth = settings.fieldWidth
-                // gameView.gameItem.fieldHeight = settings.fieldHeight
             }
         }
     }

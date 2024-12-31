@@ -41,7 +41,8 @@ Rectangle {
         IconButton {
             id: startButton
             source: "/images/QTttPlay.svg"
-            Layout.fillWidth: true
+            Layout.preferredHeight: parent.width / 2
+            Layout.preferredWidth: parent.width / 2
             button.onPressed: {
                 settings.fieldWidth = sbFieldWidth.value
                 settings.fieldHeight = sbFieldHeight.value
