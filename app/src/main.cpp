@@ -2,10 +2,10 @@
 #include "gamestatusimageprovider.h"
 #include "settingsproxy.h"
 #include <QGuiApplication>
-#include <QSettings>
 #include <QQmlApplicationEngine>
+#include <QSettings>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     QGuiApplication app(argc, argv);
     app.setApplicationName("QTtt");
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
     QList<QScreen*> scr(app.screens());
     QSize maxSize;
-    for ( auto i: std::as_const(scr) ) {
+    for (auto i : std::as_const(scr)) {
         if (maxSize.isEmpty())
             maxSize = i->size();
         else {
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     maxSize.setWidth(qMin(maxSize.width(), maxSize.height()));
     maxSize.setHeight(qMin(maxSize.width(), maxSize.height()));
 
-    auto *settings = new QSettings();
+    auto* settings = new QSettings();
     settings->beginGroup("gameConfig");
     if (settings->value("fieldWidth").isNull())
         settings->setValue("fieldWidth", 3);
@@ -39,16 +39,16 @@ int main(int argc, char *argv[])
     settings->endGroup();
 
     QImage imgBuf;
-    QList<QString> lst = {"Alice",
-                          "AliceWin",
-                          "Bob",
-                          "BobWin",
-                          "Chuck",
-                          "BackGround"};
+    QList<QString> lst = { "Alice",
+        "AliceWin",
+        "Bob",
+        "BobWin",
+        "Chuck",
+        "BackGround" };
     settings->beginGroup("images");
-    for ( auto i: qAsConst(lst)) {
+    for (auto const& i : qAsConst(lst)) {
         if (settings->value(i).isNull()) {
-            imgBuf = QImage(QString(":/images/") + i + ".jpg" );
+            imgBuf = QImage(QString(":/images/") + i + ".jpg");
             if (imgBuf.size().width() > maxSize.width())
                 imgBuf = imgBuf.scaled(maxSize);
             settings->setValue(i, imgBuf);
@@ -76,14 +76,14 @@ int main(int argc, char *argv[])
     settings->endGroup();
     settings->sync();
 
-    auto *settingsProxy = new SettingsProxy(settings);
+    auto* settingsProxy = new SettingsProxy(settings);
     GamePaintedItem::setSpSettingsProxy(settingsProxy);
     GameStatusImageProvider::setSpSettingsProxy(settingsProxy);
     QQmlApplicationEngine engine;
-    qmlRegisterType<SettingsProxy>( "linjesuxus.settingsProxy", 1, 0, "SettingsProxy" );
-    qmlRegisterType<GamePaintedItem>( "linjesuxus.game", 1, 0, "Game" );
-    engine.addImageProvider( QLatin1String("GameStatus"), new GameStatusImageProvider );
-    engine.load(QUrl( "qrc:/src/ViewsComposer.qml" ));
+    qmlRegisterType<SettingsProxy>("linjesuxus.settingsProxy", 1, 0, "SettingsProxy");
+    qmlRegisterType<GamePaintedItem>("linjesuxus.game", 1, 0, "Game");
+    engine.addImageProvider(QLatin1String("GameStatus"), new GameStatusImageProvider);
+    engine.load(QUrl("qrc:/src/ViewsComposer.qml"));
 
     int ret = app.exec();
 
