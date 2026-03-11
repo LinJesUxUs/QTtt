@@ -83,7 +83,7 @@ int main(int argc, char* argv[])
     qmlRegisterType<SettingsProxy>("linjesuxus.settingsProxy", 1, 0, "SettingsProxy");
     qmlRegisterType<GamePaintedItem>("linjesuxus.game", 1, 0, "Game");
     engine.addImageProvider(QLatin1String("GameStatus"), new GameStatusImageProvider);
-    engine.load(QUrl("qrc:/src/ViewsComposer.qml"));
+    engine.load(QUrl("qrc:/linjesuxus/settingsProxy/src/ViewsComposer.qml"));
 
     int ret = app.exec();
 
