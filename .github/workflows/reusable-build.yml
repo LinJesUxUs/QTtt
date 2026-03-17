@@ -53,12 +53,6 @@ jobs:
           cmake --build build
           cd build && ctest --output-on-failure
 
-      - name: Locate Qt
-        run: |
-          echo "Qt6_DIR is: $Qt6_DIR"
-          find $Qt6_DIR -name qt-cmake
-          tree
-
       - name: Build Android APK
         if: matrix.qt_target == 'android'
         shell: bash
@@ -71,6 +65,9 @@ jobs:
           sed -i "s/android:versionCode=\"[0-9]*\"/android:versionCode=\"${{ github.run_number }}\"/" $MANIFEST_PATH
           sed -i "s/android:versionName=\"[^\"]*\"/android:versionName=\"$CLEAN_VER\"/" $MANIFEST_PATH
 
+          HOST_QT_PATH=$(dirname $QT_ROOT_DIR)/gcc_64
+          echo "Using QT_ROOT_DIR: $QT_ROOT_DIR"
+          echo "Using HOST_QT_PATH: $HOST_QT_PATH"
           $Qt6_DIR/bin/qt-cmake -G Ninja -B build \
             -DQT_HOST_PATH=${{ env.Qt6_DIR }}/../gcc_64 \
             -DANDROID_ABI=arm64-v8a \
