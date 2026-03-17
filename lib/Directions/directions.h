@@ -1,11 +1,16 @@
+// Copyright (C) 2026 Radik Mirgaliev <radikru96@gmail.com>
+//
+// This file is part of QTtt project.
+// Licensed under the GPLv3.
+// See the LICENSE file in the project root for more information.
+
 #ifndef DIRECTIONS_H
 #define DIRECTIONS_H
 
-#include <QSize>
 #include <QList>
+#include <QSize>
 
-class Directions
-{
+class Directions {
 public:
     enum class Direction {
         Horizontal,
@@ -14,8 +19,8 @@ public:
         FSlash
     };
 
-    static QSize getDirection(const Direction &direction);
-    static QSize negative(const QSize &size);
+    static QSize getDirection(const Direction& direction);
+    static QSize negative(const QSize& size);
     static QList<QSize> getList();
 };
 

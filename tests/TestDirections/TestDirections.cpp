@@ -1,8 +1,13 @@
+// Copyright (C) 2026 Radik Mirgaliev <radikru96@gmail.com>
+//
+// This file is part of QTtt project.
+// Licensed under the GPLv3.
+// See the LICENSE file in the project root for more information.
+
 #include <QTest>
 #include <directions.h>
 
-class TestDirections : public QObject
-{
+class TestDirections : public QObject {
     Q_OBJECT
 private slots:
     void getDirection_data();
@@ -25,10 +30,10 @@ void TestDirections::getDirection_data()
 
 void TestDirections::getDirection()
 {
-    QFETCH(Directions::Direction,direction);
-    QFETCH(int,resultWidth);
-    QFETCH(int,resultHeight);
-    QCOMPARE(Directions::getDirection(direction), QSize(resultWidth, resultHeight ) );
+    QFETCH(Directions::Direction, direction);
+    QFETCH(int, resultWidth);
+    QFETCH(int, resultHeight);
+    QCOMPARE(Directions::getDirection(direction), QSize(resultWidth, resultHeight));
 }
 
 void TestDirections::negative_data()
@@ -37,31 +42,31 @@ void TestDirections::negative_data()
     QTest::addColumn<int>("Height");
     QTest::addColumn<int>("resultWidth");
     QTest::addColumn<int>("resultHeight");
-    QTest::newRow("negative_test1") <<  1 << 0 <<  -1 << 0;
-    QTest::newRow("negative_test2") <<  0 << 1 <<  0 << -1;
-    QTest::newRow("negative_test3") <<  1 << 1 <<  -1 << -1;
+    QTest::newRow("negative_test1") << 1 << 0 << -1 << 0;
+    QTest::newRow("negative_test2") << 0 << 1 << 0 << -1;
+    QTest::newRow("negative_test3") << 1 << 1 << -1 << -1;
     QTest::newRow("negative_test4") << -1 << 1 << 1 << -1;
 }
 
 void TestDirections::negative()
 {
-    QFETCH(int,Width);
-    QFETCH(int,Height);
-    QFETCH(int,resultWidth);
-    QFETCH(int,resultHeight);
-    QCOMPARE(Directions::negative(QSize(Width, Height )), QSize(resultWidth, resultHeight ) );
+    QFETCH(int, Width);
+    QFETCH(int, Height);
+    QFETCH(int, resultWidth);
+    QFETCH(int, resultHeight);
+    QCOMPARE(Directions::negative(QSize(Width, Height)), QSize(resultWidth, resultHeight));
 }
 
 void TestDirections::getList()
 {
     QList<QSize> lst = Directions::getList();
-    QCOMPARE(lst.front(), Directions::getDirection(Directions::Direction::Horizontal) );
+    QCOMPARE(lst.front(), Directions::getDirection(Directions::Direction::Horizontal));
     lst.pop_front();
-    QCOMPARE(lst.front(), Directions::getDirection(Directions::Direction::Vertical) );
+    QCOMPARE(lst.front(), Directions::getDirection(Directions::Direction::Vertical));
     lst.pop_front();
-    QCOMPARE(lst.front(), Directions::getDirection(Directions::Direction::BSlash) );
+    QCOMPARE(lst.front(), Directions::getDirection(Directions::Direction::BSlash));
     lst.pop_front();
-    QCOMPARE(lst.front(), Directions::getDirection(Directions::Direction::FSlash) );
+    QCOMPARE(lst.front(), Directions::getDirection(Directions::Direction::FSlash));
     lst.pop_front();
 }
 

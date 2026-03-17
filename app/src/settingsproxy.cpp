@@ -1,74 +1,96 @@
+// Copyright (C) 2026 Radik Mirgaliev <radikru96@gmail.com>
+//
+// This file is part of QTtt project.
+// Licensed under the GPLv3.
+// See the LICENSE file in the project root for more information.
+
 #include "settingsproxy.h"
 
-QSettings *SettingsProxy::m_SpSettings = nullptr;
+QSettings* SettingsProxy::m_SpSettings = nullptr;
 uint SettingsProxy::fieldWidth = 3;
 uint SettingsProxy::fieldHeight = 3;
 uint SettingsProxy::winLength = 3;
 uint SettingsProxy::playersCount = 2;
 uint SettingsProxy::firstPlayer = 1;
 
-void SettingsProxy::setSpSettings(QSettings *newSpSettings) {
-    if ( m_SpSettings == nullptr)
+void SettingsProxy::setSpSettings(QSettings* newSpSettings)
+{
+    if (m_SpSettings == nullptr)
         m_SpSettings = newSpSettings;
 }
 
-QSettings *SettingsProxy::getSpSettings() {
+QSettings* SettingsProxy::getSpSettings()
+{
     return m_SpSettings;
 }
 
-uint SettingsProxy::getFieldWidth() {
+uint SettingsProxy::getFieldWidth()
+{
     return fieldWidth;
 }
 
-uint SettingsProxy::getFieldHeight() {
+uint SettingsProxy::getFieldHeight()
+{
     return fieldHeight;
 }
 
-uint SettingsProxy::getWinLength() {
+uint SettingsProxy::getWinLength()
+{
     return winLength;
 }
 
-uint SettingsProxy::getPlayersCount() {
+uint SettingsProxy::getPlayersCount()
+{
     return playersCount;
 }
 
-uint SettingsProxy::getFirstPlayer() {
+uint SettingsProxy::getFirstPlayer()
+{
     return firstPlayer;
 }
 
-void SettingsProxy::setFieldWidth(const uint val) {
+void SettingsProxy::setFieldWidth(const uint val)
+{
     fieldWidth = val;
 }
 
-void SettingsProxy::setFieldHeight(const uint val) {
+void SettingsProxy::setFieldHeight(const uint val)
+{
     fieldHeight = val;
 }
 
-void SettingsProxy::setWinLength(const uint val) {
+void SettingsProxy::setWinLength(const uint val)
+{
     winLength = val;
 }
 
-void SettingsProxy::setPlayersCount(const uint val) {
+void SettingsProxy::setPlayersCount(const uint val)
+{
     playersCount = val;
 }
 
-void SettingsProxy::setFirstPlayer(const uint val) {
+void SettingsProxy::setFirstPlayer(const uint val)
+{
     firstPlayer = val;
 }
 
-QString SettingsProxy::getPlayersConf(const QString &key) {
+QString SettingsProxy::getPlayersConf(const QString& key)
+{
     return m_SpSettings->value("playersConf/" + key).toString();
 }
 
-QVariant SettingsProxy::value(const QString &key) {
+QVariant SettingsProxy::value(const QString& key)
+{
     return m_SpSettings->value(key);
 }
 
-void SettingsProxy::setValue(const QString &key, const QVariant &val) {
-    m_SpSettings->setValue(key,val);
+void SettingsProxy::setValue(const QString& key, const QVariant& val)
+{
+    m_SpSettings->setValue(key, val);
 }
 
-SettingsProxy::SettingsProxy(QSettings *newSpSettings) {
+SettingsProxy::SettingsProxy(QSettings* newSpSettings)
+{
     if (m_SpSettings == nullptr)
         m_SpSettings = newSpSettings;
     if (m_SpSettings != nullptr) {
@@ -80,7 +102,8 @@ SettingsProxy::SettingsProxy(QSettings *newSpSettings) {
     }
 }
 
-SettingsProxy::~SettingsProxy() {
+SettingsProxy::~SettingsProxy()
+{
     if (m_SpSettings != nullptr) {
         m_SpSettings->setValue("gameConfig/fieldWidth", fieldWidth);
         m_SpSettings->setValue("gameConfig/fieldHeight", fieldHeight);

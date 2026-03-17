@@ -1,11 +1,16 @@
+// Copyright (C) 2026 Radik Mirgaliev <radikru96@gmail.com>
+//
+// This file is part of QTtt project.
+// Licensed under the GPLv3.
+// See the LICENSE file in the project root for more information.
+
 #ifndef SETTINGSPROXY_H
 #define SETTINGSPROXY_H
 
 #include <QQmlEngine>
 #include <QSettings>
 
-class SettingsProxy : public QObject
-{
+class SettingsProxy : public QObject {
     Q_OBJECT
     QML_ELEMENT
     Q_PROPERTY(uint fieldWidth READ getFieldWidth WRITE setFieldWidth NOTIFY fieldWidthChanged FINAL)
@@ -15,7 +20,7 @@ class SettingsProxy : public QObject
     Q_PROPERTY(uint firstPlayer READ getFirstPlayer WRITE setFirstPlayer NOTIFY firstPlayerChanged FINAL)
 
 protected:
-    static QSettings *m_SpSettings;
+    static QSettings* m_SpSettings;
 
     static uint fieldWidth;
     static uint fieldHeight;
@@ -24,7 +29,7 @@ protected:
     static uint firstPlayer;
 
 public:
-    static void setSpSettings(QSettings *newSpSettings);
+    static void setSpSettings(QSettings* newSpSettings);
     static QSettings* getSpSettings();
 
     static uint getFieldWidth();
@@ -39,12 +44,12 @@ public:
     static void setPlayersCount(const uint val);
     static void setFirstPlayer(const uint val);
 
-    static QString getPlayersConf(const QString &key);
-    static QVariant value(const QString &key);
-    static void setValue(const QString &key, const QVariant &val);
+    static QString getPlayersConf(const QString& key);
+    static QVariant value(const QString& key);
+    static void setValue(const QString& key, const QVariant& val);
 
 public:
-    SettingsProxy(QSettings *newSpSettings = nullptr);
+    SettingsProxy(QSettings* newSpSettings = nullptr);
     ~SettingsProxy();
 
 Q_SIGNALS:
@@ -53,7 +58,6 @@ Q_SIGNALS:
     void winLengthChanged();
     void playersCountChanged();
     void firstPlayerChanged();
-
 };
 
 #endif // SETTINGSPROXY_H

@@ -1,3 +1,9 @@
+// Copyright (C) 2026 Radik Mirgaliev <radikru96@gmail.com>
+//
+// This file is part of QTtt project.
+// Licensed under the GPLv3.
+// See the LICENSE file in the project root for more information.
+
 #include "gamepainteditem.h"
 #include "gamestatusimageprovider.h"
 #include "settingsproxy.h"
