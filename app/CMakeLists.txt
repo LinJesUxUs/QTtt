@@ -50,8 +50,9 @@ set(PROJECT_METADATA_FILES
     ../.github/workflows/reusable-build.yml
     ../.github/workflows/ci-dev.yml
     ../.github/workflows/cd-master.yml
-    ../README.md
     ../.gitignore
+    ../README.md
+    ../LICENSE
 )
 set_source_files_properties(${PROJECT_METADATA_FILES} PROPERTIES HEADER_FILE_ONLY TRUE)
 target_sources(QTtt PRIVATE ${PROJECT_METADATA_FILES})
