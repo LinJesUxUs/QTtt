@@ -1,0 +1,81 @@
+name: Reusable Build
+on:
+  workflow_call:
+    inputs:
+      build_type:
+        required: true
+        type: string
+      app_stage:
+        required: true
+        type: string
+
+jobs:
+  build:
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - name: linux_x64
+            os: ubuntu-latest
+            qt_target: desktop
+          - name: android_arm64
+            os: ubuntu-latest
+            qt_target: android
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.2.4'
+          target: ${{ matrix.qt_target }}
+          arch: ${{ matrix.qt_target == 'android' && 'android_arm64_v8a' || 'gcc_64' }}
+          cache: true
+
+      - name: Predict Next Tag
+        id: dry_tag
+        uses: anothrNick/github-tag-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: true
+          TAG_PREFIX: v
+          DEFAULT_BUMP: patch
+          PRERELEASE: ${{ inputs.app_stage != 'release' }}
+          SUFFIX: ${{ inputs.app_stage != 'release' && inputs.app_stage || '' }}
+
+      - name: Run Tests
+        if: matrix.qt_target == 'desktop'
+        run: |
+          cmake -G Ninja -B build -DCMAKE_BUILD_TYPE=Debug
+          cmake --build build
+          cd build && ctest --output-on-failure
+
+      - name: Build Android APK
+        if: matrix.qt_target == 'android'
+        shell: bash
+        run: |
+          # Извлекаем 0.1.2 из v0.1.2-alpha
+          RAW_TAG="${{ steps.dry_tag.outputs.new_tag }}"
+          CLEAN_VER=$(echo "${RAW_TAG:-v0.0.1}" | sed 's/v//;s/-.*//')
+          MANIFEST_PATH="android/AndroidManifest.xml"
+
+          sed -i "s/android:versionCode=\"[0-9]*\"/android:versionCode=\"${{ github.run_number }}\"/" $MANIFEST_PATH
+          sed -i "s/android:versionName=\"[^\"]*\"/android:versionName=\"$CLEAN_VER\"/" $MANIFEST_PATH
+
+          ${{ env.Qt6_DIR }}/bin/qt-cmake -G Ninja -B build \
+            -DQT_HOST_PATH=${{ env.Qt6_DIR }}/../gcc_64 \
+            -DANDROID_ABI=arm64-v8a \
+            -DANDROID_PLATFORM=android-28 \
+            -DCMAKE_BUILD_TYPE=${{ inputs.build_type }}
+          cmake --build build --target apk
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: QTtt_${{ matrix.name }}
+          path: |
+            build/bin/QTtt*
+            build/**/*.apk

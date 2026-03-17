@@ -1,0 +1,13 @@
+name: CI Dev
+on:
+  push:
+    branches:
+      - dev
+      - cmake
+
+jobs:
+  call-build:
+    uses: ./.github/workflows/reusable-build.yml
+    with:
+      build_type: Debug
+      app_stage: alpha

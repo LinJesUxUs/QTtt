@@ -1,0 +1,47 @@
+name: CD Master Release
+on:
+  push:
+    branches: [ master ]
+
+env:
+  CURRENT_STAGE: alpha # -> beta -> release
+
+jobs:
+  build-release:
+    uses: ./.github/workflows/reusable-build.yml
+    with:
+      build_type: Release
+      app_stage: ${{ vars.APP_STAGE || 'alpha' }}
+
+  create-release:
+    needs: build-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create Real Tag
+        id: tag_action
+        uses: anothrNick/github-tag-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_PREFIX: v
+          DEFAULT_BUMP: patch
+          PRERELEASE: ${{ env.CURRENT_STAGE != 'release' }}
+          SUFFIX: ${{ env.CURRENT_STAGE != 'release' && env.CURRENT_STAGE || '' }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag_action.outputs.new_tag }}
+          files: artifacts/**/*
+          generate_release_notes: true
+          prerelease: ${{ env.CURRENT_STAGE != 'release' }}
