@@ -53,6 +53,12 @@ jobs:
           cmake --build build
           cd build && ctest --output-on-failure
 
+      - name: Locate Qt
+        run: |
+          echo "Qt6_DIR is: $Qt6_DIR"
+          find $Qt6_DIR -name qt-cmake
+          tree
+
       - name: Build Android APK
         if: matrix.qt_target == 'android'
         shell: bash
