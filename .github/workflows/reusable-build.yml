@@ -60,7 +60,7 @@ jobs:
           # Извлекаем 0.1.2 из v0.1.2-alpha
           RAW_TAG="${{ steps.dry_tag.outputs.new_tag }}"
           CLEAN_VER=$(echo "${RAW_TAG:-v0.0.1}" | sed 's/v//;s/-.*//')
-          MANIFEST_PATH="android/AndroidManifest.xml"
+          MANIFEST_PATH="app/android/AndroidManifest.xml"
 
           sed -i "s/android:versionCode=\"[0-9]*\"/android:versionCode=\"${{ github.run_number }}\"/" $MANIFEST_PATH
           sed -i "s/android:versionName=\"[^\"]*\"/android:versionName=\"$CLEAN_VER\"/" $MANIFEST_PATH
