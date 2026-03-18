@@ -27,31 +27,31 @@ jobs:
         with:
           fetch-depth: 0
 
-    - name: Install Qt for Desktop
-      uses: jurplel/install-qt-action@v4
-      with:
-        version: '6.2.4'
-        host: 'linux'
-        target: 'desktop'
-        arch: 'gcc_64'
-        modules: 'qtimageformats qtshadertools'
-        dir: '/opt/hostedtoolcache'
-        cache: 'true'
-        cache-key-prefix: 'cache-qt-desktop'
-        setup-python: 'false'
-
-    - name: Install Qt for Android
-      if: matrix.qt_target == 'android'
-      uses: jurplel/install-qt-action@v4
-      with:
-        version: '6.2.4'
-        host: 'linux'
-        target: 'android'
-        arch: 'android_arm64_v8a'
-        dir: '/opt/hostedtoolcache'
-        cache: 'true'
-        cache-key-prefix: 'cache-qt-android'
-        setup-python: 'false'
+      - name: Install Qt for Desktop
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.2.4'
+          host: 'linux'
+          target: 'desktop'
+          arch: 'gcc_64'
+          modules: 'qtimageformats qtshadertools'
+          dir: '/opt/hostedtoolcache'
+          cache: 'true'
+          cache-key-prefix: 'cache-qt-desktop'
+          setup-python: 'false'
+  
+      - name: Install Qt for Android
+        if: matrix.qt_target == 'android'
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.2.4'
+          host: 'linux'
+          target: 'android'
+          arch: 'android_arm64_v8a'
+          dir: '/opt/hostedtoolcache'
+          cache: 'true'
+          cache-key-prefix: 'cache-qt-android'
+          setup-python: 'false'
 
       - name: Predict Next Tag
         id: dry_tag
