@@ -53,6 +53,10 @@ jobs:
           cache-key-prefix: 'cache-qt-android'
           setup-python: 'false'
 
+      - uses: android-actions/setup-android@v3
+  
+      - run: sdkmanager "ndk;22.1.7171670"
+
       - name: Predict Next Tag
         id: dry_tag
         uses: anothrNick/github-tag-action@v1
@@ -96,9 +100,9 @@ jobs:
           #   -DANDROID_PLATFORM=android-28 \
           #   -DCMAKE_BUILD_TYPE=${{ inputs.build_type }}
           # cmake --build build --target apk
-          export ANDROID_SDK_ROOT=/opt/android-sdk
+          # export ANDROID_SDK_ROOT=/opt/android-sdk
           export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/22.1.7171670/
-          export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+          # export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
           echo '############################################'
           echo "Using QT_ROOT_DIR: $QT_ROOT_DIR"
           echo "Using HOST_QT_PATH: $HOST_QT_PATH"
