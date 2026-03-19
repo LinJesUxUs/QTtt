@@ -28,6 +28,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install Qt for Desktop
+        if: matrix.qt_target == 'desktop'
         uses: jurplel/install-qt-action@v4
         with:
           version: '6.2.4'
@@ -53,9 +54,13 @@ jobs:
           cache-key-prefix: 'cache-qt-android'
           setup-python: 'false'
 
-      - uses: android-actions/setup-android@v3
+      - name: Setup Android SDK
+        if: matrix.qt_target == 'android'
+        uses: android-actions/setup-android@v3
   
-      - run: sdkmanager "ndk;22.1.7171670"
+      - name: Install Android NDK
+        if: matrix.qt_target == 'android'
+        run: sdkmanager "ndk;22.1.7171670"
 
       - name: Predict Next Tag
         id: dry_tag
@@ -87,29 +92,24 @@ jobs:
           sed -i "s/android:versionCode=\"[0-9]*\"/android:versionCode=\"${{ github.run_number }}\"/" $MANIFEST_PATH
           sed -i "s/android:versionName=\"[^\"]*\"/android:versionName=\"$CLEAN_VER\"/" $MANIFEST_PATH
 
-          HOST_QT_PATH=$(dirname $QT_ROOT_DIR)/android_arm64_v8a
-          echo '############################################'
-          echo "Using QT_ROOT_DIR: $QT_ROOT_DIR"
-          echo "Using HOST_QT_PATH: $HOST_QT_PATH"
-          echo "Using ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
-          echo "Using ANDROID_NDK_ROOT: $ANDROID_NDK_ROOT"
-          echo "Using JAVA_HOME       : $JAVA_HOME"
+          # HOST_QT_PATH=$(dirname $QT_ROOT_DIR)/android_arm64_v8a
           # $HOST_QT_PATH/bin/qt-cmake -G Ninja -B build \
           #   -DQT_HOST_PATH=$HOST_QT_PATH/../gcc_64 \
           #   -DANDROID_ABI=arm64-v8a \
           #   -DANDROID_PLATFORM=android-28 \
           #   -DCMAKE_BUILD_TYPE=${{ inputs.build_type }}
           # cmake --build build --target apk
-          # export ANDROID_SDK_ROOT=/opt/android-sdk
+
           export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/22.1.7171670/
-          # export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+          # export QT_ANDROID_PATH=$QT_ROOT_DIR
+
           echo '############################################'
           echo "Using QT_ROOT_DIR: $QT_ROOT_DIR"
-          echo "Using HOST_QT_PATH: $HOST_QT_PATH"
           echo "Using ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
           echo "Using ANDROID_NDK_ROOT: $ANDROID_NDK_ROOT"
           echo "Using JAVA_HOME       : $JAVA_HOME"
           echo '############################################'
+
           cmake -G Ninja -B build/build_android \
               -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake \
               -DANDROID_NDK=$ANDROID_NDK_ROOT \
@@ -117,12 +117,12 @@ jobs:
               -DANDROID_ABI=arm64-v8a \
               -DANDROID_PLATFORM=android-23 \
               -DANDROID_STL=c++_shared \
-              -DQT_HOST_PATH=$HOME/Qt/6.2.4/gcc_64 \
               -DQT_HOST_PATH=$QT_ROOT_DIR/gcc_64 \
               -DCMAKE_PREFIX_PATH=$QT_ROOT_DIR/android_arm64_v8a \
               -DCMAKE_FIND_ROOT_PATH=$QT_ROOT_DIR/android_arm64_v8a \
-              -DCMAKE_BUILD_TYPE=Debug
-          ls ; tree build
+              -DCMAKE_BUILD_TYPE=${{ inputs.build_type }}
+
+          ls && tree build || true
           cmake --build build/build_android --target QTtt_make_apk
 
       - name: Upload
