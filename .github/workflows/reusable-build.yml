@@ -100,6 +100,7 @@ jobs:
           echo "Using ANDROID_NDK_ROOT: $ANDROID_NDK_ROOT"
           echo "Using JAVA_HOME       : $JAVA_HOME"
           echo "Qt6_DIR               : $Qt6_DIR"
+          ls $Qt6_DIR && tree $Qt6_DIR || true
           echo '############################################'
 
           cmake -G Ninja -B build/build_android \
