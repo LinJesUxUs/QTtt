@@ -92,6 +92,7 @@ jobs:
           sed -i "s/android:versionName=\"[^\"]*\"/android:versionName=\"$CLEAN_VER\"/" $MANIFEST_PATH
 
           export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/22.1.7171670/
+          export Qt6_DIR=$QT_ROOT_DIR/lib/cmake/Qt6
 
           echo '############################################'
           echo "Using QT_ROOT_DIR: $QT_ROOT_DIR"
@@ -100,8 +101,6 @@ jobs:
           echo "Using JAVA_HOME       : $JAVA_HOME"
           echo "Qt6_DIR               : $Qt6_DIR"
           echo '############################################'
-
-          export Qt6_DIR=$QT_ROOT_DIR/android_arm64_v8a/lib/cmake/Qt6
 
           cmake -G Ninja -B build/build_android \
               -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake \
