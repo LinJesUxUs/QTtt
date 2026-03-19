@@ -91,23 +91,17 @@ jobs:
           sed -i "s/android:versionCode=\"[0-9]*\"/android:versionCode=\"${{ github.run_number }}\"/" $MANIFEST_PATH
           sed -i "s/android:versionName=\"[^\"]*\"/android:versionName=\"$CLEAN_VER\"/" $MANIFEST_PATH
 
-          # HOST_QT_PATH=$(dirname $QT_ROOT_DIR)/android_arm64_v8a
-          # $HOST_QT_PATH/bin/qt-cmake -G Ninja -B build \
-          #   -DQT_HOST_PATH=$HOST_QT_PATH/../gcc_64 \
-          #   -DANDROID_ABI=arm64-v8a \
-          #   -DANDROID_PLATFORM=android-28 \
-          #   -DCMAKE_BUILD_TYPE=${{ inputs.build_type }}
-          # cmake --build build --target apk
-
           export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/22.1.7171670/
-          # export QT_ANDROID_PATH=$QT_ROOT_DIR
 
           echo '############################################'
           echo "Using QT_ROOT_DIR: $QT_ROOT_DIR"
           echo "Using ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
           echo "Using ANDROID_NDK_ROOT: $ANDROID_NDK_ROOT"
           echo "Using JAVA_HOME       : $JAVA_HOME"
+          echo "Qt6_DIR               : $Qt6_DIR"
           echo '############################################'
+
+          export Qt6_DIR=$QT_ROOT_DIR/android_arm64_v8a/lib/cmake/Qt6
 
           cmake -G Ninja -B build/build_android \
               -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake \
