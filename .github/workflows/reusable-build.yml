@@ -108,7 +108,6 @@ jobs:
               -DANDROID_PLATFORM=android-23 \
               -DANDROID_STL=c++_shared \
               -DQT_HOST_PATH=$QT_ROOT_DIR/../gcc_64 \
-              -DCMAKE_PREFIX_PATH=$QT_ROOT_DIR \
               -DCMAKE_FIND_ROOT_PATH=$QT_ROOT_DIR \
               -DCMAKE_BUILD_TYPE=${{ inputs.build_type }}
 
