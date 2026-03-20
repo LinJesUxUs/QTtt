@@ -109,11 +109,11 @@ jobs:
               -DANDROID_ABI=arm64-v8a \
               -DANDROID_PLATFORM=android-23 \
               -DANDROID_STL=c++_shared \
-              -DQT_HOST_PATH=$QT_ROOT_DIR/gcc_64 \
-              -DQt6_DIR="$QT_ROOT_DIR/android_arm64_v8a/lib/cmake/Qt6:$QT_ROOT_DIR/gcc_64/lib/cmake/Qt6" \
-              -DCMAKE_PREFIX_PATH=$QT_ROOT_DIR/android_arm64_v8a \
-              -DCMAKE_MODULE_PATH="$QT_ROOT_DIR/android_arm64_v8a/lib/cmake:$QT_ROOT_DIR/gcc_64/lib/cmake:$CMAKE_MODULE_PATH" \
-              -DCMAKE_FIND_ROOT_PATH=$QT_ROOT_DIR/android_arm64_v8a \
+              -DQT_HOST_PATH=$QT_ROOT_DIR/../gcc_64 \
+              -DQt6_DIR="$Qt6_DIR:$QT_ROOT_DIR/../gcc_64/lib/cmake/Qt6" \
+              -DCMAKE_PREFIX_PATH=$QT_ROOT_DIR \
+              -DCMAKE_MODULE_PATH="$Qt6_DIR/../:$QT_ROOT_DIR/../gcc_64/lib/cmake:$CMAKE_MODULE_PATH" \
+              -DCMAKE_FIND_ROOT_PATH=$QT_ROOT_DIR \
               -DCMAKE_BUILD_TYPE=${{ inputs.build_type }}
 
           cmake --build build/build_android --target QTtt_make_apk
