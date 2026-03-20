@@ -111,7 +111,7 @@ jobs:
               -DCMAKE_FIND_ROOT_PATH=$QT_ROOT_DIR \
               -DCMAKE_BUILD_TYPE=${{ inputs.build_type }}
 
-          cmake --build build/build_android --target QTtt_make_apk
+          cmake --build build/build_android --target QTtt_make_apk --verbose
 
       - name: Upload
         uses: actions/upload-artifact@v4
