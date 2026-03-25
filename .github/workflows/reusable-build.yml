@@ -82,7 +82,19 @@ jobs:
       - name: Build Android APK
         if: matrix.qt_target == 'android'
         shell: bash
+
+        env:
+          androidCompileSdkVersion: "31"
+          androidBuildToolsVersion: "31.0.0"
+          androidNdkVersion: "22.1.7171670"
+          qtMinSdkVersion: "23"
+          qtTargetSdkVersion: "30"
         run: |
+          export ORG_GRADLE_PROJECT_androidCompileSdkVersion=31
+          export ORG_GRADLE_PROJECT_androidBuildToolsVersion="31.0.0"
+          export ORG_GRADLE_PROJECT_androidNdkVersion="22.1.7171670"
+          export ORG_GRADLE_PROJECT_qtMinSdkVersion=23
+          export ORG_GRADLE_PROJECT_qtTargetSdkVersion=30
           # Извлекаем 0.1.2 из v0.1.2-alpha
           RAW_TAG="${{ steps.dry_tag.outputs.new_tag }}"
           CLEAN_VER=$(echo "${RAW_TAG:-v0.0.1}" | sed 's/v//;s/-.*//')
