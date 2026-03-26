@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(QTtt LANGUAGES CXX)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Quick Qml Widgets Test Gui)
+find_package(Qt6 REQUIRED COMPONENTS Core Quick Qml Widgets Test Gui Svg SvgWidgets)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
