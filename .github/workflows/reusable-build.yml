@@ -38,7 +38,6 @@ jobs:
           dir: '/opt/hostedtoolcache'
           cache: 'true'
           cache-key-prefix: 'cache-qt-desktop'
-          setup-python: 'false'
   
       - name: Install Qt for Android
         if: matrix.qt_target == 'android'
