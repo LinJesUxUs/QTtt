@@ -31,17 +31,29 @@ jobs:
           TAG_PREFIX: v
           DEFAULT_BUMP: patch
           PRERELEASE: ${{ env.CURRENT_STAGE != 'release' }}
-          SUFFIX: ${{ env.CURRENT_STAGE != 'release' && env.CURRENT_STAGE || '' }}
+          PRERELEASE_SUFFIX: ${{ env.CURRENT_STAGE }}
 
       - uses: actions/download-artifact@v4
         with:
           path: artifacts
           merge-multiple: true
 
+      - name: Extract Release Notes
+        id: release_notes
+        run: |
+          VERSION="${{ steps.dry_tag.outputs.new_tag }}"
+          TEMP='^## \[[0-9].[0-9]'
+          VTEMP="^## \[${VERSION#v}"
+          awk "/$VTEMP/ && \!f {f=1; next} /$TEMP/ && f {exit} f" CHANGELOG.md > /tmp/release_notes.txt
+          if [ ! -s /tmp/release_notes.txt ]; then
+            echo "Release notes not found in CHANGELOG.md" > /tmp/release_notes.txt
+          fi
+
       - name: GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tag_action.outputs.new_tag }}
           files: artifacts/**/*
+          body_path: /tmp/release_notes.txt
           generate_release_notes: true
-          prerelease: ${{ env.CURRENT_STAGE != 'release' }}
+          make_latest: true
