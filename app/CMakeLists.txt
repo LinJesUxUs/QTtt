@@ -38,7 +38,7 @@ qt_add_resources(QTtt "images"
         images/QTttPlay.svg
 )
 
-target_link_libraries(QTtt PRIVATE Qt6::Widgets Qt6::Quick Qt6::Qml Qt6::Svg Qt6::SvgWidgets GameCore Directions)
+target_link_libraries(QTtt PRIVATE Qt6::Widgets Qt6::Quick Qt6::Qml Qt6::Svg GameCore Directions)
 if(ANDROID)
     set_property(TARGET QTtt PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     qt_finalize_executable(QTtt)
