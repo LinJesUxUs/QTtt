@@ -1,5 +1,3 @@
-set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
-
 qt_add_executable(QTtt MANUAL_FINALIZATION
     src/main.cpp
     src/gamestatusimageprovider.h
