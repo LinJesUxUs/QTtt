@@ -81,7 +81,6 @@ jobs:
       - name: Build Android APK
         if: matrix.qt_target == 'android'
         shell: bash
-
         run: |
           export ORG_GRADLE_PROJECT_androidCompileSdkVersion=31
           export ORG_GRADLE_PROJECT_androidBuildToolsVersion="31.0.0"
