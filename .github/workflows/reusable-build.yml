@@ -74,7 +74,7 @@ jobs:
       - name: Run Tests
         if: matrix.qt_target == 'desktop'
         run: |
-          cmake -G Ninja -B build -DCMAKE_BUILD_TYPE=Debug
+          cmake -G Ninja -B build -DCMAKE_BUILD_TYPE=${{ inputs.build_type }}
           cmake --build build
           cd build && ctest --output-on-failure
 
@@ -82,19 +82,13 @@ jobs:
         if: matrix.qt_target == 'android'
         shell: bash
 
-        env:
-          androidCompileSdkVersion: "31"
-          androidBuildToolsVersion: "31.0.0"
-          androidNdkVersion: "22.1.7171670"
-          qtMinSdkVersion: "23"
-          qtTargetSdkVersion: "30"
         run: |
           export ORG_GRADLE_PROJECT_androidCompileSdkVersion=31
           export ORG_GRADLE_PROJECT_androidBuildToolsVersion="31.0.0"
           export ORG_GRADLE_PROJECT_androidNdkVersion="22.1.7171670"
           export ORG_GRADLE_PROJECT_qtMinSdkVersion=23
           export ORG_GRADLE_PROJECT_qtTargetSdkVersion=30
-          # Извлекаем 0.1.2 из v0.1.2-alpha
+
           RAW_TAG="${{ steps.dry_tag.outputs.new_tag }}"
           CLEAN_VER=$(echo "${RAW_TAG:-v0.0.1}" | sed 's/v//;s/-.*//')
           MANIFEST_PATH="app/android/AndroidManifest.xml"
@@ -103,14 +97,6 @@ jobs:
           sed -i "s/android:versionName=\"[^\"]*\"/android:versionName=\"$CLEAN_VER\"/" $MANIFEST_PATH
 
           export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/22.1.7171670/
-
-          echo '############################################'
-          echo "Using QT_ROOT_DIR: $QT_ROOT_DIR"
-          echo "Using ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
-          echo "Using ANDROID_NDK_ROOT: $ANDROID_NDK_ROOT"
-          echo "Using JAVA_HOME       : $JAVA_HOME"
-          echo "Qt6_DIR               : $Qt6_DIR"
-          echo '############################################'
 
           cmake -G Ninja -B build/build_android \
               -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake \
@@ -130,4 +116,4 @@ jobs:
           name: QTtt_${{ matrix.name }}
           path: |
             build/bin/QTtt*
-            build/**/*.apk
+            build/**/QTtt.apk
