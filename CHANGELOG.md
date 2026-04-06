@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.0-alpha] - 2026-03-28
+## [0.1.1-alpha] - 2026-03-28
 
 #### Initial release.
 
