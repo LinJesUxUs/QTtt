@@ -55,7 +55,7 @@ jobs:
       - uses: ./.github/actions/Test_n_Build
         with:
           matrix_name: ${{ matrix.name }}
-          is_debug: ${{ 'dev' in github.ref }}
+          is_debug: ${{ github.ref_name == 'dev' }}
           target: ${{ matrix.target }}
           version: ${{ needs.versioning.outputs.final_tag }}
           ndk_version: ${{ steps.installings.outputs.ndk_version }}
