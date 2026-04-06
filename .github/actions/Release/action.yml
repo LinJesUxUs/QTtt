@@ -4,6 +4,9 @@ inputs:
   tag_version:
     required: true
     type: string
+  token:
+    description: 'A Github PAT'
+    required: true
 
 runs:
   using: "composite"
@@ -15,7 +18,7 @@ runs:
     - name: Create Real Tag
       uses: anothrNick/github-tag-action@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.token }}
         CUSTOM_TAG: ${{ inputs.tag_version }}
 
     - name: Extract Release Notes
@@ -53,4 +56,4 @@ runs:
         generate_release_notes: true
         make_latest: true
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.token }}

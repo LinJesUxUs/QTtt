@@ -5,6 +5,9 @@ inputs:
     required: true
     type: string
     description: 'alpha, beta, or release'
+  token:
+    description: 'A Github PAT'
+    required: true
 
 outputs:
   final_tag:
@@ -21,7 +24,7 @@ runs:
       id: tag_action
       uses: anothrNick/github-tag-action@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.token }}
         DRY_RUN: true
         TAG_PREFIX: v
         DEFAULT_BUMP: patch

@@ -25,6 +25,7 @@ jobs:
       id: version_tagging
       with:
         dev_stage: ${{ env.DEV_STAGE }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
   build:
     needs: [versioning]
@@ -79,3 +80,4 @@ jobs:
     - uses: ./.github/actions/Release
       with:
         tag_version: ${{ needs.versioning.outputs.final_tag }}
+        token: ${{ secrets.GITHUB_TOKEN }}
