@@ -1,0 +1,46 @@
+name: Version Tagging
+
+inputs:
+  dev_stage:
+    required: true
+    type: string
+    description: 'alpha, beta, or release'
+
+outputs:
+  final_tag:
+    description: Final Tag (with suffix)
+    value: ${{ steps.final_tag.outputs.tag }}
+  # new_tag:
+  #   description: New Tag (raw)
+  #   value: ${{ steps.tag_action.outputs.new_tag }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Predict Next Tag
+      id: tag_action
+      uses: anothrNick/github-tag-action@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DRY_RUN: true
+        TAG_PREFIX: v
+        DEFAULT_BUMP: patch
+        INITIAL_VERSION: 0.1.0
+
+    - name: Generate Final Tag Name
+      id: final_tag
+      run: |
+        VERSION="${{ steps.tag_action.outputs.new_tag }}"
+        STAGE="${{ inputs.dev_stage }}"
+
+        if [ "$STAGE" != "release" ]; then
+          FINAL_TAG="${VERSION}-${STAGE}"
+        else
+          FINAL_TAG="$VERSION"
+        fi
+
+        echo "tag=$FINAL_TAG" >> $GITHUB_OUTPUT
+        echo "  Version Info:"
+        echo "  Base Tag: $VERSION"
+        echo "  Stage: $STAGE"
+        echo "  Final Tag: $FINAL_TAG"

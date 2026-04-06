@@ -1,0 +1,70 @@
+name: Installings
+
+inputs:
+  host:
+    required: true
+    type: string
+  target:
+    required: true
+    type: string
+  arch:
+    required: true
+    type: string
+
+outputs:
+  ndk_version:
+    description: Android NDK Version
+    value: ${{ steps.globals.outputs.ndk_version }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set globals
+      id: globals
+      shell: bash
+      run: |
+        echo "qt_version='6.2.4'" >> "${GITHUB_OUTPUT}"
+        echo "qt_dir='/opt/hostedtoolcache'" >> "${GITHUB_OUTPUT}"
+        echo "qt_modules='qtimageformats qtshadertools'" >> "${GITHUB_OUTPUT}"
+        echo "ndk_version='22.1.7171670'" >> "${GITHUB_OUTPUT}"
+    - name: Install Qt Desktop
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: ${{ steps.globals.outputs.qt_version }}
+        host: ${{ inputs.host }}
+        target: ${{ inputs.target == 'android' && 'desktop' || inputs.target }}
+        arch: ${{ inputs.arch == 'android_arm64_v8a' && 'gcc_64' || inputs.arch }}
+        modules: ${{ steps.globals.outputs.qt_modules }}
+        dir: ${{ steps.globals.outputs.qt_dir }}
+        cache: 'true'
+        cache-key-prefix: 'cache-qt-desktop'
+
+    - name: Install Qt Android
+      if: inputs.target == 'android'
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: ${{ steps.globals.outputs.qt_version }}
+        host: ${{ inputs.host }}
+        target: ${{ inputs.target }}
+        arch: ${{ inputs.arch }}
+        dir: ${{ steps.globals.outputs.qt_dir }}
+        cache: 'true'
+        cache-key-prefix: 'cache-qt-android'
+        setup-python: 'false'
+
+    - name: Setup Android SDK
+      if: inputs.target == 'android'
+      uses: android-actions/setup-android@v3
+
+    - name: Install Android NDK
+      if: inputs.target == 'android'
+      run: sdkmanager "ndk;${{ steps.globals.outputs.ndk_version }}"
+
+    - name: Verify Installations
+      run: |
+        echo "  Dependencies installed successfully"
+        echo "  Qt Target: ${{ inputs.target }}"
+        if [[ "${{ inputs.target }}" == "android" ]]; then
+          echo "  Android NDK: $ANDROID_NDK_ROOT"
+          echo "  Android SDK: $ANDROID_SDK_ROOT"
+        fi

@@ -1,0 +1,75 @@
+name: Test & Build
+
+inputs:
+  matrix_name:
+    required: true
+    type: string
+  is_debug:
+    required: true
+    type: boolean
+  target:
+    required: true
+    type: string
+  version:
+    required: true
+    type: string
+  ndk_version:
+    required: true
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set globals
+      id: globals
+      shell: bash
+      run: |
+        echo "build_type=${{ inputs.is_debug && 'Debug' || 'Release' }}" >> "${GITHUB_OUTPUT}"
+    - name: Build Linux Desktop
+      if: inputs.target == 'desktop'
+      shell: bash
+      run: |
+        echo "  Building Linux Desktop & Test..."
+        cmake -G Ninja -B build \
+          -DCMAKE_BUILD_TYPE=${{ steps.globals.outputs.build_type }}
+        cmake --build build
+        if [[ "${{ inputs.is_debug }}" == "true" ]]; then
+          cd build && ctest --output-on-failure
+        fi
+
+    - name: Build Android APK
+      if: inputs.target == 'android'
+      shell: bash
+      run: |
+        echo "  Building Android APK..."
+        export ORG_GRADLE_PROJECT_androidCompileSdkVersion=31
+        export ORG_GRADLE_PROJECT_androidBuildToolsVersion="31.0.0"
+        export ORG_GRADLE_PROJECT_androidNdkVersion="${{ inputs.ndk_version }}"
+        export ORG_GRADLE_PROJECT_qtMinSdkVersion=23
+        export ORG_GRADLE_PROJECT_qtTargetSdkVersion=30
+
+        MANIFEST_PATH="app/android/AndroidManifest.xml"
+
+        sed -i "s/android:versionCode=\"[0-9]*\"/android:versionCode=\"${{ github.run_number }}\"/" $MANIFEST_PATH
+        sed -i "s/android:versionName=\"[^\"]*\"/android:versionName=\"${{ inputs.version }}\"/" $MANIFEST_PATH
+
+        export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/${{ inputs.ndk_version }}/
+        cmake -G Ninja -B build/build_android \
+          -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake \
+          -DANDROID_SDK_ROOT=$ANDROID_SDK_ROOT \
+          -DANDROID_ABI=arm64-v8a \
+          -DANDROID_PLATFORM=android-23 \
+          -DANDROID_STL=c++_shared \
+          -DQT_HOST_PATH=$QT_ROOT_DIR/../gcc_64 \
+          -DCMAKE_FIND_ROOT_PATH=$QT_ROOT_DIR \
+          -DCMAKE_BUILD_TYPE=${{ steps.globals.outputs.build_type }}
+        cmake --build build/build_android --target QTtt_make_apk --verbose
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: QTtt_${{ inputs.matrix_name }}
+        path: |
+          build/bin/QTtt*
+          build/**/QTtt.apk
+        retention-days: 7

@@ -1,0 +1,73 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [dev, master]
+  pull_request:
+    branches: [dev]
+  workflow_dispatch:
+
+env:
+  DEV_STAGE: alpha # -> beta -> release
+
+jobs:
+  versioning:
+    runs-on: ubuntu-latest
+    outputs:
+      final_tag: ${{ steps.version_tagging.outputs.final_tag }}
+      # new_tag: ${{ steps.version_tagging.outputs.new_tag }}
+    steps:
+    - uses: ./.github/actions/Version_Tagging
+      id: version_tagging
+      with:
+        dev_stage: ${{ env.DEV_STAGE }}
+
+  build:
+    needs: [versioning]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux_x64
+            os: ubuntu-latest
+            host: linux
+            target: desktop
+            arch: gcc_64
+          - name: android_arm64
+            os: ubuntu-latest
+            host: linux
+            target: android
+            arch: android_arm64_v8a
+          # - name: more platforms soon...
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/Installings
+        id: installings
+        with:
+          host: ${{ matrix.host }}
+          target: ${{ matrix.target }}
+          arch: ${{ matrix.arch }}
+
+      - uses: ./.github/actions/Test_n_Build
+        with:
+          matrix_name: ${{ matrix.name }}
+          is_debug: ${{ 'dev' in github.ref }}
+          target: ${{ matrix.target }}
+          version: ${{ needs.versioning.outputs.final_tag }}
+          ndk_version: ${{ steps.installings.outputs.ndk_version }}
+          # maybe more...
+
+  release:
+    needs: [versioning, build]
+    if: github.ref == 'refs/heads/master'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: ./.github/actions/Release
+      with:
+        tag_version: ${{ needs.versioning.outputs.final_tag }}

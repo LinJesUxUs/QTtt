@@ -45,9 +45,11 @@ endif()
 ####PROJECT_METADATA_FILES#########################################
 
 set(PROJECT_METADATA_FILES
-    ../.github/workflows/reusable-build.yml
-    ../.github/workflows/ci-dev.yml
-    ../.github/workflows/cd-master.yml
+    ../.github/workflows/main.yml
+    ../.github/actions/Version_Tagging/action.yml
+    ../.github/actions/Release/action.yml
+    ../.github/actions/Installings/action.yml
+    ../.github/actions/Test_n_Build/action.yml
     ../.gitignore
     ../README.md
     ../LICENSE
