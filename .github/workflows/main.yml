@@ -17,6 +17,10 @@ jobs:
       final_tag: ${{ steps.version_tagging.outputs.final_tag }}
       # new_tag: ${{ steps.version_tagging.outputs.new_tag }}
     steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
     - uses: ./.github/actions/Version_Tagging
       id: version_tagging
       with:
@@ -68,6 +72,10 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
     - uses: ./.github/actions/Release
       with:
         tag_version: ${{ needs.versioning.outputs.final_tag }}
