@@ -51,6 +51,7 @@ set(PROJECT_METADATA_FILES
     ../.github/actions/Installings/action.yml
     ../.github/actions/Test_n_Build/action.yml
     ../.gitignore
+    ../CHANGELOG.md
     ../README.md
     ../LICENSE
 )
