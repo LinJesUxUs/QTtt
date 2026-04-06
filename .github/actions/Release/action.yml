@@ -20,6 +20,7 @@ runs:
 
     - name: Extract Release Notes
       id: release_notes
+      shell: bash
       run: |
         VERSION="${{ inputs.tag_version }}"
         VERSION="${VERSION#v}"

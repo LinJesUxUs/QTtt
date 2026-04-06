@@ -29,6 +29,7 @@ runs:
 
     - name: Generate Final Tag Name
       id: final_tag
+      shell: bash
       run: |
         VERSION="${{ steps.tag_action.outputs.new_tag }}"
         STAGE="${{ inputs.dev_stage }}"

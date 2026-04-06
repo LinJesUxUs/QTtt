@@ -58,9 +58,11 @@ runs:
 
     - name: Install Android NDK
       if: inputs.target == 'android'
+      shell: bash
       run: sdkmanager "ndk;${{ steps.globals.outputs.ndk_version }}"
 
     - name: Verify Installations
+      shell: bash
       run: |
         echo "  Dependencies installed successfully"
         echo "  Qt Target: ${{ inputs.target }}"
