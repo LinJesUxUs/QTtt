@@ -4,6 +4,11 @@
 // Licensed under the GPLv3.
 // See the LICENSE file in the project root for more information.
 
+/**
+ * @file settingsproxy.cpp
+ * @brief Implementation of settings synchronization and property management.
+ */
+
 #include "settingsproxy.h"
 
 QSettings* SettingsProxy::m_SpSettings = nullptr;

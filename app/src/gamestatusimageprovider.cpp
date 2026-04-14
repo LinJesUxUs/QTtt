@@ -4,6 +4,12 @@
 // Licensed under the GPLv3.
 // See the LICENSE file in the project root for more information.
 
+/**
+ * @file gamestatusimageprovider.cpp
+ * @brief Implementation of the dynamic image loading logic.
+ * @details Logic for parsing QML image IDs and fetching corresponding QImage data from QSettings.
+ */
+
 #include "gamestatusimageprovider.h"
 #include "settingsproxy.h"
 

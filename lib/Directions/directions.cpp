@@ -4,6 +4,11 @@
 // Licensed under the GPLv3.
 // See the LICENSE file in the project root for more information.
 
+/**
+ * @file directions.cpp
+ * @brief Implementation of grid direction offsets.
+ */
+
 #include "directions.h"
 
 QSize Directions::getDirection(const Direction& direction)

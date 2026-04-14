@@ -4,22 +4,79 @@
 // Licensed under the GPLv3.
 // See the LICENSE file in the project root for more information.
 
+/**
+ * @file TestGameCore.cpp
+ * @brief Unit tests for the GameCore logic.
+ * @details Validates game board initialization, move validation, player switching,
+ * and win condition detection using the Qt Test framework.
+ */
+
 #include <QSignalSpy>
 #include <QTest>
 #include <gamecore.h>
 
+/**
+ * @class TestGameCore
+ * @brief Test suite for the GameCore class.
+ * @details Contains various test cases to ensure the stability of the game engine.
+ */
 class TestGameCore : public QObject {
     Q_OBJECT
 private slots:
+    /**
+     * @brief Data provider for the move() test.
+     * @test Defines board sizes and sequences of moves (valid/invalid).
+     */
     void move_data();
+
+    /**
+     * @brief Tests the move() functionality and onMove/onNoMove signals.
+     * @test Verifies that players can only move in their turn and within board bounds.
+     */
     void move();
+
+    /**
+     * @brief Data provider for win length validation.
+     */
     void getWinLength_data();
+
+    /**
+     * @brief Tests that winLength is correctly clamped by board dimensions.
+     * @test Ensures winLength is never 0 and not larger than the field size.
+     */
     void getWinLength();
+
+    /**
+     * @brief Data provider for player count validation.
+     */
     void getNPlayers_data();
+
+    /**
+     * @brief Tests player count initialization.
+     * @test Verifies that the game correctly stores the number of players.
+     */
     void getNPlayers();
+
+    /**
+     * @brief Data provider for field size validation.
+     */
     void fieldSize_data();
+
+    /**
+     * @brief Tests board boundary logic.
+     * @test Ensures that even with invalid input (0 or negative), the field is at least 1x1.
+     */
     void fieldSize();
+
+    /**
+     * @brief Data provider for endgame scenarios.
+     */
     void onEnd_data();
+
+    /**
+     * @brief Tests the onEnd signal emission.
+     * @test Verifies that the game detects a win or draw and emits onEnd exactly once.
+     */
     void onEnd();
 };
 

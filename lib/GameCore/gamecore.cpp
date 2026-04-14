@@ -4,6 +4,11 @@
 // Licensed under the GPLv3.
 // See the LICENSE file in the project root for more information.
 
+/**
+ * @file gamecore.cpp
+ * @brief Implementation of the game logic and win-checking algorithms.
+ */
+
 #include "gamecore.h"
 
 #include <QSize>

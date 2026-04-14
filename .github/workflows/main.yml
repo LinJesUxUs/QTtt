@@ -68,16 +68,39 @@ jobs:
 
   release:
     needs: [versioning, build]
-    if: github.ref == 'refs/heads/master'
+    if: github.ref_name == 'master'
     permissions:
       contents: write
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - uses: ./.github/actions/Release
-      with:
-        tag_version: ${{ needs.versioning.outputs.final_tag }}
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ./.github/actions/Release
+        with:
+          tag_version: ${{ needs.versioning.outputs.final_tag }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  pages:
+    needs: [build]
+    if: github.ref_name == 'dev'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Doxygen
+        run: sudo apt-get install -y doxygen
+
+      - name: Run Doxygen
+        run: doxygen Doxyfile
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./html

@@ -54,6 +54,7 @@ set(PROJECT_METADATA_FILES
     ../CHANGELOG.md
     ../README.md
     ../LICENSE
+    ../Doxyfile
 )
 set_source_files_properties(${PROJECT_METADATA_FILES} PROPERTIES HEADER_FILE_ONLY TRUE)
 target_sources(QTtt PRIVATE ${PROJECT_METADATA_FILES})

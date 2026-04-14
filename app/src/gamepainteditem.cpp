@@ -4,6 +4,13 @@
 // Licensed under the GPLv3.
 // See the LICENSE file in the project root for more information.
 
+/**
+ * @file gamepainteditem.cpp
+ * @brief Implementation of the game board visualizer.
+ * @details Contains the logic for rendering the grid, handling mouse events,
+ * and synchronization between the visual state and GameCore logic.
+ */
+
 #include "gamepainteditem.h"
 #include "settingsproxy.h"
 

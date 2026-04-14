@@ -4,16 +4,49 @@
 // Licensed under the GPLv3.
 // See the LICENSE file in the project root for more information.
 
+/**
+ * @file TestDirections.cpp
+ * @brief Unit tests for the Directions utility class.
+ * @details Ensures that coordinate offsets for all 2D grid directions
+ * (horizontal, vertical, and diagonals) are correctly defined and reversible.
+ */
+
 #include <QTest>
 #include <directions.h>
 
+/**
+ * @class TestDirections
+ * @brief Test suite for validating grid navigation vectors.
+ */
 class TestDirections : public QObject {
     Q_OBJECT
 private slots:
+    /**
+     * @brief Provides mapping between Direction enums and expected QSize offsets.
+     */
     void getDirection_data();
+
+    /**
+     * @brief Tests the conversion of Direction enums to coordinate vectors.
+     * @test Verifies that each enum returns the correct (x, y) step.
+     */
     void getDirection();
+
+    /**
+     * @brief Provides sample vectors for inversion testing.
+     */
     void negative_data();
+
+    /**
+     * @brief Tests the vector inversion logic.
+     * @test Ensures that @ref Directions::negative correctly flips the sign of both coordinates.
+     */
     void negative();
+
+    /**
+     * @brief Validates the complete list of available directions.
+     * @test Checks that @ref Directions::getList returns all 4 primary directions in the correct order.
+     */
     void getList();
 };
 
