@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['alpha_0',['⚠️ Project Status: Alpha',['../index.html#autotoc_md1',1,'']]],
+  ['alpha_202026_2003_2028_1',['[0.1.1-alpha] - 2026-03-28',['../d4/d00/md_CHANGELOG.html#autotoc_md6',1,'']]]
+];

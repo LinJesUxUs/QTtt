@@ -1,0 +1,28 @@
+var classGameCore =
+[
+    [ "GameCore", "d0/d08/classGameCore.html#af469fc774173b985713220a7eb931dc7", null ],
+    [ "getField", "d0/d08/classGameCore.html#a5e9e82096e58aeeac880a2bac7aad884", null ],
+    [ "getField", "d0/d08/classGameCore.html#acdebba51156aa6e9d5d37bd834bfbf5f", null ],
+    [ "getHeight", "d0/d08/classGameCore.html#a8eff03d41eba31719a6003fa5297fffa", null ],
+    [ "getNPlayers", "d0/d08/classGameCore.html#a0fdf24fbd5c76dca78d7017843559664", null ],
+    [ "getWidth", "d0/d08/classGameCore.html#a30a26295ee7345e3d66aec50c97d23e4", null ],
+    [ "getWinLength", "d0/d08/classGameCore.html#a7742e4376b855d5c08e8e9a532fc6a2f", null ],
+    [ "isBusy", "d0/d08/classGameCore.html#ac9bcb78a1763a11eb21e81612be34fef", null ],
+    [ "isEnd", "d0/d08/classGameCore.html#a9274ada412bc920699e441e0abdd32b6", null ],
+    [ "isOutOfRange", "d0/d08/classGameCore.html#a203e1364ed2a1831adb60e159fc44bdf", null ],
+    [ "isOutOfRange", "d0/d08/classGameCore.html#aa9e13d0d3267ad8f4eacab38d556e5cf", null ],
+    [ "isWinRange", "d0/d08/classGameCore.html#a0e382494351a4abec0e593472c7795cc", null ],
+    [ "move", "d0/d08/classGameCore.html#aeabeaf9e294b94273f8a6c8439f4104c", null ],
+    [ "nextTurn", "d0/d08/classGameCore.html#aaf253e34af224e66a3c38c742ce89865", null ],
+    [ "onEnd", "d0/d08/classGameCore.html#af8e13b47ee5051211bb6874144905949", null ],
+    [ "onMove", "d0/d08/classGameCore.html#a0dad81bd137da7f2072c63b3f00a9402", null ],
+    [ "onNoMove", "d0/d08/classGameCore.html#a4820ee91fcc063360563540f46619de2", null ],
+    [ "turn", "d0/d08/classGameCore.html#a0a32acd870552da3b40065e3ab6e1ff6", null ],
+    [ "vecLen", "d0/d08/classGameCore.html#a63eed36fcf6d8947aa577c91d7443fbe", null ],
+    [ "vecLen", "d0/d08/classGameCore.html#a234b32d3e43f199ccbb674c80ff13e07", null ],
+    [ "m_nField", "d0/d08/classGameCore.html#a250927a637ad00b4e2f22dbe5245f1ff", null ],
+    [ "mPlayers", "d0/d08/classGameCore.html#aa3053e8938ca89037fd8793f1e81d5ff", null ],
+    [ "mTurn", "d0/d08/classGameCore.html#a340ec478282bc1b4d079a782145462a4", null ],
+    [ "mTurnCount", "d0/d08/classGameCore.html#a389e0615322f429c1dd222990bc88753", null ],
+    [ "mWinLength", "d0/d08/classGameCore.html#a3bd53100a1830ce0b48d600a733bf55e", null ]
+];

@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['gamecore_0',['GameCore',['../d0/d08/classGameCore.html#af469fc774173b985713220a7eb931dc7',1,'GameCore']]],
+  ['gamepainteditem_1',['GamePaintedItem',['../da/d0d/classGamePaintedItem.html#abbec920e542e7728f274b8b0191d1cb1',1,'GamePaintedItem']]],
+  ['gamestate_2',['gameState',['../da/d0d/classGamePaintedItem.html#a09160f04fce85c0b64e2e2c994b17535',1,'GamePaintedItem']]],
+  ['gamestatechanged_3',['gameStateChanged',['../da/d0d/classGamePaintedItem.html#a823ae3090831f9606bd5b3a8c9ba3252',1,'GamePaintedItem']]],
+  ['gamestatusimageprovider_4',['GameStatusImageProvider',['../de/d0c/classGameStatusImageProvider.html#ad1627189df6589a2939055a8c5caec66',1,'GameStatusImageProvider']]],
+  ['getcellheight_5',['getCellHeight',['../da/d0d/classGamePaintedItem.html#a899f10565be06b47f7430c3e7b340a47',1,'GamePaintedItem']]],
+  ['getcellwidth_6',['getCellWidth',['../da/d0d/classGamePaintedItem.html#a87495cfc28f718ed03f62ba7bd97198a',1,'GamePaintedItem']]],
+  ['getdirection_7',['getdirection',['../df/d03/classDirections.html#a63de05af06630c7e53cc3e8c67a8723b',1,'Directions::getDirection()'],['../db/d01/classTestDirections.html#ad52bb1f45dbaee2dcf5bcf466c900dbf',1,'TestDirections::getDirection()']]],
+  ['getdirection_5fdata_8',['getDirection_data',['../db/d01/classTestDirections.html#a6238b91a1bc09be58ced04ef09be16a5',1,'TestDirections']]],
+  ['getfield_9',['getfield',['../d0/d08/classGameCore.html#a5e9e82096e58aeeac880a2bac7aad884',1,'GameCore::getField(const QSize &amp;pos) const'],['../d0/d08/classGameCore.html#acdebba51156aa6e9d5d37bd834bfbf5f',1,'GameCore::getField(const uint w, const uint h) const']]],
+  ['getfieldheight_10',['getFieldHeight',['../d1/d03/classSettingsProxy.html#a6191c736a1ad5bf5e4cde01261996f39',1,'SettingsProxy']]],
+  ['getfieldwidth_11',['getFieldWidth',['../d1/d03/classSettingsProxy.html#a58b5a657b8bdd035e3f12f6664cca4a7',1,'SettingsProxy']]],
+  ['getfirstplayer_12',['getFirstPlayer',['../d1/d03/classSettingsProxy.html#aa2c2dbfc48fb4606891a3c4526292d6f',1,'SettingsProxy']]],
+  ['getheight_13',['getHeight',['../d0/d08/classGameCore.html#a8eff03d41eba31719a6003fa5297fffa',1,'GameCore']]],
+  ['getlist_14',['getlist',['../df/d03/classDirections.html#a12fe8aef293bdc49b37cb8d3e75d4fa7',1,'Directions::getList()'],['../db/d01/classTestDirections.html#a2bcbca360b8784027c8bc0fe8915e5f3',1,'TestDirections::getList()']]],
+  ['getmaxsquaresize_15',['getMaxSquareSize',['../df/d0a/main_8cpp.html#ae64878a8a54f01449c65bb84c39dfb92',1,'main.cpp']]],
+  ['getnplayers_16',['getnplayers',['../d0/d08/classGameCore.html#a0fdf24fbd5c76dca78d7017843559664',1,'GameCore::getNPlayers()'],['../d3/d02/classTestGameCore.html#a709d6eddc4459e9fd3be79c7c57efbe7',1,'TestGameCore::getNPlayers()']]],
+  ['getnplayers_5fdata_17',['getNPlayers_data',['../d3/d02/classTestGameCore.html#ab95a6606b8e130a1119a20ed85142457',1,'TestGameCore']]],
+  ['getplayersconf_18',['getPlayersConf',['../d1/d03/classSettingsProxy.html#a6e97e0d88dafe012dc9f1ef4d6d7a4f5',1,'SettingsProxy']]],
+  ['getplayerscount_19',['getPlayersCount',['../d1/d03/classSettingsProxy.html#a35fdd7b2f794791ef87759b9be638bee',1,'SettingsProxy']]],
+  ['getspsettings_20',['getSpSettings',['../d1/d03/classSettingsProxy.html#a76e8d1b4c432f938eedddfe88c7e0efe',1,'SettingsProxy']]],
+  ['getspsettingsproxy_21',['getspsettingsproxy',['../da/d0d/classGamePaintedItem.html#af0f70b3f7322b1ae45b2f62b3fae5b47',1,'GamePaintedItem::getSpSettingsProxy()'],['../de/d0c/classGameStatusImageProvider.html#a9442721e9fb1dddbb98cfeb5082df0f7',1,'GameStatusImageProvider::getSpSettingsProxy()']]],
+  ['getwidth_22',['getWidth',['../d0/d08/classGameCore.html#a30a26295ee7345e3d66aec50c97d23e4',1,'GameCore']]],
+  ['getwinlength_23',['getwinlength',['../d1/d03/classSettingsProxy.html#aa155c43bb2ba532953f8c94efe8b8b7a',1,'SettingsProxy::getWinLength()'],['../d0/d08/classGameCore.html#a7742e4376b855d5c08e8e9a532fc6a2f',1,'GameCore::getWinLength()'],['../d3/d02/classTestGameCore.html#adb108a90606ff31a6affa2a325f5e443',1,'TestGameCore::getWinLength()']]],
+  ['getwinlength_5fdata_24',['getWinLength_data',['../d3/d02/classTestGameCore.html#ab5a297af512680920410340da14ecbb1',1,'TestGameCore']]]
+];
